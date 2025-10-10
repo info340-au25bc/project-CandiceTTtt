@@ -1,104 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <title>Group 6: INFO 340 Project Proposal</title>
- <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Group 6: INFO 340 Project Proposal</title>
+  <link rel="stylesheet" href="css/proposal.css">
 </head>
 
-
 <body>
- <header>
-   <h1>Mood Music</h1>
-   <p><strong>Team Members:</strong> Hannah Li, Xintong Chen, Jiahui Chen, Rita Wu</p>
- </header>
+  <header>
+    <h1>Mood Music</h1>
+    <p><strong>Team Members:</strong> Hannah Li, Xintong Chen, Jiahui Chen, Rita Wu</p>
+  </header>
 
+  <main>
+    <section id="problem">
+      <h2>Problem / Data Domain</h2>
+      <p>
+        Music is one of the most powerful ways people express and process their emotions. For many students and young adults, music becomes a daily companion that reflects their moods—whether it's motivation, comfort, or calm. However, most existing platforms such as Spotify or Apple Music primarily focus on music discovery and recommendation algorithms rather than emotional reflection. They lack spaces where users can personally connect their feelings to songs or visualize their emotional patterns through music.
+      </p>
+      <p>
+        At the same time, mental-health apps like Calm or Headspace offer guided exercises, but they often separate emotional awareness from users' real-life interests like music. This creates a gap between emotional self-expression and creative interaction. There is currently no lightweight, open web app where users can record how songs relate to their mood, organize those emotions into playlists, and share them with others in a safe, expressive way.
+      </p>
+      <p>
+        Our project, Mood Music, aims to address this gap by combining emotional journaling with interactive data organization. The app provides a playful, creative space for users to map their feelings to songs, see their moods evolve over time, and connect with others through shared music experiences.
+      </p>
+      <p>Related apps:</p>
+      <ul>
+        <li><a href="https://moodplaylist.com" target="_blank" rel="noopener noreferrer">MoodPlaylist</a></li>
+        <li><a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Spotify</a></li>
+      </ul>
+    </section>
 
- <main>
-   <section id="problem">
-     <h2>Problem / Data Domain</h2>
-     <p>
-       Music is one of the most powerful ways people express and process their emotions. For many students and young adults, music becomes a daily companion that reflects their moods—whether it's motivation, comfort, or calm. However, most existing platforms such as Spotify or Apple Music primarily focus on music discovery and recommendation algorithms rather than emotional reflection. They lack spaces where users can personally connect their feelings to songs or visualize their emotional patterns through music.
-     </p>
-     <p>
-       At the same time, mental-health apps like Calm or Headspace offer guided exercises, but they often separate emotional awareness from users' real-life interests like music. This creates a gap between emotional self-expression and creative interaction. There is currently no lightweight, open web app where users can record how songs relate to their mood, organize those emotions into playlists, and share them with others in a safe, expressive way.
-     </p>
-     <p>
-      Our project, Mood Music, aims to address this gap by combining emotional journaling with interactive data organization. The app provides a playful, creative space for users to map their feelings to songs, see their moods evolve over time, and connect with others through shared music experiences.
-     </p>
-     <p>
-       Related apps:
-       <ul>
-        <li><a href="https://moodplaylist.com" target="_blank">MoodPlaylist</a></li>
-        <li><a href="https://open.spotify.com/" target="_blank">Spotify</a></li>
-       </ul>
-     </p>
-   </section>
+    <section id="app">
+      <h2>App Description</h2>
+      <p>
+        <strong>Mood Music</strong> is a lightweight, privacy-focused web application that helps users transform their emotions into actionable, traceable playlists. Without relying on streaming APIs or accounts, users can create “mood cards” to capture their current feelings, pairing songs (title/artist/optional link) with emoji/text emotions and brief diary notes. Cards are saved locally by default, ensuring minors, LGBTQ+ individuals, or users processing sensitive emotions can record freely without fear of data leaks. The app automatically organizes cards into mood-based playlists, allowing users to freely reorder, batch edit, and save collections (e.g., “Today's Serenity”). Sharing operates on an opt-in basis: cards can be posted to a public mood wall or exported as poster-style share cards (PNG format) for social media—all without tracking or like mechanisms. Users may also toggle from public mode to privacy mode, ensuring all creations remain visible only to themselves.
+      </p>
 
+      <p><strong>Primary user stories (use cases):</strong></p>
+      <ul>
+        <li>As a student feeling anxious before an exam, I need to take a rest, so I can come back to a calm playlist I trust.</li>
+        <li>As someone tracking mood swings, I review my cards grouped by mood, drag a few “energizing” tracks into Today's Mood Playlist, and save the order for my commute.</li>
+        <li>As a user who wants to share selectively, I mark one card Public to inspire others, then export a poster image of my “Focus” playlist to post on Instagram—without revealing my private notes.</li>
+      </ul>
 
-   <!-- App Description Section -->
-   <section id="app">
-    <h2>App Description</h2>
-    <p>
-       <strong>Mood Music</strong> is a lightweight, privacy-focused web application that helps users transform their emotions into actionable, traceable playlists. Without relying on streaming APIs or accounts, users can create “mood cards” to capture their current feelings, pairing songs (title/artist/optional link) with emoji/text emotions and brief diary notes. Cards are saved locally by default, ensuring minors, LGBTQ+ individuals, or users processing sensitive emotions can record freely without fear of data leaks. The app automatically organizes cards into mood-based playlists, allowing users to freely reorder, batch edit, and save collections (e.g., “Today's Serenity”). Sharing operates on an opt-in basis: cards can be posted to a public mood wall or exported as poster-style share cards (PNG format) for social media—all without tracking or like mechanisms. Users may also toggle from public mode to privacy mode, ensuring all creations remain visible only to themselves.
-    </p>
-    <p> Primary user stories (use cases): </p>
-    <ul>
-      <li>As a student feeling anxious before an exam, I need to take a rest, so I can come back to a calm playlist I trust.</li>
-      <li>As someone tracking mood swings, I review my cards grouped by mood, drag a few “energizing” tracks into Today's Mood Playlist, and save the order for my commute.
-      </li>
-      <li>As a user who wants to share selectively, I mark one card Public to inspire others, then export a poster image of my “Focus” playlist to post on Instagram—without revealing my private notes.
-      </li>
-    </ul>
+      <h3>Target Users</h3>
+      <p>
+        Primary users are students and young adults. Secondary users include anyone building mood routines and people who want a low-friction, private way to pair songs with short reflections. Casual visitors can browse publicly shared mood cards, but the default audience is individuals managing their own mood - song collections on personal devices. The app will also consider accessibility for multilingual users and inclusive design for emotional diversity.
+      </p>
 
-     <h3>Target Users</h3>
-     <p>
-       Primary users are students and young adults. Secondary users include anyone building mood routines and people who want a low-friction, private way to pair songs with short reflections. Casual visitors can browse publicly shared mood cards, but the default audience is individuals managing their own mood–song collections on personal devices.
-       The app will also consider accessibility for multilingual users and inclusive design for emotional diversity.
-     </p>
-
-
-     <h3>Key Interactive Features</h3>
-     <ol>
-      <li>
-        <strong>Create Mood → Get Suggestions → Build Playlist </strong>: Users first record their mood (emoji or text) and optionally write a short diary note. After submitting, the app suggests related songs drawn from (a) the user's previous mood cards and (b) the optional public mood pool for that emotion. Users can preview suggestions, accept/skip individual tracks, and then add selected songs to a new or existing playlist. The playlist can be named, reordered, and saved. This is an active flow (input → suggestions → curate → save), not just viewing: the user's mood input drives generated options, and their choices modify stored data and the rendered playlist.
-      </li>
-      <li>
-        <strong>Mood Playlist Builder </strong>: In the Moods view, cards are auto-grouped by emotion. Within a mood, users can drag to reorder songs, multi-select items, and batch add/remove them from a “Today's Mood Playlist,” then Save the new order. 
-      </li>
-      <li>
-        <strong>Public Mood Wall </strong>: Users can toggle a song as “Public” to share it on a global mood wall. Others can browse and discover songs by mood category.
-      </li>
-      <li>
-        <strong>Selective Sharing / Share Designer </strong>: Per card, a Public/Private toggle lets users choose visibility. If set to Public, the card appears on a community mood wall. Optionally, users can open a Share Designer to pick a theme and export a poster-style PNG of a mood or playlist.
-      </li>
-      <li>
-        <strong>Mood Match / Mood Shift </strong>: Users choose a listening strategy for the current mood: Match (songs that align with the current emotion) or Shift (songs that help improve or redirect the emotion). After the user records today's mood (text + optional short note), the app shows two tabs:
-       <ul>
-        <li>Match: shows songs previously tagged with the same mood, drawn from the user's own cards and the optional public pool.
+      <h3>Key Interactive Features</h3>
+      <ol>
+        <li>
+          <strong>Create Mood → Get Suggestions → Build Playlist</strong>:
+          Users first record their mood (emoji or text) and optionally write a short diary note.
+          After submitting, the app suggests related songs drawn from (a) the user's previous mood cards and (b) the optional public mood pool for that emotion.
+          Users can preview suggestions, accept/skip individual tracks, and then add selected songs to a new or existing playlist.
+          The playlist can be named, reordered, and saved.
+          This is an active flow (input → suggestions → curate → save), not just viewing: the user's mood input drives generated options, and their choices modify stored data and the rendered playlist.
         </li>
-        <li>Shift: shows songs tagged with a target mood (for example, from “sad” to “calm” or “happy”). The default mood mappings can be edited by the user.
+        <li>
+          <strong>Mood Playlist Builder</strong>:
+          In the Moods view, cards are auto-grouped by emotion. Within a mood, users can drag to reorder songs, multi-select items, and batch add/remove them from a “Today's Mood Playlist,” then Save the new order.
         </li>
-       </ul>
-      </li>
-     </ol>
+        <li>
+          <strong>Public Mood Wall</strong>:
+          Users can toggle a song as “Public” to share it on a global mood wall. Others can browse and discover songs by mood category.
+        </li>
+        <li>
+          <strong>Selective Sharing / Share Designer</strong>:
+          Per card, a Public/Private toggle lets users choose visibility. If set to Public, the card appears on a community mood wall.
+          Optionally, users can open a Share Designer to pick a theme and export a poster-style PNG of a mood or playlist (if poster designs are saved as reusable assets, this can count as a full feature).
+        </li>
+        <li>
+          <strong>Mood Match / Mood Shift</strong>:
+          Users choose a listening strategy for the current mood: Match (align with the emotion) or Shift (improve/redirect).
+          After recording today's mood, the app shows tabs:
+          <ul>
+            <li><em>Match</em>: songs previously tagged with the same mood, from the user's cards and the public pool.</li>
+            <li><em>Shift</em>: songs tagged with a target mood (e.g., from “sad” to “calm”/“happy”); default mappings are user-editable.</li>
+          </ul>
+        </li>
+      </ol>
 
+      <h3>Information shown and data sources</h3>
+      <p>
+        Users will view their emotional records (text + optional notes), suggested songs, and custom playlists created based on emotions. Each card displays the song title, artist, optional links, and emotional tags added during saving. The minimum viable product requires only client-side support without external data: all content is persisted via browser local storage. If external data is added later, packaged CSV sources are preferred to avoid network/cross-domain issues. No third-party API is required at this stage.
+      </p>
 
-     <h3>Information shown and data sources</h3>
-     <p>
-        Users will view their emotional records (emotional text + optional notes), recommended songs, and custom playlists created based on emotions. Each card displays the song title, artist, optional links, and emotional tags added during saving. The minimum viable product requires only client-side support without external data: all content is persisted via browser local storage. If external data is added later, prioritized use of packaged CSV formats ensures loading avoids network or cross-domain issues. And no API using so far.
-     </p>
-     <h4>Why this solves the problem</h3>
-     <p>
-      The gap we identified lies in the absence of a lightweight, privacy-respecting platform that connects emotions with songs while enabling users to receive personalized playlist recommendations. This app treats emotion-song pairing as its core data: users actively input their emotional state, and the system provides matching/transformation suggestions based on their goals (validating or improving mood). Users can then curate and save playlists for future reference. Through localized data storage and selective sharing mechanisms, the app provides a safer environment for minors and vulnerable groups.Its practical value lies in helping people express, track, and regulate emotions through music.
-    </p>
-   </section>
- </main>
+      <h4>Why this solves the problem</h4>
+      <p>
+        The gap we identified lies in the absence of a lightweight, privacy-respecting platform that connects emotions with songs while enabling users to receive personalized playlist recommendations. This app treats emotion - song pairing as its core data: users actively input their emotional state, and the system provides matching/transformation suggestions based on their goals (validating or improving mood). Users can then curate and save playlists for future reference. Through localized data storage and selective sharing mechanisms, the app provides a safer environment for minors and vulnerable groups. Its practical value lies in helping people express, track, and regulate emotions through music.
+      </p>
+    </section>
+  </main>
 
-
- <footer>
-   <p>INFO 340: Autumn 2025 | Project Proposal by Group 6</p>
- </footer>
+  <footer>
+    <p>INFO 340: Autumn 2025 | Project Proposal by Group 6</p>
+  </footer>
 </body>
 </html>
-
