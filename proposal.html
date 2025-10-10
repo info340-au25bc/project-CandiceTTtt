@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music with Mood – INFO 340 Project Proposal</title>
+  <link rel="stylesheet" href="css/proposal.css">
+</head>
+
+<body>
+  <header>
+    <h1>Music with Mood 🎧</h1>
+    <p><strong>Team Members:</strong> Hannah Li, [Teammate 1], [Teammate 2]</p>
+  </header>
+
+  <main>
+    <!-- Problem / Data Domain Section -->
+    <section id="problem">
+      <h2>Problem / Data Domain</h2>
+      <p>
+        Music has a powerful link to human emotion, yet most music platforms focus only on recommendation algorithms, 
+        not on how users <em>feel</em>. College students often turn to songs to regulate or express moods, 
+        but there’s no simple, safe, and creative space to document and share those emotional connections.
+      </p>
+      <p>
+        Existing apps like Spotify or Moodify focus on large-scale playlists or AI-generated mixes, 
+        but they rarely let users <strong>actively reflect</strong> on their emotions. 
+        Our app seeks to fill this gap by enabling users to connect mood, music, and memory in one personal, interactive platform.
+      </p>
+      <p>
+        Related apps: 
+        <a href="https://moodplaylist.com" target="_blank">MoodPlaylist</a>, 
+        <a href="https://open.spotify.com/" target="_blank">Spotify</a>
+      </p>
+    </section>
+
+    <!-- App Description Section -->
+    <section id="app">
+      <h2>App Description</h2>
+      <p>
+        <strong>Music with Mood</strong> is an interactive emotional playlist app 
+        that allows users to create mood-based song cards, organize playlists, and share them with others. 
+        The goal is to help users reflect on emotions, discover music from the community, and build connections through shared feelings.
+      </p>
+
+      <h3>Target Users</h3>
+      <p>
+        Primary users are college students and young adults who use music to express or regulate emotions. 
+        The app will also consider accessibility for multilingual users and inclusive design for emotional diversity.
+      </p>
+
+      <h3>Key Interactive Features</h3>
+      <ul>
+        <li>
+          <strong>1. Create & Edit Mood Cards (Full)</strong>: 
+          Users can input a song, choose a mood emoji, and write a short diary entry to generate editable “mood cards.” 
+          Data is stored locally for persistence.
+        </li>
+        <li>
+          <strong>2. Mood Playlist Builder (Full)</strong>: 
+          Users organize songs into mood-based playlists, reorder them via drag-and-drop, 
+          and save a “Today’s Mood Playlist.”
+        </li>
+        <li>
+          <strong>3. Public Mood Wall (Full)</strong>: 
+          Users can toggle a song as “Public” to share it on a global mood wall. 
+          Others can browse and discover songs by mood category.
+        </li>
+        <li>
+          <strong>4. Share Designer (Half)</strong>: 
+          Users can design a poster-style share card for a mood or playlist 
+          and download it as a PNG image.
+        </li>
+      </ul>
+
+      <h3>Data & Persistence</h3>
+      <p>
+        The app will use <code>localStorage</code> for data persistence. 
+        All song cards, playlists, and public posts are stored and loaded from local storage, 
+        simulating a personal “database.” 
+        In future iterations, Firebase can be integrated for real-time multi-user sharing.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>INFO 340 — Autumn 2025 | Project Proposal by Team Music with Mood</p>
+  </footer>
+</body>
+</html>
