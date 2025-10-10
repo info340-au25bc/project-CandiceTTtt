@@ -1,130 +1,171 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fafafa;
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  h1, h2, h3 {
-    font-weight: 400;
-    color: #222;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  background-color: #fafafa;
+  line-height: 1.6;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;         
+  color: #222;
+  line-height: 1.25;
+  letter-spacing: 0.2px;
+  margin-top: 0;           
+}
+
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.6rem; margin-top: 1.75rem; }
+h3 { font-size: 1.25rem; margin-top: 1.25rem; }
+h4 { font-size: 1.1rem;  margin-top: 1rem; }
+
+
+p {
+  margin: 0 0 1rem 0;
+}
+
+code {
+  background-color: #f4f4f4;
+  color: #444;
+  font-family: 'Courier New', monospace;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+}
+
+
+main {
+  width: 85%;
+  max-width: 900px;
+  margin: 2rem auto;
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+header {
+  background: linear-gradient(120deg, #7b61ff, #4db6ff);
+  color: #fff;
+  text-align: center;
+  padding: 3rem 1rem 2rem 1rem;
+}
+
+header h1 {
+  font-size: 2.4rem;    
+  font-weight: 800;     
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;     
+}
+
+
+section {
+  margin-bottom: 2.5rem;
+}
+
+
+section h2 {
+  border-left: 5px solid #7b61ff;
+  padding-left: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+
+section h3 + p,
+section h4 + p {
+  margin-top: 0.5rem;
+}
+
+
+ul, ol {
+  margin: 0 0 1rem 0;
+  padding-left: 1.25rem;      
+}
+
+li {
+  margin-bottom: 0.6rem;     
+}
+
+
+li ul,
+li ol {
+  margin-top: 0.4rem;
+}
+
+
+a {
+  color: #7b61ff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.25s ease-out, border-bottom 0.25s ease-out;
+}
+
+a:hover,
+a:focus {
+  color: #4db6ff;
+  border-bottom: 2px solid #4db6ff;
+}
+
+a:focus-visible {
+  outline: 2px solid #4db6ff;
+  outline-offset: 2px;
+}
+
+
+footer {
+  text-align: center;
+  background-color: #333;
+  color: #eee;
+  padding: 1.2rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+}
+
+footer p {
+  margin: 0;
+}
+
+
+.u-break {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+@media (max-width: 700px) {
   main {
-    width: 85%;
-    max-width: 900px;
-    margin: 2rem auto;
-    background-color: #fff;
-    padding: 2rem 3rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 95%;
+    padding: 1.5rem;
   }
-  
-  /* =============================
-     Header
-  ============================= */
-  header {
-    background: linear-gradient(120deg, #7b61ff, #4db6ff);
-    color: white;
-    text-align: center;
-    padding: 3rem 1rem 2rem 1rem;
-  }
-  
+
   header h1 {
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 2rem;    
   }
-  
-  header p {
-    font-size: 1rem;
-    margin: 0;
-  }
-  
-  /* =============================
-     Sections
-  ============================= */
-  section {
-    margin-bottom: 2.5rem;
-  }
-  
-  section h2 {
-    border-left: 5px solid #7b61ff;
-    padding-left: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  section p {
-    margin-bottom: 1rem;
-  }
-  
-  /* =============================
-     Lists
-  ============================= */
-  ul {
-    padding-left: 1.5rem;
-  }
-  
-  li {
-    margin-bottom: 0.8rem;
-  }
-  
-  /* =============================
-     Links
-  ============================= */
-  a {
-    color: #7b61ff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.25s ease-out, border-bottom 0.25s ease-out;
-  }
-  
-  a:hover,
-  a:focus {
-    color: #4db6ff;
-    border-bottom: 2px solid #4db6ff;
-  }
-  
-  /* =============================
-     Code & Emphasis
-  ============================= */
-  code {
-    background-color: #f4f4f4;
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.3rem;
-    font-family: 'Courier New', monospace;
-    color: #444;
-  }
-  
-  /* =============================
-     Footer
-  ============================= */
-  footer {
-    text-align: center;
-    background-color: #333;
-    color: #eee;
-    padding: 1.2rem;
-    font-size: 0.9rem;
-    letter-spacing: 0.3px;
-  }
-  
-  footer p {
-    margin: 0;
-  }
-  
-  /* =============================
-     Responsive Design
-  ============================= */
-  @media (max-width: 700px) {
-    main {
-      width: 95%;
-      padding: 1.5rem;
-    }
-  
-    header h1 {
-      font-size: 1.8rem;
-    }
-  }
-  
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.35rem; }
+  h3 { font-size: 1.1rem; }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
