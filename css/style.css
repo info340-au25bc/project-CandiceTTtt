@@ -68,12 +68,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========== 5. LAYOUT STRUCTURE ========== */
-.container {
+.container{
   width: 100%;
-  max-width: 960px;
+  max-width: clamp(1100px, 92vw, 1400px);
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
 }
+
 
 /* Links */
 a {
@@ -241,9 +242,11 @@ a:hover {
   padding: 0;
   margin: 20px 0;
 }
+.wall_container{ grid-template-columns: 1fr; }
+
 @media (min-width: 480px) {
   .wall_container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (min-width: 900px) {
@@ -382,4 +385,59 @@ a:hover {
 .page-status {
   font-size: 0.9rem;
   color: #444;
+}
+
+
+/* === Mobile-first nav === */
+.site-header .container{
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+/* hamburger button */
+.nav-toggle{
+  display:inline-flex; flex-direction:column; justify-content:center; gap:4px;
+  width:38px; height:34px; padding:0; border:1px solid rgba(255,255,255,.6);
+  border-radius:8px; background:rgba(255,255,255,.25); cursor:pointer;
+  backdrop-filter: blur(6px);
+}
+.nav-toggle span{
+  display:block; height:2px; width:22px; margin:0 auto; border-radius:2px;
+  background:#fff; transition:transform .2s ease, opacity .2s ease;
+}
+
+/* dropdown menu (mobile) */
+.site-nav{ position:relative; }
+.nav-menu{
+  position:absolute; right:0; top:42px; min-width: 220px;
+  display:none; flex-direction:column; gap:8px;
+  background: rgba(255,255,255,.9); border:1px solid rgba(0,0,0,.06);
+  border-radius:12px; padding:10px; box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+.nav-menu a{
+  display:block; padding:8px 12px; border-radius:10px;
+  color:#3a5f73; font-weight:700; text-shadow:none; background:transparent;
+}
+.nav-menu a[aria-current="page"]{ background:rgba(154,85,136,.12); color:#9a5588; }
+.nav-menu a:hover{ background:rgba(11,99,196,.12); }
+
+/* open state */
+.nav-menu.is-open{ display:flex; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+/* === Tablet & Desktop: restore horizontal pills === */
+@media (min-width: 768px){
+  .nav-toggle{ display:none; }
+  .nav-menu{
+    position:static; display:flex; flex-direction:row; align-items:center; gap:10px;
+    background:transparent; border:none; box-shadow:none; padding:0; min-width:auto;
+  }
+  .nav-menu a{
+    background: rgba(255,255,255,0.25);
+    padding: 6px 14px; border-radius: 20px; color:#fff; font-weight:600;
+    text-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+  .nav-menu a:hover{ background: rgba(255,255,255,0.45); transform: translateY(-1px); }
+  .nav-menu a[aria-current="page"]{ background: rgba(255,255,255,0.75); color:#9a5588; }
 }
