@@ -1,5 +1,10 @@
+/* ========== 1. GLOBAL RESET ========== */
 * {
   box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100%;
 }
 
 body {
@@ -10,6 +15,66 @@ body {
   background-color: #fafafa;
 }
 
+/* ========== 2. BACKGROUND (全站或特定页) ========== */
+.wall-page {
+  background-image: url("../shared_imgs/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* background-attachment: fixed; 先不要 */
+}
+
+.wall-page header,
+.wall-page main,
+.wall-page footer {
+  background-color: rgba(255,255,255,0.82);
+}
+
+/* ========== 3. GLOBAL VARIABLES ========== */
+:root {
+  /* Base palette */
+  --pink:     #FFB1C7;
+  --peach:    #FFD7D4;
+  --cream:    #FFE3D2;
+  --cyan:     #B5E9EE;
+  --lilac:    #FFF1FF;
+  --mint:     #C6EEDD;
+  --rose:     #EDD6DC;
+  --lavender: #C7C9E2;
+  --sky:      #9ED3ED;
+  --bluegray: #739DB7;
+
+  /* Mood → color mapping */
+  --mood-happy:      var(--peach);
+  --mood-calm:       var(--cream);
+  --mood-relaxed:    var(--mint);
+  --mood-angry:      var(--pink);
+  --mood-lovely:     var(--lilac);
+  --mood-excited:    var(--rose);
+  --mood-confused:   var(--sky);
+  --mood-sad:        var(--lavender);
+  --mood-tired:      var(--bluegray);
+  --mood-exhausted:  var(--cyan);
+}
+
+/* ========== 4. GLOBAL TYPOGRAPHY ========== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cherry Bomb One", cursive;
+  margin-top: 0;
+  letter-spacing: 0.5px;
+}
+.diary, .note {
+  font-family: "Gaegu", cursive;
+}
+
+/* ========== 5. LAYOUT STRUCTURE ========== */
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
 /* Links */
 a {
   color: #0b63c4;
@@ -18,14 +83,8 @@ a {
 a:hover {
   text-decoration: underline;
 }
-/* Containers */
-.container {
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 16px;
-}
-/* Headers */
+
+/* Header */
 .site-header {
   background: #111;
   color: #fff;
@@ -38,7 +97,6 @@ a:hover {
 }
 .site-header .brand a {
   color: #fff;
-  text-decoration: none;
 }
 .site-header .site-nav {
   margin-top: 8px;
@@ -52,19 +110,19 @@ a:hover {
   font-weight: 600;
 }
 
-/* Heading font */
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Cherry Bomb One", cursive;
-  margin-top: 0;
-  letter-spacing: 0.5px;
+/* Footer */
+.site-footer {
+  border-top: 1px solid #eee;
+  margin-top: 24px;
+  padding: 16px 0 24px;
+  color: #555;
+  background: #fefefe;
+}
+.site-footer .site-nav a {
+  margin-right: 12px;
 }
 
-/* Diary font */
-.diary, .note {
-  font-family: "Gaegu", cursive;
-}
-
-/* Page heading section */
+/* Page Headings */
 .page-head {
   margin: 24px 0 8px;
 }
@@ -76,7 +134,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-/* Control for sections */
+/* ========== 6. FORM CONTROLS ========== */
 .controls {
   background: #f6f6f6;
   padding: 12px;
@@ -117,86 +175,102 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 6px;
 }
 
-/* Public wall section */
-.wall {
+/* ========== 7. WALL PAGE (grid cards) ========== */
+.wall_container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
   list-style: none;
   padding: 0;
-  margin: 16px 0 32px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  margin: 20px 0;
 }
-.post {
-  flex: 1 1 100%;
-}
-.card {
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-  padding: 12px;
-}
-.card img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  display: block;
-}
-.card h3 {
-  font-size: 1rem;
-  margin: 10px 0 6px;
-}
-.card .note {
-  margin: 0 0 6px;
-  color: #444;
-}
-.card .meta {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #666;
-}
-.card .artist {
-  font-weight: 600;
-}
-
-/* Footer */
-.site-footer {
-  border-top: 1px solid #eee;
-  margin-top: 24px;
-  padding: 16px 0 24px;
-  color: #555;
-  background: #fefefe;
-}
-.site-footer .site-nav a {
-  margin-right: 12px;
-}
-
-/* Responsive layout */
-@media (min-width: 600px) {
-  .post {
-    flex: 1 1 calc(50% - 16px);
+@media (min-width: 480px) {
+  .wall_container {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (min-width: 900px) {
-  .post {
-    flex: 1 1 calc(33.333% - 16px);
+  .wall_container {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Wall page background img */
-html, body { min-height: 100%; }
-
-.wall-page {
-  background-image: url("../shared_imgs/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  /* background-attachment: fixed; 先不要 */
+/* Card */
+.wall_card > article {
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  padding: 10px;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+  transition: transform 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.wall_card > article:hover {
+  transform: scale(1.02);
 }
 
-/* 先调淡一些，防止白底遮住错觉；确认成功再按需调回 */
-.wall-page header,
-.wall-page main,
-.wall-page footer {
-  background-color: rgba(255,255,255,0.82);
+/* Card top (mood + icon) */
+.wall_card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.wall_mood-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: none; /* 先隐藏，等加 PNG 再显示 */
+}
+.wall_mood-text {
+  font-weight: 600;
+  font-family: "Gaegu", cursive;
 }
 
+/* Card content */
+.wall_song {
+  font-weight: 600;
+  margin: 4px 0;
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 0.95rem;
+}
+.wall_diary {
+  font-family: "Gaegu", cursive;
+  font-size: 0.9rem;
+  color: #333;
+  margin: 0;
+}
+
+/* Card actions */
+.wall_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+.wall_actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* Mood background colors */
+.wall_card[data-mood="happy"]      > article { background: var(--mood-happy); }
+.wall_card[data-mood="calm"]       > article { background: var(--mood-calm); }
+.wall_card[data-mood="relaxed"]    > article { background: var(--mood-relaxed); }
+.wall_card[data-mood="angry"]      > article { background: var(--mood-angry); }
+.wall_card[data-mood="lovely"]     > article { background: var(--mood-lovely); }
+.wall_card[data-mood="excited"]    > article { background: var(--mood-excited); }
+.wall_card[data-mood="confused"]   > article { background: var(--mood-confused); }
+.wall_card[data-mood="sad"]        > article { background: var(--mood-sad); }
+.wall_card[data-mood="tired"]      > article { background: var(--mood-tired); }
+.wall_card[data-mood="exhausted"]  > article { background: var(--mood-exhausted); }
+
+/* Text contrast */
+.wall_card > article h3 { color: #111; }
+.wall_card > article .wall_diary { color: #333; }

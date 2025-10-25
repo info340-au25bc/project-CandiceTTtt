@@ -7,16 +7,15 @@
   <title>Mood Music · Public Wall</title>
   <link rel="icon" href="favicon.ico">
 
-  <!-- Google Fonts (preconnect + families) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
 
-  <!-- Single site-wide stylesheet -->
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<!-- add page-specific class so background only applies here -->
 <body class="wall-page">
   <header class="site-header">
     <div class="container">
@@ -37,6 +36,7 @@
       <p class="subtitle">Browse everyone’s mood ↔ music posts.</p>
     </section>
 
+    <!-- Filters -->
     <section class="controls" aria-labelledby="controls-title">
       <h3 id="controls-title" class="visually-hidden">Filters</h3>
       <form>
@@ -47,11 +47,15 @@
         <select id="mood" name="mood">
           <option value="">All</option>
           <option>Happy</option>
-          <option>Motivated</option>
           <option>Calm</option>
-          <option>Sad</option>
-          <option>Nostalgic</option>
+          <option>Relaxed</option>
           <option>Angry</option>
+          <option>Lovely</option>
+          <option>Excited</option>
+          <option>Confused</option>
+          <option>Sad</option>
+          <option>Tired</option>
+          <option>Exhausted</option>
         </select>
 
         <label for="sort">Sort</label>
@@ -66,45 +70,56 @@
       </form>
     </section>
 
+    <!-- Public Wall -->
     <section class="wall-section" aria-labelledby="wall-title">
       <h3 id="wall-title" class="visually-hidden">All posts</h3>
-      <ul class="wall">
-        <li class="post">
-          <article class="card">
-            <img src="assets/covers/cover-01.jpg" alt="Album cover: Sunny Day Vibes" loading="lazy">
-            <h3>Sunny Day Vibes — <span class="artist">Luna Park</span></h3>
-            <p class="note">Walked to class in the sun ☀️ felt so light.</p>
-            <p class="meta">
-              <time datetime="2025-10-24">Oct 24, 2025</time> ·
-              <span>❤️ 42</span> ·
-              <a href="https://open.spotify.com/" target="_blank" rel="noopener">Listen</a>
-            </p>
+
+      <ul class="wall_container">
+        <li class="wall_card" data-mood="happy">
+          <article>
+            <div class="wall_card-top">
+              <span class="wall_mood-text">Happy</span>
+            </div>
+            <img src="assets/covers/cover-01.jpg" alt="Album cover: Sunny Day Vibes" loading="lazy" style="border-radius:8px;">
+            <h3 class="wall_song">Sunny Day Vibes — <span class="artist">Luna Park</span></h3>
+            <p class="wall_diary">Walked to class in the sun ☀️ felt so light.</p>
+            <div class="wall_actions">
+              <button title="Like">❤️</button>
+              <button title="Save">⭐</button>
+              <button title="Download">⬇️</button>
+            </div>
           </article>
         </li>
 
-        <li class="post">
-          <article class="card">
-            <img src="assets/covers/cover-02.jpg" alt="Album cover: Midnight Coastline" loading="lazy">
-            <h3>Midnight Coastline — <span class="artist">Seabreeze</span></h3>
-            <p class="note">Late-night coding, ocean-wave focus vibes.</p>
-            <p class="meta">
-              <time datetime="2025-10-23">Oct 23, 2025</time> ·
-              <span>❤️ 31</span> ·
-              <a href="https://music.apple.com/" target="_blank" rel="noopener">Listen</a>
-            </p>
+        <li class="wall_card" data-mood="calm">
+          <article>
+            <div class="wall_card-top">
+              <span class="wall_mood-text">Calm</span>
+            </div>
+            <img src="assets/covers/cover-02.jpg" alt="Album cover: Midnight Coastline" loading="lazy" style="border-radius:8px;">
+            <h3 class="wall_song">Midnight Coastline — <span class="artist">Seabreeze</span></h3>
+            <p class="wall_diary">Late-night coding, ocean-wave focus vibes.</p>
+            <div class="wall_actions">
+              <button title="Like">❤️</button>
+              <button title="Save">⭐</button>
+              <button title="Download">⬇️</button>
+            </div>
           </article>
         </li>
 
-        <li class="post">
-          <article class="card">
-            <img src="assets/covers/cover-03.jpg" alt="Album cover: Old Camera Roll" loading="lazy">
-            <h3>Old Camera Roll — <span class="artist">Analog Hearts</span></h3>
-            <p class="note">Heard it at the café → memory unlocked.</p>
-            <p class="meta">
-              <time datetime="2025-10-22">Oct 22, 2025</time> ·
-              <span>❤️ 18</span> ·
-              <a href="https://www.youtube.com/" target="_blank" rel="noopener">Listen</a>
-            </p>
+        <li class="wall_card" data-mood="lovely">
+          <article>
+            <div class="wall_card-top">
+              <span class="wall_mood-text">Lovely</span>
+            </div>
+            <img src="assets/covers/cover-03.jpg" alt="Album cover: Old Camera Roll" loading="lazy" style="border-radius:8px;">
+            <h3 class="wall_song">Old Camera Roll — <span class="artist">Analog Hearts</span></h3>
+            <p class="wall_diary">Heard it at the café → memory unlocked.</p>
+            <div class="wall_actions">
+              <button title="Like">❤️</button>
+              <button title="Save">⭐</button>
+              <button title="Download">⬇️</button>
+            </div>
           </article>
         </li>
       </ul>
