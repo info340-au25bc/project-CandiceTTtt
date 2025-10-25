@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mood Music · Settings</title>
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Lexend+Deca:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style-settings.css">
+</head>
+
+<body class="settings-page">
+
+
+  <header class="site-header">
+    <div class="container header-flex">
+      <h1 class="brand"><a href="create mood.html">Mood Music</a></h1>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="create mood.html">Home</a>
+        <a href="wall.html">Public Wall</a>
+        <a href="journal.html">My Journal</a>
+        <a href="add.html">Add Song</a>
+        <a href="settings.html" aria-current="page">Setting</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="settings-container">
+    <h2 class="page-title">Find Your Vibe Today 🎧</h2>
+    <p class="subtitle">Match your current mood or shift to a new one through curated songs.</p>
+
+
+    <section class="settings-card mood-section">
+      <h3>Mood Selector</h3>
+      <div class="mood-grid">
+        <div class="mood-item">
+          <img src="shared_imgs/happy.PNG" alt="Happy">
+          <p>Happy</p>
+        </div>
+        <div class="mood-item">
+          <img src="shared_imgs/sad.PNG" alt="Sad">
+          <p>Sad</p>
+        </div>
+        <div class="mood-item">
+          <img src="shared_imgs/relaxed.PNG" alt="Relaxed">
+          <p>Relaxed</p>
+        </div>
+        <div class="mood-item">
+          <img src="shared_imgs/excited.PNG" alt="Excited">
+          <p>Excited</p>
+        </div>
+        <div class="mood-item">
+          <img src="shared_imgs/confused.PNG" alt="Confused">
+          <p>Confused</p>
+        </div>
+        <div class="mood-item">
+          <img src="shared_imgs/lovely.PNG" alt="Lovely">
+          <p>Lovely</p>
+        </div>
+        <div class="mood-item">
+          <img src="shared_imgs/exhausted.PNG" alt="Tired">
+          <p>Tired</p>
+        </div>
+        <div class="mood-item">
+          <img src="shared_imgs/angry.PNG" alt="Angry">
+          <p>Angry</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="settings-card tabs-section">
+      <h3>Mood Match / Shift</h3>
+      <div class="tabs">
+        <button class="tab active" id="matchTab">Match</button>
+        <button class="tab" id="shiftTab">Shift</button>
+      </div>
+
+      <div id="matchSongs" class="song-list active">
+        <div class="song-card">🎵 “Happy Now” — Kygo</div>
+        <div class="song-card">🎵 “Sunny Days” — Alan Walker</div>
+        <div class="song-card">🎵 “Good Life” — OneRepublic</div>
+      </div>
+
+      <div id="shiftSongs" class="song-list">
+        <div class="song-card">🎶 “Calm Down” — Rema</div>
+        <div class="song-card">🎶 “Let It Go” — James Bay</div>
+        <div class="song-card">🎶 “Weightless” — Marconi Union</div>
+      </div>
+
+      <button class="btn save-btn" id="savePlaylist">💾 Save as Today’s Playlist</button>
+    </section>
+
+
+    <section class="settings-card prefs-section">
+      <h3>Preferences</h3>
+      <div class="pref-group">
+        <label>Theme:</label>
+        <select id="themeSelect">
+          <option>Light</option>
+          <option>Dark</option>
+          <option>Cozy</option>
+        </select>
+      </div>
+
+      <div class="pref-group">
+        <label>Data Storage:</label>
+        <select id="storageSelect">
+          <option>Local</option>
+          <option>Cloud</option>
+        </select>
+      </div>
+
+      <div class="pref-group toggle">
+        <label>Public Mode:</label>
+        <input type="checkbox" id="publicToggle" checked>
+        <span>Visible to everyone</span>
+      </div>
+
+      <button class="btn logout-btn">Logout</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Mood Music · INFO 340</p>
+      <nav class="site-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="wall.html">Public Wall</a>
+        <a href="playlists.html" aria-current="page">My Journal</a>
+        <a href="submit.html">Add Song</a>
+        <a href="setting.html">Setting</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const matchTab = document.getElementById("matchTab");
+    const shiftTab = document.getElementById("shiftTab");
+    const matchSongs = document.getElementById("matchSongs");
+    const shiftSongs = document.getElementById("shiftSongs");
+
+    matchTab.addEventListener("click", () => {
+      matchTab.classList.add("active");
+      shiftTab.classList.remove("active");
+      matchSongs.classList.add("active");
+      shiftSongs.classList.remove("active");
+    });
+
+    shiftTab.addEventListener("click", () => {
+      shiftTab.classList.add("active");
+      matchTab.classList.remove("active");
+      shiftSongs.classList.add("active");
+      matchSongs.classList.remove("active");
+    });
+
+    document.getElementById("savePlaylist").addEventListener("click", () => {
+      alert("✅ Playlist saved to localStorage!");
+      localStorage.setItem("todayPlaylist", new Date().toISOString());
+    });
+
+    const moodItems = document.querySelectorAll(".mood-item");
+
+    moodItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        moodItems.forEach(i => i.classList.remove("selected"));
+        item.classList.add("selected");
+        const selectedMood = item.querySelector("img").alt;
+        localStorage.setItem("selectedMood", selectedMood);
+      });
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedMood = localStorage.getItem("selectedMood");
+      if (savedMood) {
+        moodItems.forEach(item => {
+          if (item.querySelector("img").alt === savedMood) {
+            item.classList.add("selected");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
