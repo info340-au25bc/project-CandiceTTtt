@@ -186,7 +186,7 @@ h1, h2, h3, h4, h5, h6 {
 html, body { min-height: 100%; }
 
 .wall-page {
-  background-image: url("./shared_imgs/background.jpg"); /* 注意 ./ 前缀 */
+  background-image: url("../shared_imgs/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
