@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Mood → Build Playlist (Rita)</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Add your own page background PNG to body or .page in your project if needed -->
+  <div class="page">
+    <header class="site-header">
+        <div class="tit">
+             <h1 class="brand">Mood Music</h1>
+              <p class="sub">Capture your mood, link a song, and slowly build your personal playlist.</p>
+        </div>
+    <nav class="top-nav" aria-label="Main">
+        <a href="create mood.html"    class="nav-pill is-active">Home</a>
+        <a href="wall.html"   class="nav-pill">Public Wall</a>
+        <a href="journal.html"  class="nav-pill">My Journal</a>
+        <a href="add.html"      class="nav-pill">Add Song</a>
+         <a href="settings.html" class="nav-pill">Setting</a>
+    </nav>
+    </header>
+
+
+    <main class="grid">
+      <!-- Left: MoodForm -->
+      <section class="card" aria-labelledby="formTitle">
+        <div class="card-head">
+          <h2 id="formTitle">Input <span class="badge">MoodForm</span></h2>
+        </div>
+
+        <!-- Mood icons (use your PNGs) -->
+        <div class="field">
+          <label class="lbl">Mood Icon (click to select)</label>
+          <div class="emoji-grid">
+            <input type="radio" name="mood" id="mood-1" class="emoji-radio" checked>
+            <label for="mood-1" class="emoji">
+              <img src="shared_imgs/happy.PNG" alt="Happy" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-2" class="emoji-radio">
+            <label for="mood-2" class="emoji">
+              <img src="shared_imgs/angry.PNG" alt="Angry" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-3" class="emoji-radio">
+            <label for="mood-3" class="emoji">
+              <img src="shared_imgs/calm.PNG" alt="Calm" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-4" class="emoji-radio">
+            <label for="mood-4" class="emoji">
+              <img src="shared_imgs/confused.PNG" alt="Confused" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-5" class="emoji-radio">
+            <label for="mood-5" class="emoji">
+              <img src="shared_imgs/excited.PNG" alt="Excited" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
+            <label for="mood-6" class="emoji">
+              <img src="shared_imgs/exhausted.PNG" alt="Exhausted" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
+            <label for="mood-6" class="emoji">
+              <img src="shared_imgs/lovely.PNG" alt="Lovely" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
+            <label for="mood-6" class="emoji">
+              <img src="shared_imgs/relaxed.PNG" alt="Relaxed" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
+            <label for="mood-6" class="emoji">
+              <img src="shared_imgs/sad.PNG" alt="Sad" />
+            </label>
+
+            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
+            <label for="mood-6" class="emoji">
+              <img src="shared_imgs/tired.PNG" alt="Tired" />
+            </label>
+
+          </div>
+          
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="song" class="lbl">Song Name</label>
+            <input id="song" type="text" class="ipt" placeholder="Song name" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="artist" class="lbl">Artist</label>
+            <input id="artist" type="text" class="ipt" placeholder="Artist" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="link" class="lbl">Optional Link (YouTube / Spotify)</label>
+          <input id="link" type="url" class="ipt" placeholder="https://..." inputmode="url" />
+        </div>
+
+        <div class="field">
+          <label for="diary" class="lbl">Short Diary (optional)</label>
+          <textarea id="diary" class="ipt textarea" placeholder="Write a little note…"></textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <span class="lbl">Public / Private</span>
+            <label class="toggle">
+              <input id="isPublic" type="checkbox" class="toggle-ck" checked />
+              <span class="switch" aria-hidden="true"></span>
+              <span class="toggle-text" aria-live="polite">Public</span>
+            </label>
+          </div>
+          <div class="field">
+            <label for="tag" class="lbl">Tag (optional)</label>
+            <select id="tag" class="ipt select">
+              <option value="">None</option>
+              <option>Study</option>
+              <option>Commute</option>
+              <option>Bedtime</option>
+              <option>Running</option>
+              <option>Chill</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <!-- No JS attached; visual only -->
+          <button class="btn btn-primary" type="button" aria-disabled="true">Save</button>
+          <button class="btn btn-ghost" type="reset">Clear</button>
+        </div>
+      </section>
+
+      <!-- Right: MoodCardPreview (static) -->
+      <section class="card" aria-labelledby="previewTitle">
+        <div class="card-head">
+          <h2 id="previewTitle">Preview <span class="badge">MoodCardPreview</span></h2>
+        </div>
+
+        <div class="mood-card">
+          <div class="mood-head">
+            <div class="mood-emoji">
+              <img src="shared_imgs/happy.PNG" alt="Preview emoji" />
+            </div>
+            <span class="pill">Public</span>
+          </div>
+
+          <p class="song">No song yet <small class="by">by Artist</small></p>
+          <p class="meta">🔗 <span class="link">Link</span> · 🏷️ <span class="tag">Tag</span></p>
+          <div class="diary">Write a little diary. It will show here.</div>
+        </div>
+
+        <footer class="footer-actions">
+          <a class="btn btn-ghost" href="#" aria-disabled="true">Add Song to New Playlist</a>
+          <a class="btn btn-outline" href="playlist.html">Go to Playlist Builder</a>
+        </footer>
+      </section>
+    </main>
+
+ <footer class="site-footer">
+  <div class="footer-bar" aria-hidden="true"></div>
+
+  <div class="footer-inner">
+    <p class="copyright">© 2025 Mood Music · INFO 340</p>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="create mood.html">Home</a>
+      <a href="wall.html">Public Wall</a>
+      <a href="add.html">Add Song</a>
+      <a href="settings.html">Setting</a>
+    </nav>
+  </div>
+</footer>
+
+
+</body>
+</html>

@@ -441,3 +441,434 @@ a:hover {
   .nav-menu a:hover{ background: rgba(255,255,255,0.45); transform: translateY(-1px); }
   .nav-menu a[aria-current="page"]{ background: rgba(255,255,255,0.75); color:#9a5588; }
 }
+
+
+/* create mood part*/
+/*
+/* =========================
+   Cute Hand-drawn Theme CSS
+   – Fonts: Cherry Bomb One (titles), Gaegu (card body), Lexend Deca (UI)
+   – Palette: ONLY the provided pastel swatches
+   – Emoji grid: 5 per row, big icons, no borders
+   ========================= */
+
+/* ---------- Palette (from your swatches) ---------- */
+:root{
+  --c-pink:   #F4A7C2;  /* pink */
+  --c-pink-2: #F7CFC8;  /* light pink */
+  --c-peach:  #F9E0C8;  /* peach */
+  --c-cyan:   #CDECF0;  /* aqua */
+  --c-lilac:  #F6EDFF;  /* lilac */
+  --c-mint:   #CFEBDD;  /* mint */
+  --c-mauve:  #E7D7DC;  /* mauve */
+  --c-peri:   #CFCFE6;  /* periwinkle */
+  --c-sky:    #B8D9EF;  /* sky blue */
+  --c-slate:  #6F8CA3;  /* slate text */
+
+  /* Semantic tokens */
+  --ink: var(--c-slate);
+  --muted: #6F8CA3;
+  --white: #FFFFFF;
+
+  --brand: var(--c-peri);
+  --brand-strong: var(--c-pink);
+  --badge-bg: var(--c-lilac);
+  --badge-bd: var(--c-peri);
+  --border: var(--c-peri);
+  --border-2: var(--c-lilac);
+
+  --card-bg: rgba(255,255,255,0.94);
+  --card-bg-2: rgba(255,255,255,0.88);
+
+  --r: 18px;
+  --r-lg: 24px;
+
+  /* soft shadows using slate tint */
+  --shadow-1: 0 8px 18px rgba(111,140,163,0.18);
+  --shadow-2: 0 2px 6px rgba(111,140,163,0.12);
+
+  /* Emoji sizing (tweak if needed) */
+  --mood-icon-box: 120px;   /* tile size */
+  --mood-icon-zoom: 2.2;    /* zoom to trim transparent edges */
+
+  /* global paddings for full-bleed header & page */
+  --page-xpad: clamp(24px, 4vw, 64px);
+  --page-ypad: clamp(16px, 2vw, 32px);
+}
+
+/* ---------- Base & Typography ---------- */
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+html, body{ overflow-x: hidden; } /* avoid horizontal scroll on full-bleed header */
+
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:"Lexend Deca", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+              "PingFang SC","Hiragino Sans GB","Microsoft YaHei", sans-serif;
+  line-height:1.4;
+  /* No background image here — you will add your own in CSS if needed */
+}
+
+.page{
+  max-width:none;
+  width:100%;
+  margin:0 auto 56px;
+  padding: 0 var(--page-xpad) var(--page-ypad);
+}
+
+/* ---------- Header (EDGE-TO-EDGE full-bleed banner) ---------- */
+/* ---------- Header (EDGE-TO-EDGE full-bleed banner) ---------- */
+.site-header{
+
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
+
+  padding: clamp(10px, 1.6vw, 18px) clamp(20px, 3vw, 48px);
+
+
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 3px 10px rgba(111,140,163,0.18);
+
+
+  background: linear-gradient(90deg, #f8c0d6 0%, #f2d6f9 50%, #c1eff4 100%);
+
+
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.2vw, 16px);
+  margin-bottom: clamp(12px, 2.5vw, 28px);
+}
+
+
+.tit h1{
+  margin:0;
+  font-size:clamp(24px,4vw,36px);
+  line-height:1.05;
+  letter-spacing:.5px;
+ 
+  color: #fff;                     /* 白色更突出 */
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); /* 加点阴影防融色 */
+  font-family:"Cherry Bomb One", cursive; /* Title font */
+}
+
+.tit .sub{ margin-top:6px; font-size:14px; color:#fff; opacity:.92; }
+
+/* ---------- Layout ---------- */
+.grid{
+  display:grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: clamp(20px, 3vw, 48px);
+  align-items:start;
+}
+@media (max-width:880px){
+  .grid{ grid-template-columns:1fr; }
+}
+
+/* ---------- Card ---------- */
+.card{
+  background: linear-gradient(180deg, var(--card-bg), var(--card-bg-2));
+  border: 2px solid var(--border-2);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  padding: 20px;
+}
+.card-head{ display:flex; align-items:center; justify-content:space-between; }
+.card h2{
+  margin:2px 0 14px;
+  font-size:18px; color:var(--ink);
+  display:flex; align-items:center; gap:10px;
+}
+.badge{
+  font-size:12px; color:var(--ink);
+  background:var(--badge-bg);
+  border:2px solid var(--badge-bd);
+  border-radius:999px;
+  padding:4px 10px;
+}
+
+/* ---------- Form Controls ---------- */
+.field{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.lbl{ font-size:13px; color:var(--ink); opacity:.85; }
+
+.ipt, .select, .textarea{
+  width:100%;
+  background:var(--white);
+  border:2px solid var(--border-2);
+  border-radius:14px;
+  padding:12px 14px;
+  font-size:15px;
+  color:var(--ink);
+  outline:none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+.textarea{ min-height:120px; resize:vertical; }
+
+.ipt:focus, .select:focus, .textarea:focus{
+  border-color:var(--brand);
+  box-shadow:0 0 0 6px rgba(207,207,230,0.25); /* based on periwinkle */
+}
+
+/* ---------- Emoji Grid (5 per row, BIG, borderless) ---------- */
+.emoji-grid{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(120px, 1fr));
+  gap:16px;
+}
+@media (max-width:1024px){
+  .emoji-grid{ grid-template-columns: repeat(4, minmax(120px, 1fr)); }
+}
+@media (max-width:640px){
+  .emoji-grid{ grid-template-columns: repeat(3, minmax(100px, 1fr)); }
+}
+
+.emoji-radio{ display:none; }
+
+.emoji{
+  height: var(--mood-icon-box);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  transition: transform .05s ease;
+}
+.emoji:hover{ transform: scale(1.01); }
+
+.emoji-radio:checked + .emoji{ border:none; box-shadow:none; }
+
+.emoji img{
+  width:100%; height:100%;
+  object-fit: contain;
+  transform: scale(var(--mood-icon-zoom)); /* cut transparent edges visually */
+  transform-origin: center;
+}
+
+/* ---------- Toggle (Public / Private) ---------- */
+.toggle{ display:flex; align-items:center; gap:10px; user-select:none; }
+.toggle-ck{ display:none; }
+.switch{
+  width:46px; height:26px; border-radius:999px;
+  background: var(--c-peri);
+  border:2px solid var(--c-lilac);
+  position:relative;
+  transition: background .2s;
+}
+.switch::after{
+  content:""; position:absolute; top:1px; left:1px;
+  width:22px; height:22px; border-radius:50%;
+  background:#fff; box-shadow: var(--shadow-2);
+  transition: transform .2s;
+}
+.toggle-ck:checked + .switch{ background: var(--c-mint); border-color: var(--c-mint); }
+.toggle-ck:checked + .switch::after{ transform: translateX(20px); }
+.toggle-text{ font-size:14px; color:var(--ink); opacity:.9; }
+
+/* ---------- Buttons ---------- */
+.actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+.btn{
+  appearance:none; border:none; cursor:pointer;
+  padding:12px 16px; border-radius:14px;
+  font-weight:700; font-size:14px;
+  color:var(--ink);
+  box-shadow: var(--shadow-1);
+  transition: transform .06s, box-shadow .15s, background .15s, border-color .15s;
+}
+.btn:active{ transform: translateY(1px); }
+.btn-primary{ color:#fff; background: linear-gradient(135deg, var(--c-pink), var(--c-peach)); }
+.btn-ghost{ background:#fff; border:2px solid var(--border-2); }
+.btn-outline{ background:transparent; border:2px dashed var(--brand); color:var(--ink); text-decoration:none; display:inline-flex; align-items:center; }
+
+/* ---------- Preview Card (Gaegu body) ---------- */
+.mood-card{
+  background:#fff;
+  border:2px solid var(--border);
+  border-radius:20px;
+  padding:16px;
+  box-shadow: var(--shadow-1);
+  color:var(--ink);
+  font-family:"Gaegu", cursive; /* Card body font */
+}
+.mood-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+
+.mood-emoji{
+  width: calc(var(--mood-icon-box) + 24px);
+  height: calc(var(--mood-icon-box) + 24px);
+  background: transparent;
+  border: none;
+  border-radius:20px;
+  overflow:hidden;
+  display:grid; place-items:center;
+}
+.mood-emoji img{
+  width:100%; height:100%;
+  object-fit: contain;
+  transform: scale(calc(var(--mood-icon-zoom) * 0.9));
+  transform-origin: center;
+}
+
+.pill{
+  font-size:12px; padding:6px 10px; border-radius:999px;
+  background: var(--badge-bg);
+  border:2px solid var(--brand);
+  color:var(--ink);
+}
+
+.song{
+  margin:0 0 6px;
+  font-size:18px; font-weight:700;
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+.song .by{ font-weight:700; color:var(--c-peri); }
+
+.meta{ margin:0 0 10px; font-size:14px; color:var(--ink); opacity:.9; }
+.meta .link{ color:var(--c-peri); text-decoration: underline dotted 2px; }
+
+.diary{
+  background:#fff;
+  border:2px dashed var(--c-mint);
+  border-radius:14px;
+  padding:12px;
+  font-size:18px;
+  line-height:1.6;
+  color:var(--ink);
+}
+
+/* ---------- Footer actions under preview ---------- */
+.footer-actions{ margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; }
+
+/* ---------- Small hints ---------- */
+.hint{ color:var(--ink); opacity:.75; font-size:12px; margin-top:4px; }
+.at-end{ margin-top:10px; }
+
+/* ---------- Right-side pill navigation ---------- */
+.top-nav{
+  margin-left: auto;                 /* 让导航靠右 */
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.6vw, 16px);
+  flex-wrap: wrap;
+}
+
+.nav-pill{
+  --pill-bg: rgba(255,255,255,0.35);
+  --pill-bd: rgba(255,255,255,0.5);
+
+  color: #fff;
+  text-decoration: none;
+  font-size: 15;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  border: 2px solid var(--pill-bd);
+  box-shadow: 0 8px 18px rgba(111,140,163,0.15);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform .08s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+}
+.nav-pill:hover{
+  background: rgba(255,255,255,0.5);
+  box-shadow: 0 10px 22px rgba(111,140,163,0.22);
+  transform: translateY(-1px);
+}
+.nav-pill.is-active{
+  background: #fff;
+  border-color: #fff;
+  color: #9a5588; 
+  box-shadow: 0 12px 26px rgba(111,140,163,0.26);
+}
+
+
+@media (max-width: 820px){
+  .site-header{ flex-wrap: wrap; row-gap: 10px; }
+  .top-nav{ width: 100%; justify-content: flex-start; }
+}
+
+/* ===== Footer (cute pastel with gradient top bar) ===== */
+/* ===== Footer (single-page look) ===== */
+.site-footer{
+  margin-top: clamp(24px, 5vw, 48px);
+  color: var(--ink);
+  text-align: center;
+  position: relative;
+}
+
+/* 顶部渐变细线：full-bleed 贴到两侧 */
+.site-footer .footer-bar{
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  max-width: 100vw;
+
+  height: 10px;                     /* 可调 8–14px */
+  background: linear-gradient(90deg, var(--c-pink), var(--c-sky));
+  box-shadow: 0 -1px 0 rgba(0,0,0,0.02);
+}
+
+/* 关键：footer 本体不再有白底/玻璃/阴影，只保留内边距 */
+.site-footer .footer-inner{
+  padding: 14px 0 18px;
+  background: transparent;          /* 去白底 */
+  backdrop-filter: none;            /* 去毛玻璃 */
+  -webkit-backdrop-filter: none;
+  box-shadow: none;                 /* 去阴影块 */
+  border: none;
+  border-radius: 0;
+
+  /* 与页面主内容左右对齐（使用你全局的 x 方向安全边距变量） */
+  padding-left: var(--page-xpad);
+  padding-right: var(--page-xpad);
+}
+
+/* 版权 + 文本导航保持不变 */
+.site-footer .copyright{
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  opacity: .9;
+}
+.site-footer .footer-nav{
+  display: inline-flex;
+  gap: clamp(14px, 2vw, 28px);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.site-footer .footer-nav a{
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  opacity: .85;
+  transition: opacity .15s ease, color .15s ease, transform .08s ease;
+}
+.site-footer .footer-nav a:hover{
+  opacity: 1;
+  color: var(--c-slate);
+  transform: translateY(-1px);
+}
+
+
+
+/* === Site-wide background image === */
+html, body { height: 100%; }  
+body{
+  background-image: url("../shared_imgs/background.jpg");
+  background-position: center;     
+  background-size: cover;          
+  background-repeat: repeat;    
+  background-attachment: scroll;    
+}
+
+
