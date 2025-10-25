@@ -21,12 +21,22 @@
     <div class="container header-flex">
       <h1 class="brand"><a href="index.html">Mood Music</a></h1>
       <nav class="site-nav" aria-label="Primary">
-        <a href="index.html">Home</a>
-        <a href="wall.html" aria-current="page">Public Wall</a>
-        <a href="journal.html">My Journal</a>
-        <a href="submit.html">Add Song</a>
-        <a href="setting.html">Setting</a>
+        <!-- hamburger button -->
+        <button class="nav-toggle" id="nav-toggle"
+                aria-expanded="false" aria-controls="primary-menu" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <!-- links wrapper (dropdown on mobile, horizontal on desktop) -->
+        <div id="primary-menu" class="nav-menu">
+          <a href="index.html">Home</a>
+          <a href="wall.html" aria-current="page">Public Wall</a>
+          <a href="journal.html">My Journal</a>
+          <a href="submit.html">Add Song</a>
+          <a href="setting.html">Setting</a>
+        </div>
       </nav>
+
     </div>
   </header>
 
