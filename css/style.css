@@ -183,20 +183,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Wall page background img */
+html, body { min-height: 100%; }
+
 .wall-page {
-  background-image: url("shared_imgs/background.jpg");
+  background-image: url("./shared_imgs/background.jpg"); /* 注意 ./ 前缀 */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  /* background-attachment: fixed; 先不要 */
 }
-.wall-page main,
+
+/* 先调淡一些，防止白底遮住错觉；确认成功再按需调回 */
 .wall-page header,
+.wall-page main,
 .wall-page footer {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 16px;
+  background-color: rgba(255,255,255,0.82);
 }
-.wall-page .card {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
+

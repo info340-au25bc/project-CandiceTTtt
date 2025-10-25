@@ -6,22 +6,27 @@
 
   <title>Mood Music · Public Wall</title>
   <link rel="icon" href="favicon.ico">
+
+  <!-- Google Fonts (preconnect + families) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+
+  <!-- Single site-wide stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<!-- add page-specific class so background only applies here -->
+<body class="wall-page">
   <header class="site-header">
     <div class="container">
       <h1 class="brand"><a href="index.html">Mood Music</a></h1>
-      <nav class="site-nav">
+      <nav class="site-nav" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="wall.html" aria-current="page">Public Wall</a>
         <a href="journal.html">My Journal</a>
         <a href="submit.html">Add Song</a>
-        <a href="about.html">About</a>
+        <a href="setting.html">Setting</a>
       </nav>
     </div>
   </header>
@@ -32,7 +37,8 @@
       <p class="subtitle">Browse everyone’s mood ↔ music posts.</p>
     </section>
 
-    <section class="controls">
+    <section class="controls" aria-labelledby="controls-title">
+      <h3 id="controls-title" class="visually-hidden">Filters</h3>
       <form>
         <label for="q">Search</label>
         <input id="q" name="q" type="search" placeholder="song / artist / note">
@@ -60,11 +66,12 @@
       </form>
     </section>
 
-    <section class="wall-section">
+    <section class="wall-section" aria-labelledby="wall-title">
+      <h3 id="wall-title" class="visually-hidden">All posts</h3>
       <ul class="wall">
         <li class="post">
           <article class="card">
-            <img src="assets/covers/cover-01.jpg" alt="Album cover: Sunny Day Vibes">
+            <img src="assets/covers/cover-01.jpg" alt="Album cover: Sunny Day Vibes" loading="lazy">
             <h3>Sunny Day Vibes — <span class="artist">Luna Park</span></h3>
             <p class="note">Walked to class in the sun ☀️ felt so light.</p>
             <p class="meta">
@@ -77,7 +84,7 @@
 
         <li class="post">
           <article class="card">
-            <img src="assets/covers/cover-02.jpg" alt="Album cover: Midnight Coastline">
+            <img src="assets/covers/cover-02.jpg" alt="Album cover: Midnight Coastline" loading="lazy">
             <h3>Midnight Coastline — <span class="artist">Seabreeze</span></h3>
             <p class="note">Late-night coding, ocean-wave focus vibes.</p>
             <p class="meta">
@@ -90,7 +97,7 @@
 
         <li class="post">
           <article class="card">
-            <img src="assets/covers/cover-03.jpg" alt="Album cover: Old Camera Roll">
+            <img src="assets/covers/cover-03.jpg" alt="Album cover: Old Camera Roll" loading="lazy">
             <h3>Old Camera Roll — <span class="artist">Analog Hearts</span></h3>
             <p class="note">Heard it at the café → memory unlocked.</p>
             <p class="meta">
@@ -107,11 +114,11 @@
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 Mood Music · INFO 340</p>
-      <nav class="site-nav">
+      <nav class="site-nav" aria-label="Footer">
         <a href="index.html">Home</a>
         <a href="wall.html">Public Wall</a>
         <a href="submit.html">Add Song</a>
-        <a href="about.html">About</a>
+        <a href="setting.html">Setting</a>
       </nav>
     </div>
   </footer>
