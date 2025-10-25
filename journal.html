@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mood Music · My Journal</title>
+  <link rel="icon" href="favicon.ico">
+
+  <!-- Google Fonts (与全站一致) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+
+  <!-- Site CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="wall-page playlists-page">
+  <!-- Header（复用全站头部结构） -->
+  <header class="site-header">
+    <div class="container header-flex">
+      <h1 class="brand"><a href="index.html">Mood Music</a></h1>
+
+      <nav class="site-nav" aria-label="Primary">
+        <!-- hamburger（静态稿无需 JS，可保留结构） -->
+        <button class="nav-toggle" id="nav-toggle"
+                aria-expanded="false" aria-controls="primary-menu" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div id="primary-menu" class="nav-menu">
+          <a href="create mood.html">Home</a>
+          <a href="wall.html">Public Wall</a>
+          <a href="journal.html" aria-current="page">My Journal</a>
+          <a href="submit.html">Add Song</a>
+          <a href="setting.html">Setting</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Page head -->
+    <section class="page-head">
+      <h2>My Moods</h2>
+      <p class="subtitle">A cozy “mood book” — each folder is a mood-based playlist.</p>
+    </section>
+
+    <!-- Filter & sort（静态演示） -->
+    <section class="controls small-controls" aria-labelledby="controls-title">
+      <h3 id="controls-title" class="visually-hidden">Filters</h3>
+      <form>
+        <label class="visually-hidden" for="sort">Sort</label>
+        <select id="sort" name="sort">
+          <option>Recently updated</option>
+          <option>A → Z</option>
+          <option>Z → A</option>
+        </select>
+
+        <label class="visually-hidden" for="view">View</label>
+        <select id="view" name="view">
+          <option>Grid</option>
+          <option>List</option>
+        </select>
+
+        <button type="submit">Apply</button>
+      </form>
+    </section>
+
+    <!-- Mood Playlists (10 个“文件夹”) -->
+    <section class="mood-book" aria-labelledby="book-title">
+      <h3 id="book-title" class="visually-hidden">Mood playlists</h3>
+
+      <ul class="book-grid" role="list">
+        <!-- 1 Happy -->
+        <li class="folder-card" data-mood="happy">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/happy.PNG" alt="happy playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Happy</h3>
+              <span class="badge">8 songs</span>
+            </header>
+
+            <ul class="song-mini" role="list">
+              <li><strong>Sunny Day Vibes</strong> — Luna Park
+                <div class="mini-note">walked to class in the sun ☀️</div>
+              </li>
+              <li><strong>Good Day</strong> — Citrus Kid
+                <div class="mini-note">instant mood booster</div>
+              </li>
+            </ul>
+
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-happy.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 2 Calm -->
+        <li class="folder-card" data-mood="calm">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/calm.PNG" alt="calm playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Calm</h3>
+              <span class="badge">12 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Midnight Coastline</strong> — Seabreeze
+                <div class="mini-note">late-night coding, ocean waves</div>
+              </li>
+              <li><strong>Weightless</strong> — Blue Shore
+                <div class="mini-note">wind down before bed</div>
+              </li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-calm.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 3 Lovely -->
+        <li class="folder-card" data-mood="lovely">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/lovely.PNG" alt="lovely playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Lovely</h3>
+              <span class="badge">6 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Old Camera Roll</strong> — Analog Hearts
+                <div class="mini-note">café memory unlocked</div>
+              </li>
+              <li><strong>Pink Letters</strong> — Mayday
+                <div class="mini-note">soft & warm</div>
+              </li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-lovely.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 4 Excited -->
+        <li class="folder-card" data-mood="excited">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/excited.PNG" alt="excited playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Excited</h3>
+              <span class="badge">9 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Starlight Drive</strong> — The Sparkles
+                <div class="mini-note">concert night!!!</div>
+              </li>
+              <li><strong>Sky Rocket</strong> — Neon Kids
+                <div class="mini-note">pre-game hype</div>
+              </li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-excited.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 5 Sad -->
+        <li class="folder-card" data-mood="sad">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/sad.PNG" alt="sad playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Sad</h3>
+              <span class="badge">7 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Rainy Windows</strong> — Mono Dream
+                <div class="mini-note">tea + grey clouds</div>
+              </li>
+              <li><strong>Someone Like You</strong> — A.
+                <div class="mini-note">missed you a lot today</div>
+              </li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-sad.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 6 Relaxed -->
+        <li class="folder-card" data-mood="relaxed">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/relaxed.PNG" alt="relaxed playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Relaxed</h3>
+              <span class="badge">5 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Soft Breeze</strong> — Morning Whales
+                <div class="mini-note">long walk, mind wandered</div>
+              </li>
+              <li><strong>Slow Meadow</strong> — Dawn
+                <div class="mini-note">Sunday reset</div>
+              </li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-relaxed.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 7 Angry -->
+        <li class="folder-card" data-mood="angry">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/angry.PNG" alt="angry playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Angry</h3>
+              <span class="badge">4 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Static Burn</strong> — Redline</li>
+              <li><strong>Vent</strong> — CTRL+Z</li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-angry.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 8 Confused -->
+        <li class="folder-card" data-mood="confused">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/confused.PNG" alt="confused playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Confused</h3>
+              <span class="badge">3 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Maze</strong> — Paper City</li>
+              <li><strong>Half Awake</strong> — Night Bus</li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-confused.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 9 Tired -->
+        <li class="folder-card" data-mood="tired">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/tired.PNG" alt="tired playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Tired</h3>
+              <span class="badge">10 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Pajama Radio</strong> — Sleepwalk</li>
+              <li><strong>Dim Lights</strong> — Lowkey</li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-tired.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+
+        <!-- 10 Exhausted -->
+        <li class="folder-card" data-mood="exhausted">
+          <article>
+            <div class="folder-cover">
+              <img class="cover-img" src="shared_imgs/exhausted.PNG" alt="exhausted playlist cover">
+            </div>
+            <header class="folder-head">
+              <h3 class="folder-title">Exhausted</h3>
+              <span class="badge">5 songs</span>
+            </header>
+            <ul class="song-mini" role="list">
+              <li><strong>Blanket Fort</strong> — Slow Tide</li>
+              <li><strong>Hibernate</strong> — Polar</li>
+            </ul>
+            <div class="folder-actions">
+              <a class="btn btn-primary" href="playlist-exhausted.html">Open playlist</a>
+              <button class="btn btn-ghost" type="button">Export Poster</button>
+            </div>
+          </article>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Footer（与全站一致风格） -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Mood Music · INFO 340</p>
+      <nav class="site-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="wall.html">Public Wall</a>
+        <a href="playlists.html" aria-current="page">My Journal</a>
+        <a href="submit.html">Add Song</a>
+        <a href="setting.html">Setting</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

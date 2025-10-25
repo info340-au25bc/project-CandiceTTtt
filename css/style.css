@@ -871,4 +871,134 @@ body{
   background-attachment: scroll;    
 }
 
+/* Hannah's part */
+/* ========== 8. PLAYLISTS (My Journal) ========== */
 
+/* 容器：用 flex 做“相册/文件夹” */
+.book-grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 26px;
+}
+
+/* 每个“文件夹卡片” */
+.folder-card{
+  flex: 1 1 clamp(260px, 30%, 340px); /* mobile 1 列、平板 2 列、桌面 3 列 */
+  max-width: 360px;
+}
+.folder-card > article{
+  background: #fff;
+  border: 1.5px solid rgba(0,0,0,0.06);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform .12s ease;
+}
+.folder-card > article:hover{ transform: translateY(-2px); }
+
+.folder-cover {
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: rgba(255,255,255,0.4);
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.folder-cover img.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 卡片头部 */
+.folder-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.folder-title{
+  margin: 0;
+  font-family: "Cherry Bomb One", cursive;
+  font-size: 1.2rem;
+  letter-spacing: .3px;
+}
+
+/* 歌曲预览（两条就好，表现信息密度） */
+.song-mini{
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid; gap: 6px;
+}
+.song-mini li{
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: .95rem;
+}
+.song-mini .mini-note{
+  font-family: "Gaegu", cursive;
+  font-size: .95rem;
+  color: #333;
+  margin-top: 2px;
+}
+
+/* 操作按钮（继承你们的 .btn 样式，如果无则按下列轻量样式） */
+.folder-actions{
+  margin-top: 4px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.btn{ 
+  padding: 8px 12px; 
+  border-radius: 10px; 
+  border: 1.5px solid rgba(0,0,0,0.08);
+  background: #fff; 
+  cursor: pointer; 
+  font-weight: 700; 
+}
+.btn-primary{
+  color: #fff; 
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--pink), var(--peach));
+}
+.btn-ghost{
+  background: #fff; 
+}
+
+/* 让不同 mood 的卡片有柔和底色（与 Public Wall 保持映射一致） */
+.folder-card[data-mood="happy"]      > article { background: var(--mood-happy); }
+.folder-card[data-mood="calm"]       > article { background: var(--mood-calm); }
+.folder-card[data-mood="relaxed"]    > article { background: var(--mood-relaxed); }
+.folder-card[data-mood="angry"]      > article { background: var(--mood-angry); }
+.folder-card[data-mood="lovely"]     > article { background: var(--mood-lovely); }
+.folder-card[data-mood="excited"]    > article { background: var(--mood-excited); }
+.folder-card[data-mood="confused"]   > article { background: var(--mood-confused); }
+.folder-card[data-mood="sad"]        > article { background: var(--mood-sad); }
+.folder-card[data-mood="tired"]      > article { background: var(--mood-tired); }
+.folder-card[data-mood="exhausted"]  > article { background: var(--mood-exhausted); }
+
+/* 文本对比度（浅色底时更清晰） */
+.folder-card > article .folder-title{ color: #111; }
+.folder-card > article .song-mini li{ color: #222; }
+
+/* 响应式：小屏 1 列，中屏 2 列，大屏 3 列（通过 flex-basis 控制） */
+@media (max-width: 599px){
+  .folder-card{ flex-basis: 100%; }
+}
+@media (min-width: 600px) and (max-width: 1023px){
+  .folder-card{ flex-basis: calc(50% - 14px); }
+}
+@media (min-width: 1024px){
+  .folder-card{ flex-basis: calc(33.333% - 14px); }
+}
