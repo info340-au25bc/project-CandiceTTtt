@@ -870,6 +870,102 @@ body{
   background-repeat: repeat;    
   background-attachment: scroll;    
 }
+/* =========================
+   MOBILE-FIRST RESPONSIVE LAYER
+   Paste at the end of styles.css
+   ========================= */
+
+/* --- Mobile-first defaults (phones) --- */
+:root{
+  /* smaller icons by default; we’ll grow them on larger screens */
+  --mood-icon-box: 90px;
+  --mood-icon-zoom: 2.1;
+}
+
+/* single-column content on phones */
+.grid{
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* 3-per-row emoji grid on phones */
+.emoji-grid{
+  grid-template-columns: repeat(3, minmax(90px, 1fr));
+  gap: 12px;
+}
+
+/* header nav becomes scrollable row on phones (keeps all pills accessible) */
+.top-nav{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;   /* Firefox */
+}
+.top-nav::-webkit-scrollbar{ display:none; } /* WebKit */
+.nav-pill{
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* reduce header vertical footprint a bit on phones */
+.site-header{
+  padding: clamp(10px, 1.6vw, 18px) clamp(20px, 3vw, 48px);
+  gap: clamp(8px, 1.2vw, 16px);
+}
+
+/* hide subtitle on very small screens to save space */
+.tit .sub{ display:none; }
+
+/* cards and actions tuned for touch */
+.card{ padding: 16px; border-radius: 16px; }
+.actions .btn{ width: 100%; }        /* primary actions = full width on phones */
+.actions{ gap: 8px; }
+
+/* --- Tablet & desktop (≥768px) --- */
+@media (min-width: 768px){
+  :root{ --mood-icon-box: 110px; }
+
+  .grid{
+    grid-template-columns: 1.15fr 0.85fr;   /* two columns appear */
+    gap: clamp(20px, 2.5vw, 36px);
+  }
+
+  .emoji-grid{
+    grid-template-columns: repeat(4, minmax(110px, 1fr));
+    gap: 14px;
+  }
+
+  .top-nav{ overflow: visible; }
+  .nav-pill{ padding: 9px 14px; font-size: 15px; }
+
+  .tit .sub{ display:block; }        /* bring back subtitle */
+  .card{ padding: 20px; }
+
+  .actions .btn{ width: auto; }      /* normal buttons on wider screens */
+}
+
+/* --- Large desktop (≥1200px) --- */
+@media (min-width: 1200px){
+  :root{ --mood-icon-box: 130px; }
+
+  .grid{
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: clamp(24px, 3vw, 48px);
+  }
+
+  .emoji-grid{
+    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    gap: 16px;
+  }
+
+  .card{ padding: 24px; }
+  .mood-card{ font-size: 1.05rem; }
+
+  /* header breathes a little on big screens */
+  .site-header{
+    padding: clamp(12px, 1.6vw, 20px) clamp(24px, 4vw, 64px);
+  }
+}
+
 
 /* ========== 1. GLOBAL RESET ========== */
 * {
