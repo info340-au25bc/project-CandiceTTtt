@@ -10,23 +10,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://unpkg.com/modern-normalize/modern-normalize.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
-  <!-- Add your own page background PNG to body or .page in your project if needed -->
   <div class="page">
     <header class="site-header">
       <div class="container header-flex">
         <h1 class="brand"><a href="index.html">Mood Music</a></h1>
-  
+
         <nav class="site-nav" aria-label="Primary">
-          <button class="nav-toggle" 
-                  aria-expanded="false" aria-controls="primary-menu" aria-label="Open menu">
+          <button class="nav-toggle" aria-expanded="false" aria-label="Open menu">
             <span></span><span></span><span></span>
           </button>
-  
+
           <div class="nav-menu">
             <a href="create mood.html" aria-current="page">Home</a>
             <a href="wall.html">Public Wall</a>
@@ -37,105 +34,107 @@
       </div>
     </header>
 
-
     <main class="grid">
       <!-- Left: MoodForm -->
-      <section class="card" aria-labelledby="formTitle">
+      <section class="card" aria-label="Input · MoodForm">
         <div class="card-head">
-          <h2 id="formTitle">Input <span class="badge">MoodForm</span></h2>
+          <h2>Input <span class="badge">MoodForm</span></h2>
         </div>
 
-        <!-- Mood icons (use your PNGs) -->
+        <!-- Mood icons -->
         <div class="field">
-          <label class="lbl">Mood Icon (click to select)</label>
+          <span class="lbl">Mood Icon (click to select)</span>
           <div class="emoji-grid">
-            <input type="radio" name="mood" id="mood-1" class="emoji-radio" checked>
-            <label for="mood-1" class="emoji">
+            
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio" checked>
               <img src="shared_imgs/happy.PNG" alt="Happy" />
             </label>
 
-            <input type="radio" name="mood" id="mood-2" class="emoji-radio">
-            <label for="mood-2" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/angry.PNG" alt="Angry" />
             </label>
 
-            <input type="radio" name="mood" id="mood-3" class="emoji-radio">
-            <label for="mood-3" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/calm.PNG" alt="Calm" />
             </label>
 
-            <input type="radio" name="mood" id="mood-4" class="emoji-radio">
-            <label for="mood-4" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/confused.PNG" alt="Confused" />
             </label>
 
-            <input type="radio" name="mood" id="mood-5" class="emoji-radio">
-            <label for="mood-5" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/excited.PNG" alt="Excited" />
             </label>
 
-            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
-            <label for="mood-6" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/exhausted.PNG" alt="Exhausted" />
             </label>
 
-            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
-            <label for="mood-6" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/lovely.PNG" alt="Lovely" />
             </label>
 
-            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
-            <label for="mood-6" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/relaxed.PNG" alt="Relaxed" />
             </label>
 
-            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
-            <label for="mood-6" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/sad.PNG" alt="Sad" />
             </label>
 
-            <input type="radio" name="mood" id="mood-6" class="emoji-radio">
-            <label for="mood-6" class="emoji">
+            <label class="emoji">
+              <input type="radio" name="mood" class="emoji-radio">
               <img src="shared_imgs/tired.PNG" alt="Tired" />
             </label>
-
           </div>
-          
         </div>
 
         <div class="row">
-          <div class="field">
-            <label for="song" class="lbl">Song Name</label>
-            <input id="song" type="text" class="ipt" placeholder="Song name" autocomplete="off" />
-          </div>
-          <div class="field">
-            <label for="artist" class="lbl">Artist</label>
-            <input id="artist" type="text" class="ipt" placeholder="Artist" autocomplete="off" />
-          </div>
+          
+          <label class="field">
+            <span class="lbl">Song Name</span>
+            <input type="text" class="ipt" placeholder="Song name" autocomplete="off" />
+          </label>
+
+          <label class="field">
+            <span class="lbl">Artist</span>
+            <input type="text" class="ipt" placeholder="Artist" autocomplete="off" />
+          </label>
         </div>
 
-        <div class="field">
-          <label for="link" class="lbl">Optional Link (YouTube / Spotify)</label>
-          <input id="link" type="url" class="ipt" placeholder="https://..." inputmode="url" />
-        </div>
+        <label class="field">
+          <span class="lbl">Optional Link (YouTube / Spotify)</span>
+          <input type="url" class="ipt" placeholder="https://..." inputmode="url" />
+        </label>
 
-        <div class="field">
-          <label for="diary" class="lbl">Short Diary (optional)</label>
-          <textarea id="diary" class="ipt textarea" placeholder="Write a little note…"></textarea>
-        </div>
+        <label class="field">
+          <span class="lbl">Short Diary (optional)</span>
+          <textarea class="ipt textarea" placeholder="Write a little note…"></textarea>
+        </label>
 
         <div class="row">
           <div class="field">
             <span class="lbl">Public / Private</span>
+            
             <label class="toggle">
-              <input id="isPublic" type="checkbox" class="toggle-ck" checked />
+              <input type="checkbox" class="toggle-ck" checked />
               <span class="switch" aria-hidden="true"></span>
               <span class="toggle-text" aria-live="polite">Public</span>
             </label>
           </div>
-          <div class="field">
-            <label for="tag" class="lbl">Tag (optional)</label>
-            <select id="tag" class="ipt select">
+
+          <label class="field">
+            <span class="lbl">Tag (optional)</span>
+            <select class="ipt select">
               <option value="">None</option>
               <option>Study</option>
               <option>Commute</option>
@@ -143,20 +142,19 @@
               <option>Running</option>
               <option>Chill</option>
             </select>
-          </div>
+          </label>
         </div>
 
         <div class="actions">
-          <!-- No JS attached; visual only -->
           <button class="btn btn-primary" type="button" aria-disabled="true">Save</button>
           <button class="btn btn-ghost" type="reset">Clear</button>
         </div>
       </section>
 
       <!-- Right: MoodCardPreview (static) -->
-      <section class="card" aria-labelledby="previewTitle">
+      <section class="card" aria-label="Preview · MoodCardPreview">
         <div class="card-head">
-          <h2 id="previewTitle">Preview <span class="badge">MoodCardPreview</span></h2>
+          <h2>Preview <span class="badge">MoodCardPreview</span></h2>
         </div>
 
         <div class="mood-card">
@@ -179,19 +177,17 @@
       </section>
     </main>
 
- <footer class="site-footer">
-  <div class="footer-bar" aria-hidden="true"></div>
-
-  <div class="footer-inner">
-    <p class="copyright">© 2025 Mood Music · INFO 340</p>
-    <nav class="footer-nav" aria-label="Footer">
-      <a href="create mood.html">Home</a>
-      <a href="wall.html">Public Wall</a>
-      <a href="settings.html">Setting</a>
-    </nav>
+    <footer class="site-footer">
+      <div class="footer-bar" aria-hidden="true"></div>
+      <div class="footer-inner">
+        <p class="copyright">© 2025 Mood Music · INFO 340</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="create mood.html">Home</a>
+          <a href="wall.html">Public Wall</a>
+          <a href="settings.html">Setting</a>
+        </nav>
+      </div>
+    </footer>
   </div>
-</footer>
-
-
 </body>
 </html>
