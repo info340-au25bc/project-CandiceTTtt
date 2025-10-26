@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="wall-page playlists-page">
+<body class="wall-page journal-page">
   <!-- Header（复用全站头部结构） -->
   <header class="site-header">
     <div class="container header-flex">
@@ -42,14 +42,13 @@
   <main class="container">
     <!-- Page head -->
     <section class="page-head">
-      <h2>My Moods</h2>
-      <p class="subtitle">A cozy “mood book” — each folder is a mood-based playlist.</p>
+      <h2 class="journal_title">My Mood Jounrals</h2>
     </section>
 
     <!-- Filter & sort（静态演示） -->
     <section class="controls small-controls" aria-labelledby="controls-title">
       <h3 id="controls-title" class="visually-hidden">Filters</h3>
-      <form>w
+      <form>
         <label class="visually-hidden" for="sort">Sort</label>
         <select id="sort" name="sort">
           <option>Recently updated</option>
@@ -69,7 +68,6 @@
 
     <!-- Mood Playlists (10 个“文件夹”) -->
     <section class="mood-book" aria-labelledby="book-title">
-      <h3 id="book-title" class="visually-hidden">Mood playlists</h3>
 
       <ul class="book-grid" role="list">
         <!-- 1 Happy -->
@@ -210,7 +208,7 @@
               <span class="badge">5 songs</span>
             </header>
             <ul class="song-mini" role="list">
-              <li><strong>Soft Breeze</strong> — Morning Whales
+              <li><strong>Soft Breeze</strong> — Morning
                 <div class="mini-note">long walk, mind wandered</div>
               </li>
               <li><strong>Slow Meadow</strong> — Dawn
@@ -258,8 +256,10 @@
               <span class="badge">3 songs</span>
             </header>
             <ul class="song-mini" role="list">
-              <li><strong>Maze</strong> — Paper City</li>
-              <li><strong>Half Awake</strong> — Night Bus</li>
+              <li><strong>Maze</strong> — Paper City
+                <div class="mini-note">why am I still overthinking</div></li>
+              <li><strong>Half Awake</strong> — Night Bus
+                <div class="mini-note">wake up!</div></li>
             </ul>
             <div class="folder-actions">
               <a class="btn btn-primary" href="playlist-confused.html">Open playlist</a>
@@ -279,8 +279,10 @@
               <span class="badge">10 songs</span>
             </header>
             <ul class="song-mini" role="list">
-              <li><strong>Pajama Radio</strong> — Sleepwalk</li>
-              <li><strong>Dim Lights</strong> — Lowkey</li>
+              <li><strong>Pajama Radio</strong> — Sleepwalk
+                <div class="mini-note">seems i need a pajama rn...</div></li>
+              <li><strong>Dim Lights</strong> — Lowkey
+                <div class="mini-note">what a pretty night</div></li>
             </ul>
             <div class="folder-actions">
               <a class="btn btn-primary" href="playlist-tired.html">Open playlist</a>
@@ -300,8 +302,10 @@
               <span class="badge">5 songs</span>
             </header>
             <ul class="song-mini" role="list">
-              <li><strong>Blanket Fort</strong> — Slow Tide</li>
-              <li><strong>Hibernate</strong> — Polar</li>
+              <li><strong>Blanket Fort</strong> — Slow Tide
+                <div class="mini-note">i really need to sleep rn...</div></li>
+              <li><strong>Hibernate</strong> — Polar
+                <div class="mini-note">hibernate hehehe i like it</div></li>
             </ul>
             <div class="folder-actions">
               <a class="btn btn-primary" href="playlist-exhausted.html">Open playlist</a>

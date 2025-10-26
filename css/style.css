@@ -24,6 +24,15 @@ body {
   /* background-attachment: fixed; 先不要 */
 }
 
+/* 给 wall-page 添加半透明白色层（柔化背景） */
+.wall-page::before {
+  content: "";
+  position: fixed;
+  inset: 0; /* 覆盖整个屏幕 */
+  background-color: rgba(255, 255, 255, 0.5); /* 白色透明度40% */
+  z-index: -1; /* 放在所有内容后面 */
+}
+
 .wall-page header,
 .wall-page main,
 .wall-page footer {
@@ -225,9 +234,9 @@ a:hover {
   cursor: pointer;
 }
 .controls button[type="submit"] {
-  background: #0b63c4;
+  background: lightblue;
   color: #fff;
-  border-color: #0b63c4;
+  border-color: #B5E9EE;
 }
 .controls button + button {
   margin-left: 6px;
@@ -1194,14 +1203,7 @@ a:hover {
   border-radius: 6px;
   cursor: pointer;
 }
-.controls button[type="submit"] {
-  background: #0b63c4;
-  color: #fff;
-  border-color: #0b63c4;
-}
-.controls button + button {
-  margin-left: 6px;
-}
+
 
 /* ========== 7. WALL PAGE (grid cards) ========== */
 .wall_container {
@@ -1855,6 +1857,28 @@ body{
   margin: 18px 0 26px;
 }
 
+.controls.small-controls {
+  background: rgba(255, 255, 255, 0.35);   /* 半透明白 */
+  backdrop-filter: blur(10px);             /* 模糊背景 */
+  -webkit-backdrop-filter: blur(10px);     /* Safari 支持 */
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(111, 140, 163, 0.1);
+  padding: 16px 20px;
+  margin: 24px 0;
+  transition: all 0.3s ease;
+}
+
+/* hover 时微亮一点 */
+.controls.small-controls:hover {
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 6px 26px rgba(111, 140, 163, 0.15);
+}
+
+.journal_title{
+  text-align: center;
+}
+
 /* 每个“文件夹卡片”——默认一行 5 个（自适应降为 4 / 3 / 2 / 1） */
 .folder-card{
   flex: 1 1 calc(20% - 14px);       /* ✅ 一行五个 */
@@ -1985,6 +2009,16 @@ body{
 @media (max-width: 520px){
   .folder-card{ flex: 1 1 100%; max-width: 500px; } /* 1 列 */
 }
+
+.wall-page main {
+  background-color: transparent !important;
+}
+
+/* === Journal Page Background === */
+
+
+/* 如果想加一点柔和玻璃层 */
+
 
 /* ====== HANNAH'S PART — END ====== */
 
