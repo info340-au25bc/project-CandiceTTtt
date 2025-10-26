@@ -691,13 +691,11 @@ body{
 
 
 /* Hannah's part */
-/* ====== HANNAH'S PART (My Journal · Mood Playlists) — REPLACE START ====== */
 
-/* 容器：让“相册/文件夹”网格整体居中 */
 .book-grid{
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;          /* ✅ 居中 */
+  justify-content: center;
   gap: 14px;
   list-style: none;
   padding: 0;
@@ -705,9 +703,9 @@ body{
 }
 
 .controls.small-controls {
-  background: rgba(255, 255, 255, 0.35);   /* 半透明白 */
-  backdrop-filter: blur(10px);             /* 模糊背景 */
-  -webkit-backdrop-filter: blur(10px);     /* Safari 支持 */
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);         
+  -webkit-backdrop-filter: blur(10px);  
   border: 1.5px solid rgba(255, 255, 255, 0.4);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(111, 140, 163, 0.1);
@@ -716,7 +714,7 @@ body{
   transition: all 0.3s ease;
 }
 
-/* hover 时微亮一点 */
+
 .controls.small-controls:hover {
   background: rgba(255, 255, 255, 0.45);
   box-shadow: 0 6px 26px rgba(111, 140, 163, 0.15);
@@ -726,10 +724,9 @@ body{
   text-align: center;
 }
 
-/* 每个“文件夹卡片”——默认一行 5 个（自适应降为 4 / 3 / 2 / 1） */
 .folder-card{
-  flex: 1 1 calc(20% - 14px);       /* ✅ 一行五个 */
-  max-width: 260px;                  /* ✅ 缩小卡片 */
+  flex: 1 1 calc(20% - 14px);
+  max-width: 260px;     
   min-width: 200px;
 }
 
@@ -749,7 +746,6 @@ body{
   box-shadow: 0 10px 22px rgba(0,0,0,0.10);
 }
 
-/* 封面：占比更小，留更多空间给标题与曲目 */
 .folder-cover {
   border-radius: 10px;
   overflow: hidden;
@@ -765,7 +761,6 @@ body{
   display: block;
 }
 
-/* 卡片头部 */
 .folder-head{
   display: flex;
   align-items: center;
@@ -776,15 +771,14 @@ body{
 .folder-title{
   margin: 2px 0 0;
   font-family: "Cherry Bomb One", cursive;
-  font-size: 1.25rem;               /* ✅ 标题更大 */
+  font-size: 1.25rem;  
   letter-spacing: .3px;
   line-height: 1.1;
-  background: transparent;          /* ✅ 去掉任何白色底框感 */
-  border: none;                     /* ✅ 保证没有边框 */
-  padding: 0;                       /* ✅ 保证没有内边距造成“框” */
+  background: transparent;  
+  border: none;        
+  padding: 0;  
 }
 
-/* 迷你曲目预览（2 条信息密度） */
 .song-mini{
   list-style: none;
   margin: 0; padding: 0;
@@ -805,7 +799,7 @@ body{
   margin-top: 2px;
 }
 
-/* 操作按钮（延续你们全站按钮视觉） */
+
 .folder-actions{
   margin-top: 4px;
   display: flex;
@@ -827,7 +821,6 @@ body{
 }
 .btn-ghost{ background: #fff; }
 
-/* Mood 柔和底色（与 Public Wall 映射一致） */
 .folder-card[data-mood="happy"]      > article { background: var(--mood-happy); }
 .folder-card[data-mood="calm"]       > article { background: var(--mood-calm); }
 .folder-card[data-mood="relaxed"]    > article { background: var(--mood-relaxed); }
@@ -839,33 +832,25 @@ body{
 .folder-card[data-mood="tired"]      > article { background: var(--mood-tired); }
 .folder-card[data-mood="exhausted"]  > article { background: var(--mood-exhausted); }
 
-/* 文本对比度（浅色底时更清晰） */
 .folder-card > article .folder-title{ color: #111; }
 .folder-card > article .song-mini li{ color: #222; }
 
-/* 响应式：5 → 4 → 3 → 2 → 1 列 */
 @media (max-width: 1400px){
-  .folder-card{ flex: 1 1 calc(25% - 14px); }   /* 4 列 */
+  .folder-card{ flex: 1 1 calc(25% - 14px); } 
 }
 @media (max-width: 1100px){
-  .folder-card{ flex: 1 1 calc(33.333% - 14px); } /* 3 列 */
+  .folder-card{ flex: 1 1 calc(33.333% - 14px); } 
 }
 @media (max-width: 800px){
-  .folder-card{ flex: 1 1 calc(50% - 14px); }   /* 2 列 */
+  .folder-card{ flex: 1 1 calc(50% - 14px); } 
 }
 @media (max-width: 520px){
-  .folder-card{ flex: 1 1 100%; max-width: 500px; } /* 1 列 */
+  .folder-card{ flex: 1 1 100%; max-width: 500px; }
 }
 
 .wall-page main {
   background-color: transparent !important;
 }
-
-/* === Journal Page Background === */
-
-
-/* 如果想加一点柔和玻璃层 */
-
 
 /* ====== HANNAH'S PART — END ====== */
 

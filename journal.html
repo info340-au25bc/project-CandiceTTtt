@@ -6,7 +6,7 @@
   <title>Mood Music · My Journal</title>
   <link rel="icon" href="favicon.ico">
 
-  <!-- Google Fonts (与全站一致) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
@@ -16,13 +16,13 @@
 </head>
 
 <body class="wall-page journal-page">
-  <!-- Header（复用全站头部结构） -->
+  <!-- Header -->
   <header class="site-header">
     <div class="container header-flex">
       <h1 class="brand"><a href="index.html">Mood Music</a></h1>
 
       <nav class="site-nav" aria-label="Primary">
-        <!-- hamburger（静态稿无需 JS，可保留结构） -->
+        <!-- 保留汉堡(静态)，修正无障碍属性 -->
         <button class="nav-toggle" id="nav-toggle"
                 aria-expanded="false" aria-controls="primary-menu" aria-label="Open menu">
           <span></span><span></span><span></span>
@@ -41,12 +41,12 @@
   <main class="container">
     <!-- Page head -->
     <section class="page-head">
-      <h2 class="journal_title">My Mood Jounrals</h2>
+      <h2 class="journal_title">My Mood Journals</h2>
     </section>
 
-    <!-- Filter & sort（静态演示） -->
-    <section class="controls small-controls" aria-labelledby="controls-title">
-      <h3 id="controls-title" class="visually-hidden">Filters</h3>
+    <!-- Filters（静态演示即可） -->
+    <section class="controls small-controls">
+      <h3 class="visually-hidden">Filters</h3>
       <form>
         <label class="visually-hidden" for="sort">Sort</label>
         <select id="sort" name="sort">
@@ -65,10 +65,9 @@
       </form>
     </section>
 
-    <!-- Mood Playlists (10 个“文件夹”) -->
-    <section class="mood-book" aria-labelledby="book-title">
-
-      <ul class="book-grid" role="list">
+    <!-- Mood Playlists -->
+    <section class="mood-book">
+      <ul class="book-grid">
         <!-- 1 Happy -->
         <li class="folder-card" data-mood="happy">
           <article>
@@ -80,7 +79,7 @@
               <span class="badge">8 songs</span>
             </header>
 
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Sunny Day Vibes</strong> — Luna Park
                 <div class="mini-note">walked to class in the sun ☀️</div>
               </li>
@@ -106,7 +105,7 @@
               <h3 class="folder-title">Calm</h3>
               <span class="badge">12 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Midnight Coastline</strong> — Seabreeze
                 <div class="mini-note">late-night coding, ocean waves</div>
               </li>
@@ -131,7 +130,7 @@
               <h3 class="folder-title">Lovely</h3>
               <span class="badge">6 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Old Camera Roll</strong> — Analog Hearts
                 <div class="mini-note">café memory unlocked</div>
               </li>
@@ -156,7 +155,7 @@
               <h3 class="folder-title">Excited</h3>
               <span class="badge">9 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Starlight Drive</strong> — The Sparkles
                 <div class="mini-note">concert night!!!</div>
               </li>
@@ -181,7 +180,7 @@
               <h3 class="folder-title">Sad</h3>
               <span class="badge">7 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Rainy Windows</strong> — Mono Dream
                 <div class="mini-note">tea + grey clouds</div>
               </li>
@@ -206,7 +205,7 @@
               <h3 class="folder-title">Relaxed</h3>
               <span class="badge">5 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Soft Breeze</strong> — Morning
                 <div class="mini-note">long walk, mind wandered</div>
               </li>
@@ -231,9 +230,9 @@
               <h3 class="folder-title">Angry</h3>
               <span class="badge">4 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Static Burn</strong> — Redline
-                <div class="mini-note">ahhh why was he so rude</div> </li>
+                <div class="mini-note">ahhh why was he so rude</div></li>
               <li><strong>Vent</strong> — CTRL+Z
                 <div class="mini-note">hahaha hope so</div></li>
             </ul>
@@ -254,7 +253,7 @@
               <h3 class="folder-title">Confused</h3>
               <span class="badge">3 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Maze</strong> — Paper City
                 <div class="mini-note">why am I still overthinking</div></li>
               <li><strong>Half Awake</strong> — Night Bus
@@ -277,7 +276,7 @@
               <h3 class="folder-title">Tired</h3>
               <span class="badge">10 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Pajama Radio</strong> — Sleepwalk
                 <div class="mini-note">seems i need a pajama rn...</div></li>
               <li><strong>Dim Lights</strong> — Lowkey
@@ -300,7 +299,7 @@
               <h3 class="folder-title">Exhausted</h3>
               <span class="badge">5 songs</span>
             </header>
-            <ul class="song-mini" role="list">
+            <ul class="song-mini">
               <li><strong>Blanket Fort</strong> — Slow Tide
                 <div class="mini-note">i really need to sleep rn...</div></li>
               <li><strong>Hibernate</strong> — Polar
@@ -316,14 +315,14 @@
     </section>
   </main>
 
-  <!-- Footer（与全站一致风格） -->
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 Mood Music · INFO 340</p>
       <nav class="site-nav" aria-label="Footer">
         <a href="index.html">Home</a>
         <a href="wall.html">Public Wall</a>
-        <a href="playlists.html" aria-current="page">My Journal</a>
+        <a href="journal.html" aria-current="page">My Journal</a>
         <a href="settings.html">Setting</a>
       </nav>
     </div>
