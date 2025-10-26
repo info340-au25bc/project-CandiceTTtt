@@ -554,8 +554,8 @@ body{
   line-height:1.05;
   letter-spacing:.5px;
  
-  color: #fff;                     /* 白色更突出 */
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); /* 加点阴影防融色 */
+  color: #fff;                     
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); 
   font-family:"Cherry Bomb One", cursive; /* Title font */
 }
 
@@ -753,7 +753,7 @@ body{
 
 /* ---------- Right-side pill navigation ---------- */
 .top-nav{
-  margin-left: auto;                 /* 让导航靠右 */
+  margin-left: auto;                
   display: flex;
   align-items: center;
   gap: clamp(8px, 1.6vw, 16px);
@@ -803,7 +803,7 @@ body{
   position: relative;
 }
 
-/* 顶部渐变细线：full-bleed 贴到两侧 */
+
 .site-footer .footer-bar{
   position: relative;
   left: 50%;
@@ -813,27 +813,27 @@ body{
   width: 100vw;
   max-width: 100vw;
 
-  height: 10px;                     /* 可调 8–14px */
+  height: 10px;                     
   background: linear-gradient(90deg, var(--c-pink), var(--c-sky));
   box-shadow: 0 -1px 0 rgba(0,0,0,0.02);
 }
 
-/* 关键：footer 本体不再有白底/玻璃/阴影，只保留内边距 */
+
 .site-footer .footer-inner{
   padding: 14px 0 18px;
-  background: transparent;          /* 去白底 */
-  backdrop-filter: none;            /* 去毛玻璃 */
+  background: transparent;          
+  backdrop-filter: none;            
   -webkit-backdrop-filter: none;
-  box-shadow: none;                 /* 去阴影块 */
+  box-shadow: none;                 
   border: none;
   border-radius: 0;
 
-  /* 与页面主内容左右对齐（使用你全局的 x 方向安全边距变量） */
+
   padding-left: var(--page-xpad);
   padding-right: var(--page-xpad);
 }
 
-/* 版权 + 文本导航保持不变 */
+
 .site-footer .copyright{
   margin: 0 0 8px;
   font-size: 14px;
