@@ -18,17 +18,23 @@
   <!-- Add your own page background PNG to body or .page in your project if needed -->
   <div class="page">
     <header class="site-header">
-        <div class="tit">
-             <h1 class="brand">Mood Music</h1>
-             <p class="sub">Capture your mood, link a song, and slowly build your personal playlist.</p>
-             
-        </div>
-    <nav class="top-nav" aria-label="Main">
-        <a href="create mood.html"    class="nav-pill is-active">Home</a>
-        <a href="wall.html"   class="nav-pill">Public Wall</a>
-        <a href="journal.html"  class="nav-pill">My Journal</a>
-         <a href="settings.html" class="nav-pill">Setting</a>
-    </nav>
+      <div class="container header-flex">
+        <h1 class="brand"><a href="index.html">Mood Music</a></h1>
+  
+        <nav class="site-nav" aria-label="Primary">
+          <button class="nav-toggle" id="nav-toggle"
+                  aria-expanded="false" aria-controls="primary-menu" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+  
+          <div id="primary-menu" class="nav-menu">
+            <a href="create mood.html" aria-current="page">Home</a>
+            <a href="wall.html">Public Wall</a>
+            <a href="journal.html">My Journal</a>
+            <a href="settings.html">Setting</a>
+          </div>
+        </nav>
+      </div>
     </header>
 
 

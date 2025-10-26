@@ -556,6 +556,7 @@ body{
   grid-template-columns: 1.3fr 0.9fr;
   gap: clamp(20px, 3vw, 48px);
   align-items:start;
+  margin: 40px;
 }
 @media (max-width:880px){ .grid{ grid-template-columns:1fr; } }
 
