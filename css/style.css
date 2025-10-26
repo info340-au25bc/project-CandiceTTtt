@@ -281,24 +281,6 @@ a:hover {
   transform: scale(1.02);
 }
 
-/* Card top (mood + icon) */
-.wall_card-top {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-.wall_mood-icon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  display: none; /* 先隐藏，等加 PNG 再显示 */
-}
-.wall_mood-text {
-  font-weight: 600;
-  font-family: "Gaegu", cursive;
-}
-
 /* Card content */
 .wall_song {
   font-weight: 600;
@@ -1228,6 +1210,7 @@ a:hover {
 }
 
 /* Card */
+
 .wall_card > article {
   border: 1px solid rgba(0,0,0,0.06);
   border-radius: 12px;
@@ -1244,23 +1227,40 @@ a:hover {
   transform: scale(1.02);
 }
 
-/* Card top (mood + icon) */
+
+/* 🌸 Mood icon + text layout */
 .wall_card-top {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
+  gap: 10px;            /* 图标和文字的距离 */
+  margin-bottom: 10px;  /* 下方留白一点 */
 }
+
+/* 🌼 Mood icon bigger & centered */
 .wall_mood-icon {
-  width: 20px;
-  height: 20px;
+  width: 45px;          /* 比原来大一点 */
+  height: 45px;
   object-fit: contain;
-  display: none; /* 先隐藏，等加 PNG 再显示 */
+  border-radius: 50%;
+  background: rgba(255,255,255,0.8);
+  padding: 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.wall_mood-icon:hover {
+  transform: scale(1.08) rotate(-5deg);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* 🌷 Mood text next to icon */
 .wall_mood-text {
-  font-weight: 600;
   font-family: "Gaegu", cursive;
+  font-weight: 700;
+  font-size: 1.2rem;  /* 稍微放大文字 */
+  color: #333;
 }
+
 
 /* Card content */
 .wall_song {
@@ -2234,3 +2234,37 @@ body.settings-page {
     font-weight: 600;
   }
   
+  .icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.material-symbols-outlined {
+  font-size: 26px;
+  line-height: 1;
+  color: #6F8CA3;
+  transition: color 0.15s ease, transform 0.12s ease;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 600,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.icon-btn:hover .material-symbols-outlined {
+  transform: translateY(-1px);
+}
+
+/* ❤️ 点击喜欢后变粉红实心 */
+.icon-btn.is-active .fav-icon {
+  color: #e45786;
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ⭐ 点击收藏后变金色实心 */
+.icon-btn.is-active .material-symbols-outlined {
+  color: #e6b800;
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+}

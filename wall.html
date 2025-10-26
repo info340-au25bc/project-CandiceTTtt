@@ -11,6 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+  <!-- Material Symbols 图标字体 -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
@@ -33,7 +36,7 @@
           <a href="wall.html" aria-current="page">Public Wall</a>
           <a href="journal.html">My Journal</a>
           <a href="submit.html">Add Song</a>
-          <a href="setting.html">Setting</a>
+          <a href="settings.html">Setting</a>
         </div>
       </nav>
 
@@ -69,67 +72,176 @@
       <h3 id="wall-title" class="visually-hidden">All posts</h3>
 
       <ul class="wall_container">
-        <!-- 1 -->
-        <li class="wall_card" data-mood="happy">
-          <article>
-            <div class="wall_card-top"><span class="wall_mood-text">Happy</span></div>
-            <img src="assets/covers/cover-01.jpg" alt="Album cover: Sunny Day Vibes">
-            <h3 class="wall_song">Sunny Day Vibes — <span class="artist">Luna Park</span></h3>
-            <p class="wall_diary">Walked to class in the sun ☀️ felt so light.</p>
-            <div class="wall_actions"><button>❤️</button><button>⭐</button><button>⬇️</button></div>
-          </article>
-        </li>
-        <!-- 2 -->
-        <li class="wall_card" data-mood="calm">
-          <article>
-            <div class="wall_card-top"><span class="wall_mood-text">Calm</span></div>
-            <img src="assets/covers/cover-02.jpg" alt="Album cover: Midnight Coastline">
-            <h3 class="wall_song">Midnight Coastline — <span class="artist">Seabreeze</span></h3>
-            <p class="wall_diary">Late-night coding, ocean-wave focus vibes.</p>
-            <div class="wall_actions"><button>❤️</button><button>⭐</button><button>⬇️</button></div>
-          </article>
-        </li>
-        <!-- 3 -->
-        <li class="wall_card" data-mood="lovely">
-          <article>
-            <div class="wall_card-top"><span class="wall_mood-text">Lovely</span></div>
-            <img src="assets/covers/cover-03.jpg" alt="Album cover: Old Camera Roll">
-            <h3 class="wall_song">Old Camera Roll — <span class="artist">Analog Hearts</span></h3>
-            <p class="wall_diary">Heard it at the café → memory unlocked.</p>
-            <div class="wall_actions"><button>❤️</button><button>⭐</button><button>⬇️</button></div>
-          </article>
-        </li>
-        <!-- 4 -->
-        <li class="wall_card" data-mood="excited">
-          <article>
-            <div class="wall_card-top"><span class="wall_mood-text">Excited</span></div>
-            <img src="assets/covers/cover-04.jpg" alt="Album cover: Starlight Drive">
-            <h3 class="wall_song">Starlight Drive — <span class="artist">The Sparkles</span></h3>
-            <p class="wall_diary">Concert night!!! Can't believe I was front row 🎤💫</p>
-            <div class="wall_actions"><button>❤️</button><button>⭐</button><button>⬇️</button></div>
-          </article>
-        </li>
-        <!-- 5 -->
-        <li class="wall_card" data-mood="sad">
-          <article>
-            <div class="wall_card-top"><span class="wall_mood-text">Sad</span></div>
-            <img src="assets/covers/cover-05.jpg" alt="Album cover: Rainy Windows">
-            <h3 class="wall_song">Rainy Windows — <span class="artist">Mono Dream</span></h3>
-            <p class="wall_diary">Stayed in with tea and grey clouds ☁️</p>
-            <div class="wall_actions"><button>❤️</button><button>⭐</button><button>⬇️</button></div>
-          </article>
-        </li>
-        <!-- 6 -->
-        <li class="wall_card" data-mood="relaxed">
-          <article>
-            <div class="wall_card-top"><span class="wall_mood-text">Relaxed</span></div>
-            <img src="assets/covers/cover-06.jpg" alt="Album cover: Soft Breeze">
-            <h3 class="wall_song">Soft Breeze — <span class="artist">Morning Whales</span></h3>
-            <p class="wall_diary">Took a long walk and let my mind wander 🌿</p>
-            <div class="wall_actions"><button>❤️</button><button>⭐</button><button>⬇️</button></div>
-          </article>
-        </li>
-      </ul>
+          <!-- 1 -->
+          <li class="wall_card" data-mood="happy">
+            <article>
+              <div class="wall_card-top">
+                <img class="wall_mood-icon" src="shared_imgs/happy.PNG" alt="Happy icon">
+                <span class="wall_mood-text">Happy</span>
+              </div>
+              <h3 class="wall_song">Sunny Day Vibes — <span class="artist">Luna Park</span></h3>
+              <p class="wall_diary">Walked to class in the sun ☀️ felt so light.</p>
+              <div class="wall_actions">
+                <!-- ❤️ 喜欢 -->
+                <button class="icon-btn like-btn" aria-pressed="false" title="Like">
+                  <span class="material-symbols-outlined fav-icon">favorite</span>
+                </button>
+
+                <!-- ⭐ 收藏 -->
+                <button class="icon-btn save-btn" aria-pressed="false" title="Save">
+                  <span class="material-symbols-outlined">star</span>
+                </button>
+
+                <!-- ⬇️ 下载 -->
+                <button class="icon-btn" title="Download">
+                  <span class="material-symbols-outlined">download</span>
+                </button>
+              </div>
+
+            </article>
+          </li>
+
+          <!-- 2 -->
+          <li class="wall_card" data-mood="calm">
+            <article>
+              <div class="wall_card-top">
+                <img class="wall_mood-icon" src="shared_imgs/calm.PNG" alt="Calm icon">
+                <span class="wall_mood-text">Calm</span>
+              </div>
+              <h3 class="wall_song">Midnight Coastline — <span class="artist">Seabreeze</span></h3>
+              <p class="wall_diary">Late-night coding, ocean-wave focus vibes.</p>
+              <div class="wall_actions">
+                <!-- ❤️ 喜欢 -->
+                <button class="icon-btn like-btn" aria-pressed="false" title="Like">
+                  <span class="material-symbols-outlined fav-icon">favorite</span>
+                </button>
+
+                <!-- ⭐ 收藏 -->
+                <button class="icon-btn save-btn" aria-pressed="false" title="Save">
+                  <span class="material-symbols-outlined">star</span>
+                </button>
+
+                <!-- ⬇️ 下载 -->
+                <button class="icon-btn" title="Download">
+                  <span class="material-symbols-outlined">download</span>
+                </button>
+              </div>
+            </article>
+          </li>
+
+          <!-- 3 -->
+          <li class="wall_card" data-mood="lovely">
+            <article>
+              <div class="wall_card-top">
+                <img class="wall_mood-icon" src="shared_imgs/lovely.PNG" alt="Lovely icon">
+                <span class="wall_mood-text">Lovely</span>
+              </div>
+              <h3 class="wall_song">Old Camera Roll — <span class="artist">Analog Hearts</span></h3>
+              <p class="wall_diary">Heard it at the café → memory unlocked.</p>
+              <div class="wall_actions">
+                <!-- ❤️ 喜欢 -->
+                <button class="icon-btn like-btn" aria-pressed="false" title="Like">
+                  <span class="material-symbols-outlined fav-icon">favorite</span>
+                </button>
+
+                <!-- ⭐ 收藏 -->
+                <button class="icon-btn save-btn" aria-pressed="false" title="Save">
+                  <span class="material-symbols-outlined">star</span>
+                </button>
+
+                <!-- ⬇️ 下载 -->
+                <button class="icon-btn" title="Download">
+                  <span class="material-symbols-outlined">download</span>
+                </button>
+              </div>
+            </article>
+          </li>
+
+          <!-- 4 -->
+          <li class="wall_card" data-mood="excited">
+            <article>
+              <div class="wall_card-top">
+                <img class="wall_mood-icon" src="shared_imgs/excited.PNG" alt="Excited icon">
+                <span class="wall_mood-text">Excited</span>
+              </div>
+              <h3 class="wall_song">Starlight Drive — <span class="artist">The Sparkles</span></h3>
+              <p class="wall_diary">Concert night!!! Can't believe I was front row 🎤💫</p>
+              <div class="wall_actions">
+                <!-- ❤️ 喜欢 -->
+                <button class="icon-btn like-btn" aria-pressed="false" title="Like">
+                  <span class="material-symbols-outlined fav-icon">favorite</span>
+                </button>
+
+                <!-- ⭐ 收藏 -->
+                <button class="icon-btn save-btn" aria-pressed="false" title="Save">
+                  <span class="material-symbols-outlined">star</span>
+                </button>
+
+                <!-- ⬇️ 下载 -->
+                <button class="icon-btn" title="Download">
+                  <span class="material-symbols-outlined">download</span>
+                </button>
+              </div>
+            </article>
+          </li>
+
+          <!-- 5 -->
+          <li class="wall_card" data-mood="sad">
+            <article>
+              <div class="wall_card-top">
+                <img class="wall_mood-icon" src="shared_imgs/sad.PNG" alt="Sad icon">
+                <span class="wall_mood-text">Sad</span>
+              </div>
+              <h3 class="wall_song">Rainy Windows — <span class="artist">Mono Dream</span></h3>
+              <p class="wall_diary">Stayed in with tea and grey clouds ☁️</p>
+              <div class="wall_actions">
+                <!-- ❤️ 喜欢 -->
+                <button class="icon-btn like-btn" aria-pressed="false" title="Like">
+                  <span class="material-symbols-outlined fav-icon">favorite</span>
+                </button>
+
+                <!-- ⭐ 收藏 -->
+                <button class="icon-btn save-btn" aria-pressed="false" title="Save">
+                  <span class="material-symbols-outlined">star</span>
+                </button>
+
+                <!-- ⬇️ 下载 -->
+                <button class="icon-btn" title="Download">
+                  <span class="material-symbols-outlined">download</span>
+                </button>
+              </div>
+            </article>
+          </li>
+
+          <!-- 6 -->
+          <li class="wall_card" data-mood="relaxed">
+            <article>
+              <div class="wall_card-top">
+                <img class="wall_mood-icon" src="shared_imgs/relaxed.PNG" alt="Relaxed icon">
+                <span class="wall_mood-text">Relaxed</span>
+              </div>
+              <h3 class="wall_song">Soft Breeze — <span class="artist">Morning Whales</span></h3>
+              <p class="wall_diary">Took a long walk and let my mind wander 🌿</p>
+              <div class="wall_actions">
+                <!-- ❤️ 喜欢 -->
+                <button class="icon-btn like-btn" aria-pressed="false" title="Like">
+                  <span class="material-symbols-outlined fav-icon">favorite</span>
+                </button>
+
+                <!-- ⭐ 收藏 -->
+                <button class="icon-btn save-btn" aria-pressed="false" title="Save">
+                  <span class="material-symbols-outlined">star</span>
+                </button>
+
+                <!-- ⬇️ 下载 -->
+                <button class="icon-btn" title="Download">
+                  <span class="material-symbols-outlined">download</span>
+                </button>
+              </div>
+            </article>
+          </li>
+        </ul>
+
 
       <!-- pagination icons -->
       <div class="wall_pagination">
@@ -147,7 +259,7 @@
         <a href="index.html">Home</a>
         <a href="wall.html">Public Wall</a>
         <a href="submit.html">Add Song</a>
-        <a href="setting.html">Setting</a>
+        <a href="settings.html">Setting</a>
       </nav>
     </div>
   </footer>
