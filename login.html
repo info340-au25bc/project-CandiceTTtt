@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mood Music · Login</title>
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="css/style.css">
+
+
+  <style>
+
+    body.auth-page{
+      background-image: url("shared_imgs/background.jpg");
+      background-size: cover;
+      background-position: center;
+      min-height:100vh;
+    }
+    .auth-wrap{
+      max-width: 880px;
+      margin: 32px auto 40px;
+      padding: 0 20px;
+    }
+    .auth-card{
+      background: rgba(255,255,255,0.94);
+      border: 2px solid #E7D7DC;
+      border-radius: 22px;
+      box-shadow: 0 8px 18px rgba(111,140,163,.16);
+      padding: clamp(18px, 3.2vw, 36px);
+    }
+    .auth-form{
+      display:grid; gap:14px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .auth-form .lbl{ font-weight: 700; color:#3a5566; }
+    .auth-form .ipt{
+      width:100%;
+      border:2px solid #CFCFE6;
+      border-radius:14px;
+      padding:12px 14px;
+      font-size:16px;
+      outline:none;
+      transition: box-shadow .15s, border-color .15s;
+    }
+    .auth-form .ipt:focus{
+      border-color:#CFCFE6;
+      box-shadow:0 0 0 6px rgba(207,207,230,.25);
+    }
+    .auth-actions{ margin-top: 6px; text-align: left; }
+    .auth-btn{
+      border:none; cursor:pointer;
+      border-radius:14px;
+      padding: 12px 20px;
+      font-weight:700; color:#fff;
+      background: linear-gradient(135deg,#F4A7C2,#F9E0C8);
+      box-shadow: 0 8px 18px rgba(111,140,163,.18);
+      transition: transform .06s, box-shadow .15s;
+    }
+    .auth-btn:hover{ transform: translateY(-1px); box-shadow:0 10px 22px rgba(111,140,163,.22); }
+    .auth-meta{
+      text-align:center; margin-top: 14px; color:#556;
+    }
+    .auth-meta a{ color:#0b63c4; text-decoration:none; }
+    .auth-meta a:hover{ text-decoration:underline; }
+  </style>
+</head>
+
+<body class="auth-page">
+
+  <header class="site-header">
+    <div class="container header-flex">
+      <h1 class="brand"><a href="create mood.html">Mood Music</a></h1>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="create mood.html" class="nav-pill">Home</a>
+        <a href="wall.html" class="nav-pill">Public Wall</a>
+        <a href="journal.html" class="nav-pill">My Journal</a>
+        <a href="settings.html" class="nav-pill">Setting</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="auth-wrap">
+    <h2 class="auth-title">Welcome Back</h2>
+    <p class="auth-sub">Login to access your playlists and mood journals</p>
+
+    <section class="auth-card" aria-labelledby="loginTitle">
+      <h3 id="loginTitle" class="visually-hidden">Login</h3>
+
+      <form class="auth-form" id="loginForm">
+        <div class="field">
+          <label for="username" class="lbl">Username</label>
+          <input id="username" class="ipt" type="text" placeholder="Enter your username" autocomplete="username">
+        </div>
+
+        <div class="field">
+          <label for="password" class="lbl">Password</label>
+          <input id="password" class="ipt" type="password" placeholder="Enter your password" autocomplete="current-password">
+        </div>
+
+        <div class="auth-actions">
+          <button class="auth-btn" type="submit">Login</button>
+        </div>
+        <p class="auth-meta">Don’t have an account? <a href="#">Sign up</a></p>
+      </form>
+    </section>
+  </main>
+
+ 
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Mood Music · INFO 340</p>
+      <nav class="site-nav" aria-label="Footer">
+        <a href="create mood.html">Home</a>
+        <a href="wall.html">Public Wall</a>
+        <a href="journal.html">My Journal</a>
+        <a href="settings.html">Setting</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      window.location.href = "create mood.html";
+    });
+  </script>
+
+</body>
+</html>
