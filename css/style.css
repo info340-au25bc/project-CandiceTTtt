@@ -1257,7 +1257,7 @@ a:hover {
 .wall_mood-text {
   font-family: "Gaegu", cursive;
   font-weight: 700;
-  font-size: 1.2rem;  /* 稍微放大文字 */
+  font-size: 1.5rem;  /* 稍微放大文字 */
   color: #333;
 }
 
@@ -1271,7 +1271,7 @@ a:hover {
 }
 .wall_diary {
   font-family: "Gaegu", cursive;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   color: #333;
   margin: 0;
 }
