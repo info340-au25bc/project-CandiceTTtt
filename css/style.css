@@ -219,90 +219,6 @@ a:hover {
   margin-left: 6px;
 }
 
-/* ========== 7. WALL PAGE (grid cards) ========== */
-.wall_container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
-}
-.wall_container{ grid-template-columns: 1fr; }
-
-@media (min-width: 480px) {
-  .wall_container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (min-width: 900px) {
-  .wall_container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Card */
-.wall_card > article {
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 12px;
-  padding: 10px;
-  color: #222;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 150px;
-  transition: transform 0.15s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-.wall_card > article:hover {
-  transform: scale(1.02);
-}
-
-/* Card content */
-.wall_song {
-  font-weight: 600;
-  margin: 4px 0;
-  font-family: "Lexend Deca", sans-serif;
-  font-size: 0.95rem;
-}
-.wall_diary {
-  font-family: "Gaegu", cursive;
-  font-size: 0.9rem;
-  color: #333;
-  margin: 0;
-}
-
-/* Card actions */
-.wall_actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 8px;
-}
-.wall_actions button {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-/* Mood background colors */
-.wall_card[data-mood="happy"]      > article { background: var(--mood-happy); }
-.wall_card[data-mood="calm"]       > article { background: var(--mood-calm); }
-.wall_card[data-mood="relaxed"]    > article { background: var(--mood-relaxed); }
-.wall_card[data-mood="angry"]      > article { background: var(--mood-angry); }
-.wall_card[data-mood="lovely"]     > article { background: var(--mood-lovely); }
-.wall_card[data-mood="excited"]    > article { background: var(--mood-excited); }
-.wall_card[data-mood="confused"]   > article { background: var(--mood-confused); }
-.wall_card[data-mood="sad"]        > article { background: var(--mood-sad); }
-.wall_card[data-mood="tired"]      > article { background: var(--mood-tired); }
-.wall_card[data-mood="exhausted"]  > article { background: var(--mood-exhausted); }
-
-/* Text contrast */
-.wall_card > article h3 { color: #111; }
-.wall_card > article .wall_diary { color: #333; }
-
 
 /* Header layout: brand left, nav right */
 .header-flex {
@@ -330,30 +246,6 @@ a:hover {
   font-size: 0.9rem;
 }
 
-/* Pagination */
-.wall_pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin: 12px 0 24px;
-}
-.page-btn {
-  background: rgba(255,255,255,0.8);
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1.2rem;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-.page-btn:hover {
-  background: #0b63c4;
-  color: #fff;
-}
-.page-status {
-  font-size: 0.9rem;
-  color: #444;
-}
 
 
 /* === Mobile-first nav === */
@@ -1023,145 +915,197 @@ body{
   font-size: clamp(14px, 1.6vw, 18px);
 }
 
+
+
 /* Candice part */
 /* ================================
-   💖 Restore Public Wall Layout
-   ================================ */
+   Candice · Public Wall (final)
 
-/* 确保 wall-page 的主容器是半透明白底 */
-.wall-page main {
-  background-color: rgba(255, 255, 255, 0.82) !important;
+/* 可选：若其它地方改过 main 的底色，保留这一行兜底 */
+.wall-page main { background-color: rgba(255,255,255,0.82); }
+
+/* Grid：手机1列 / ≥480px两列 / ≥900px三列 */
+.wall_container{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+  list-style:none;
+  padding:0;
+  margin:20px 0;
+}
+@media (min-width:480px){
+  .wall_container{ grid-template-columns:repeat(2,1fr); }
+}
+@media (min-width:900px){
+  .wall_container{ grid-template-columns:repeat(3,1fr); }
 }
 
-/* Grid 布局：手机一列、平板两列、桌面三列 */
-.wall_container {
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  gap: 14px !important;
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
+/* 卡片 */
+.wall_card > article{
+  border:1px solid rgba(0,0,0,0.06);
+  border-radius:12px;
+  padding:14px;
+  color:#222;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:160px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  transition:transform 0.15s ease;
+}
+.wall_card > article:hover{ transform:scale(1.02); }
+
+/* mood 图标 + 文案 */
+.wall_card-top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.wall_mood-icon{
+  width:45px; height:45px; object-fit:contain;
+  border-radius:50%;
+  background:rgba(255,255,255,0.8);
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.wall_mood-icon:hover{
+  transform:scale(1.08) rotate(-5deg);
+  box-shadow:0 3px 8px rgba(0,0,0,0.15);
+}
+.wall_mood-text{
+  font-family:"Gaegu", cursive;
+  font-weight:700;
+  font-size:1.4rem;
+  color:#333;
 }
 
-@media (min-width: 480px) {
-  .wall_container {
-    grid-template-columns: repeat(2, 1fr) !important;
+/* 歌名 & 日记：半透明白底小卡片 */
+.wall_song,
+.wall_diary{
+  background:rgba(255,255,255,0.70);
+  border:1px solid rgba(0,0,0,0.06);
+  border-radius:10px;
+  padding:8px 10px;
+  margin:8px 0;
+  box-shadow:0 3px 6px rgba(0,0,0,0.05);
+}
+.wall_song{
+  font-family:"Lexend Deca", sans-serif;
+  font-size:1rem;
+  font-weight:700;
+  line-height:1.35;
+  margin:6px 0;
+}
+.wall_song .artist{ font-weight:700; color:#444; }
+.wall_diary{
+  font-family:"Gaegu", cursive;
+  font-size:0.98rem;
+  color:#333;
+  line-height:1.5;
+  margin:0;
+}
+
+/* 操作区 */
+.wall_actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:8px;
+}
+.wall_actions button{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:1.2rem;
+  line-height:1;
+}
+
+/* mood 背景色（依赖你们在 :root 定义的变量） */
+.wall_card[data-mood="happy"]     > article{ background:var(--mood-happy); }
+.wall_card[data-mood="calm"]      > article{ background:var(--mood-calm); }
+.wall_card[data-mood="relaxed"]   > article{ background:var(--mood-relaxed); }
+.wall_card[data-mood="angry"]     > article{ background:var(--mood-angry); }
+.wall_card[data-mood="lovely"]    > article{ background:var(--mood-lovely); }
+.wall_card[data-mood="excited"]   > article{ background:var(--mood-excited); }
+.wall_card[data-mood="confused"]  > article{ background:var(--mood-confused); }
+.wall_card[data-mood="sad"]       > article{ background:var(--mood-sad); }
+.wall_card[data-mood="tired"]     > article{ background:var(--mood-tired); }
+.wall_card[data-mood="exhausted"] > article{ background:var(--mood-exhausted); }
+
+/* 翻页 */
+.wall_pagination{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin:20px 0 30px;
+}
+.page-btn{
+  background:rgba(255,255,255,0.8);
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:1.2rem;
+  padding:4px 8px;
+  cursor:pointer;
+}
+.page-btn:hover{ background:#0b63c4; color:#fff; }
+.page-status{ font-size:.9rem; color:#444; }
+
+/* 头部布局（仅用类） */
+.header-flex{ display:flex; justify-content:space-between; align-items:center; }
+
+/* Mobile-first 导航（无 ID） */
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+
+/* 汉堡按钮 */
+.nav-toggle{
+  display:inline-flex; flex-direction:column; justify-content:center; gap:4px;
+  width:38px; height:34px; padding:0;
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:8px; background:rgba(255,255,255,.25);
+  cursor:pointer; backdrop-filter:blur(6px);
+}
+.nav-toggle span{
+  display:block; height:2px; width:22px; margin:0 auto; border-radius:2px;
+  background:#fff; transition:transform .2s ease, opacity .2s ease;
+}
+
+/* 下拉菜单（移动端） */
+.site-nav{ position:relative; }
+.nav-menu{
+  position:absolute; right:0; top:42px; min-width:220px;
+  display:none; flex-direction:column; gap:8px;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:12px; padding:10px;
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+.nav-menu a{
+  display:block; padding:8px 12px; border-radius:10px;
+  color:#3a5f73; font-weight:700; text-shadow:none; background:transparent;
+}
+.nav-menu a[aria-current="page"]{ background:rgba(154,85,136,.12); color:#9a5588; }
+.nav-menu a:hover{ background:rgba(11,99,196,.12); }
+
+/* 开启/关闭状态（靠 aria-expanded，而非 id） */
+.nav-menu.is-open{ display:flex; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+/* 平板与桌面：恢复横向胶囊导航 */
+@media (min-width:768px){
+  .nav-toggle{ display:none; }
+  .nav-menu{
+    position:static; display:flex; flex-direction:row; align-items:center; gap:10px;
+    background:transparent; border:none; box-shadow:none; padding:0; min-width:auto;
   }
-}
-@media (min-width: 900px) {
-  .wall_container {
-    grid-template-columns: repeat(3, 1fr) !important;
+  .nav-menu a{
+    background:rgba(255,255,255,0.25);
+    padding:6px 14px; border-radius:20px; color:#fff; font-weight:600;
+    text-shadow:0 1px 3px rgba(0,0,0,.15);
   }
-}
-
-/* 卡片基础样式 */
-.wall_card > article {
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 12px;
-  padding: 14px;
-  color: #222;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 160px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  transition: transform 0.15s ease;
-}
-.wall_card > article:hover {
-  transform: scale(1.02);
-}
-
-/* mood icon + text 区域 */
-.wall_card-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.wall_mood-icon {
-  width: 45px;
-  height: 45px;
-  object-fit: contain;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.8);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.wall_mood-icon:hover {
-  transform: scale(1.08) rotate(-5deg);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
-
-.wall_mood-text {
-  font-family: "Gaegu", cursive;
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: #333;
-}
-
-/* song & diary */
-.wall_song {
-  font-weight: 600;
-  margin: 6px 0;
-  font-family: "Lexend Deca", sans-serif;
-  font-size: 0.95rem;
-}
-.wall_diary {
-  font-family: "Gaegu", cursive;
-  font-size: 1.1rem;
-  color: #333;
-  margin: 0;
-}
-
-/* 按钮区域 */
-.wall_actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 8px;
-}
-.wall_actions button {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-/* mood 背景色 */
-.wall_card[data-mood="happy"] > article { background: var(--mood-happy); }
-.wall_card[data-mood="calm"] > article { background: var(--mood-calm); }
-.wall_card[data-mood="relaxed"] > article { background: var(--mood-relaxed); }
-.wall_card[data-mood="angry"] > article { background: var(--mood-angry); }
-.wall_card[data-mood="lovely"] > article { background: var(--mood-lovely); }
-.wall_card[data-mood="excited"] > article { background: var(--mood-excited); }
-.wall_card[data-mood="confused"] > article { background: var(--mood-confused); }
-.wall_card[data-mood="sad"] > article { background: var(--mood-sad); }
-.wall_card[data-mood="tired"] > article { background: var(--mood-tired); }
-.wall_card[data-mood="exhausted"] > article { background: var(--mood-exhausted); }
-
-/* 翻页按钮 */
-.wall_pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin: 20px 0 30px;
-}
-.page-btn {
-  background: rgba(255,255,255,0.8);
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1.2rem;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-.page-btn:hover {
-  background: #0b63c4;
-  color: #fff;
-}
-.page-status {
-  font-size: 0.9rem;
-  color: #444;
+  .nav-menu a:hover{ background:rgba(255,255,255,0.45); transform:translateY(-1px); }
+  .nav-menu a[aria-current="page"]{ background:rgba(255,255,255,0.75); color:#9a5588; }
 }
