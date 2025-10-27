@@ -307,9 +307,9 @@ a:hover {
 /* ========== 1) RESET & BASE ========== */
 * { box-sizing: border-box; }
 html, body { min-height: 100%; }
-html, body { overflow-x: hidden; }
+/* html, body { overflow-x: hidden; } */
 
-.page body{
+body{
   margin:0;
   font-family:"Lexend Deca", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
               "PingFang SC","Hiragino Sans GB","Microsoft YaHei", sans-serif;
@@ -537,9 +537,47 @@ html, body { overflow-x: hidden; }
 .page .btn-ghost{ background:#fff; border:2px solid var(--c-lilac); }
 .page .btn-outline{ background:transparent; border:2px dashed var(--c-peri); color:var(--ink); text-decoration:none; display:inline-flex; align-items:center; }
 
+/* ✅ iPhone SE 等窄屏优化 */
+@media (max-width: 400px){
+  .page .grid{
+    grid-template-columns: 1fr; /* 单列 */
+    gap: 16px;
+    margin: 16px;               /* 适当减小外边距，避免贴边看起来被“切” */
+  }
+  .page .card{
+    padding: 14px;              /* 卡片内边距小一点，留出呼吸 */
+  }
+  /* 预览区域底部两个按钮：竖排 + 撑满，避免相互覆盖 */
+  .footer-actions{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-actions .btn{
+    width: 100%;
+    justify-content: center;
+  }
+}
 
+.footer-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
 
+/* 让 <a class="btn"> 像按钮一样排版，避免行内布局造成的压盖 */
+.footer-actions .btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;   /* 文本不拆行 */
+  max-width: 100%;
+}
 
+/* 其它小细节，防止阴影/圆角被裁、长词能换行 */
+.page .card{ overflow: visible; }
+.page .diary, .page .song{ word-break: break-word; }
 
 
 
