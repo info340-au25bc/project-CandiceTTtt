@@ -753,11 +753,7 @@ body{
 
 
 /* ========== Settings Page Style ========== */
-/* =========================
-   SETTINGS (page-only styles)
-   ========================= */
 
-/* 卡片 */
 .settings-card{
   background: rgba(255,255,255,0.92);
   border: 1.5px solid rgba(0,0,0,0.06);
@@ -773,7 +769,7 @@ body{
   color: #333;
 }
 
-/* ---------- Mood Selector：圆角方卡片 ---------- */
+
 .mood-grid{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -793,7 +789,7 @@ body{
 
 .tile-visual{
   width: 120px; height: 100px;
-  border-radius: 18px;             /* ← 圆角方框 */
+  border-radius: 18px;             
   background: #fff;
   border: 2px solid var(--c-lilac, #F6EDFF);
   box-shadow: 0 3px 10px rgba(111,140,163,0.10);
@@ -809,12 +805,12 @@ body{
   box-shadow: 0 8px 22px rgba(111,140,163,0.18);
 }
 .tile-radio:checked + .tile-visual{
-  border-color: #CFCFE6; /* var(--c-peri) */
+  border-color: #CFCFE6;
   box-shadow: 0 0 0 6px rgba(207,207,230,0.25);
 }
 .tile-text{ font-size: 1.05rem; color: #333; }
 
-/* ---------- Tabs（纯 CSS :has 切换） ---------- */
+
 .tabs{
   display: inline-flex; gap: 8px; margin: 8px 0 10px;
 }
@@ -837,14 +833,13 @@ body{
   padding: 6px 12px;
 }
 
-/* panels：使用 :has() 根据第几个 tab 被选中显示 */
+
 .panels{ margin-top: 6px; }
 .panel{ display:none; }
 .tabset:has(.tabs label:nth-child(1) .pill-radio:checked) .panel--match{ display:block; }
 .tabset:has(.tabs label:nth-child(2) .pill-radio:checked) .panel--shift{ display:block; }
 .song{ font-family:"Gaegu", cursive; font-size:1.05rem; margin:6px 0; }
 
-/* ---------- Preferences ---------- */
 .pref{
   display:flex; align-items:center; gap:10px; margin:12px 0;
 }
@@ -862,13 +857,12 @@ body{
   box-shadow: 0 0 0 6px rgba(207,207,230,0.25);
 }
 
-/* ---------- Toggle（可滑动） ---------- */
 .toggle{ display:flex; align-items:center; gap:10px; user-select:none; margin: 8px 0 14px; }
 .toggle-ck{ display:none; }
 .switch{
   width:46px; height:26px; border-radius:999px;
-  background:#CFCFE6;               /* var(--c-peri) */
-  border:2px solid #F6EDFF;         /* var(--c-lilac) */
+  background:#CFCFE6;               
+  border:2px solid #F6EDFF;    
   position:relative; transition: background .25s ease, border-color .25s ease;
 }
 .switch::after{
@@ -878,13 +872,12 @@ body{
   transition: transform .25s ease;
 }
 .toggle-ck:checked + .switch{
-  background: linear-gradient(135deg, #CFEBDD, #B8D9EF); /* mint→sky */
+  background: linear-gradient(135deg, #CFEBDD, #B8D9EF); 
   border-color: #CFEBDD;
 }
 .toggle-ck:checked + .switch::after{ transform: translateX(20px); }
 .toggle-text{ font-size:.95rem; color:#333; }
 
-/* ---------- Buttons（复用主色渐变，统一 Logout 颜色） ---------- */
 .btn{
   border: none; cursor: pointer; border-radius: 12px;
   padding: 10px 16px; font-weight: 700;
@@ -904,7 +897,7 @@ body{
 }
 .logout{ margin-top: 8px; display: inline-block; }
 
-/* ---------- 响应式 ---------- */
+
 @media (max-width: 680px){
   .mood-grid{ grid-template-columns: repeat(2, minmax(130px, 1fr)); }
 }
