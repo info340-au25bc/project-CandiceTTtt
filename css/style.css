@@ -1,4 +1,3 @@
-/* ========== 1. GLOBAL RESET ========== */
 * {
   box-sizing: border-box;
 }
@@ -21,7 +20,6 @@ body {
 }
 
 
-/* ========== 3. GLOBAL VARIABLES ========== */
 :root {
   /* Base palette */
   --pink:     #FFB1C7;
@@ -48,7 +46,6 @@ body {
   --mood-exhausted:  var(--cyan);
 }
 
-/* ========== 4. GLOBAL TYPOGRAPHY ========== */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Cherry Bomb One", cursive;
   margin-top: 0;
@@ -58,7 +55,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Gaegu", cursive;
 }
 
-/* ========== 5. LAYOUT STRUCTURE ========== */
 .container{
   width: 100%;
   max-width: clamp(1100px, 92vw, 1400px);
@@ -66,8 +62,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 24px;
 }
 
-
-/* Links */
 a {
   color: #0b63c4;
   text-decoration: none;
@@ -76,8 +70,8 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Header */
 
+/* Header */
 .site-header {
   background: linear-gradient(90deg, #f8c0d6 0%, #f2d6f9 50%, #c1eff4 100%);
   color: #fff;
@@ -86,9 +80,9 @@ a:hover {
 }
 
 .site-header .brand {
-  font-size: 2.2rem;               /* 调大字体 */
+  font-size: 2.2rem; 
   font-family: "Cherry Bomb One", cursive;
-  letter-spacing: 1px;             /* 增加字间距 */
+  letter-spacing: 1px; 
   margin: 0;
   text-align: left;
 }
@@ -96,20 +90,20 @@ a:hover {
 
 
 .site-header .brand a {
-  color: #fff;                     /* 白色更突出 */
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); /* 加点阴影防融色 */
+  color: #fff;  
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); 
 }
 
-/* Nav buttons with rounded pastel backgrounds */
+
 .site-header .site-nav {
   display: flex;
-  gap: 10px;              /* 按钮间距 */
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
 .site-header .site-nav a {
-  background: rgba(252, 244, 244, 0.25); /* 半透明底 */
+  background: rgba(252, 244, 244, 0.25);
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 0.95rem;
@@ -119,16 +113,16 @@ a:hover {
   transition: all 0.25s ease;
 }
 
-/* hover 效果：变亮一点 */
+
 .site-header .site-nav a:hover {
   background: rgba(255, 255, 255, 0.45);
   transform: translateY(-1px);
 }
 
-/* 当前页面高亮 */
+
 .site-header .site-nav a[aria-current="page"] {
   background: rgba(255, 255, 255, 0.75);
-  color: #9a5588; /* 柔紫粉调，搭配粉蓝背景超好看 */
+  color: #9a5588;
   font-weight: 700;
 }
 
@@ -183,7 +177,7 @@ a:hover {
   margin: 0;
 }
 
-/* ========== 6. FORM CONTROLS ========== */
+
 .controls {
   background: #f6f6f6;
   padding: 12px;
@@ -232,7 +226,6 @@ a:hover {
   align-items: center;
 }
 
-/* Make filter smaller */
 .small-controls form {
   display: flex;
   gap: 8px;
@@ -270,7 +263,6 @@ a:hover {
   background:#fff; transition:transform .2s ease, opacity .2s ease;
 }
 
-/* dropdown menu (mobile) */
 .site-nav{ position:relative; }
 .nav-menu{
   position:absolute; right:0; top:42px; min-width: 220px;
@@ -285,11 +277,13 @@ a:hover {
 .nav-menu a[aria-current="page"]{ background:rgba(154,85,136,.12); color:#9a5588; }
 .nav-menu a:hover{ background:rgba(11,99,196,.12); }
 
-/* open state */
 .nav-menu.is-open{ display:flex; }
 .nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
 .nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+
+
 
 /* === Tablet & Desktop: restore horizontal pills === */
 @media (min-width: 768px){
@@ -322,7 +316,7 @@ body{
   background-color:#fafafa;
 }
 
-/* ========== 2) GLOBAL VARIABLES (合并了你的色板) ========== */
+/* ========== 2) GLOBAL VARIABLES ========== */
 :root{
 
   --c-pink:#F4A7C2; --c-pink-2:#F7CFC8; --c-peach:#F9E0C8; --c-cyan:#CDECF0;
@@ -541,17 +535,17 @@ body{
 .page .btn-ghost{ background:#fff; border:2px solid var(--c-lilac); }
 .page .btn-outline{ background:transparent; border:2px dashed var(--c-peri); color:var(--ink); text-decoration:none; display:inline-flex; align-items:center; }
 
-/* ✅ iPhone SE 等窄屏优化 */
+
 @media (max-width: 400px){
   .page .grid{
-    grid-template-columns: 1fr; /* 单列 */
+    grid-template-columns: 1fr;
     gap: 16px;
-    margin: 16px;               /* 适当减小外边距，避免贴边看起来被“切” */
+    margin: 16px;
   }
   .page .card{
-    padding: 14px;              /* 卡片内边距小一点，留出呼吸 */
+    padding: 14px; 
   }
-  /* 预览区域底部两个按钮：竖排 + 撑满，避免相互覆盖 */
+  
   .footer-actions{
     display: flex;
     flex-direction: column;
@@ -570,16 +564,16 @@ body{
   margin-top: 12px;
 }
 
-/* 让 <a class="btn"> 像按钮一样排版，避免行内布局造成的压盖 */
+
 .footer-actions .btn{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;   /* 文本不拆行 */
+  white-space: nowrap; 
   max-width: 100%;
 }
 
-/* 其它小细节，防止阴影/圆角被裁、长词能换行 */
+
 .page .card{ overflow: visible; }
 .page .diary, .page .song{ word-break: break-word; }
 
@@ -941,13 +935,14 @@ body{
 
 
 /* Candice part */
-/* ================================
-   Candice · Public Wall (final)
 
-/* 可选：若其它地方改过 main 的底色，保留这一行兜底 */
+
+/* Public Wall */
+
+
 .wall-page main { background-color: rgba(255,255,255,0.82); }
 
-/* Grid：手机1列 / ≥480px两列 / ≥900px三列 */
+
 .wall_container{
   display:grid;
   grid-template-columns:1fr;
@@ -963,7 +958,7 @@ body{
   .wall_container{ grid-template-columns:repeat(3,1fr); }
 }
 
-/* 卡片 */
+
 .wall_card > article{
   border:1px solid rgba(0,0,0,0.06);
   border-radius:12px;
@@ -978,7 +973,6 @@ body{
 }
 .wall_card > article:hover{ transform:scale(1.02); }
 
-/* mood 图标 + 文案 */
 .wall_card-top{
   display:flex;
   align-items:center;
@@ -1003,7 +997,7 @@ body{
   color:#333;
 }
 
-/* 歌名 & 日记：半透明白底小卡片 */
+
 .wall_song,
 .wall_diary{
   background:rgba(255,255,255,0.70);
@@ -1029,7 +1023,7 @@ body{
   margin:0;
 }
 
-/* 操作区 */
+
 .wall_actions{
   display:flex;
   justify-content:flex-end;
@@ -1044,7 +1038,7 @@ body{
   line-height:1;
 }
 
-/* mood 背景色（依赖你们在 :root 定义的变量） */
+
 .wall_card[data-mood="happy"]     > article{ background:var(--mood-happy); }
 .wall_card[data-mood="calm"]      > article{ background:var(--mood-calm); }
 .wall_card[data-mood="relaxed"]   > article{ background:var(--mood-relaxed); }
@@ -1056,7 +1050,7 @@ body{
 .wall_card[data-mood="tired"]     > article{ background:var(--mood-tired); }
 .wall_card[data-mood="exhausted"] > article{ background:var(--mood-exhausted); }
 
-/* 翻页 */
+
 .wall-page .wall_pagination{
   display:flex;
   justify-content:center;
@@ -1076,3 +1070,129 @@ body{
 .wall-page .page-btn:hover{ background:#0b63c4; color:#fff; }
 .wall-page .page-status{ font-size:.9rem; color:#444; }
 
+
+
+
+/* Public Wall Detail Page */
+.detail-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 0;
+  min-height: calc(100vh - 160px); 
+}
+
+.detail_card[data-mood="happy"] {
+  background: var(--mood-happy);
+}
+
+.detail_head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.detail_emoji {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.8);
+  object-fit: contain;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.detail_meta h2 {
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 1.4rem;
+  margin: 0 0 4px;
+}
+
+.detail_info {
+  font-size: 0.9rem;
+  color: #444;
+  margin: 0;
+}
+
+.detail_badge {
+  background: rgba(255,255,255,0.7);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.detail_dot {
+  opacity: 0.6;
+  padding: 0 6px;
+}
+
+.detail_body {
+  margin-top: 10px;
+}
+
+.detail_diary {
+  background: rgba(255,255,255,0.75);
+  border: 1px dashed var(--mood-calm);
+  border-radius: 12px;
+  padding: 12px;
+  font-family: "Gaegu", cursive;
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+
+.detail_link {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 0;
+}
+
+.detail_link a {
+  color: #0b63c4;
+  text-decoration: underline;
+}
+
+.detail_actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+  justify-content: flex-end;
+}
+
+.detail_actions .btn {
+  font-size: 0.95rem;
+  padding: 8px 14px;
+}
+
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main.container {
+  flex: 1;
+}
+
+.detail-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 60px 0 40px; 
+  min-height: calc(100vh - 160px);
+}
+
+.detail_card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  padding: 24px;
+  max-width: 700px;
+  margin: 40px auto 0; 
+}
