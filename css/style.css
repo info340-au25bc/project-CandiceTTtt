@@ -12,7 +12,12 @@ body {
   font-family: "Lexend Deca", sans-serif;
   line-height: 1.5;
   color: #222;
-  background-color: #fafafa;
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), 
+    url("../shared_imgs/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 
@@ -305,7 +310,6 @@ a:hover {
 
 /* create mood part*/
 /* ========== 1) RESET & BASE ========== */
-* { box-sizing: border-box; }
 html, body { min-height: 100%; }
 /* html, body { overflow-x: hidden; } */
 
@@ -743,9 +747,6 @@ body{
   .folder-card{ flex: 1 1 100%; max-width: 500px; }
 }
 
-.wall-page main {
-  background-color: transparent !important;
-}
 
 /* ====== HANNAH'S PART — END ====== */
 
