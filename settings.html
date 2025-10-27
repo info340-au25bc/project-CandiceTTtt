@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Jiahui Chen">
+  <meta name="description" content="Adjust your Mood Music experience — select your mood, match or shift songs, customize themes, and manage visibility or data preferences.">
+
   <title>Mood Music · Settings</title>
   <link rel="icon" href="favicon.ico">
 
-  <!-- Google Fonts（与全站一致） -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
 
-  <!-- 先引入全站样式，再引入本页差异化样式 -->
+
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/style-settings.css">
 </head>
 
 <body class="wall-page">
-  <!-- 头部（与全站统一） -->
+
   <header class="site-header">
     <div class="container header-flex">
       <h1 class="brand"><a href="index.html">Mood Music</a></h1>
@@ -38,18 +41,18 @@
   </header>
 
   <main class="container">
-    <!-- 页头 -->
+
     <section class="page-head">
       <h2>Find Your Vibe Today 🎧</h2>
       <p class="subtitle">Match your current mood or shift to a new one through curated songs.</p>
     </section>
 
-    <!-- Mood Selector（圆角方卡片 + 纯 CSS 选中高亮） -->
+  
     <section class="settings-card" aria-labelledby="mood-title">
       <h3 id="mood-title" class="settings-title">Mood Selector</h3>
 
       <div class="mood-grid">
-        <!-- label 内部包 input → 无需 id/for -->
+     
         <label class="mood-tile">
           <input type="radio" name="mood" class="tile-radio" checked>
           <span class="tile-visual">
@@ -116,7 +119,7 @@
       </div>
     </section>
 
-    <!-- Tabs + Song lists（纯 CSS：:has 切换） -->
+
     <section class="settings-card tabset" aria-labelledby="matchshift-title">
       <h3 id="matchshift-title" class="settings-title">Mood Match / Shift</h3>
 
@@ -150,7 +153,7 @@
       <button class="btn btn-primary" type="button" aria-disabled="true">💾 Save as Today’s Playlist</button>
     </section>
 
-    <!-- Preferences + Logout -->
+
     <section class="settings-card" aria-labelledby="prefs-title">
       <h3 id="prefs-title" class="settings-title">Preferences</h3>
 
@@ -171,19 +174,18 @@
         </select>
       </div>
 
-      <!-- 纯 CSS Toggle（可滑动） -->
+
       <label class="toggle">
         <input type="checkbox" class="toggle-ck" checked>
         <span class="switch" aria-hidden="true"></span>
         <span class="toggle-text">Public mode · Visible to everyone</span>
       </label>
 
-      <!-- 统一配色的 Logout，且回到 login.html -->
-      <a class="btn btn-primary logout" href="login.html">Logout</a>
+      <a class="btn btn-primary logout" href="index.html">Logout</a>
     </section>
   </main>
 
-  <!-- Footer（与你们站点一致的结构） -->
+  
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 Mood Music · INFO 340</p>
