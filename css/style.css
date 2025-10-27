@@ -15,29 +15,6 @@ body {
   background-color: #fafafa;
 }
 
-/* ========== 2. BACKGROUND (全站或特定页) ========== */
-.wall-page {
-  background-image: url("../shared_imgs/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  /* background-attachment: fixed; 先不要 */
-}
-
-/* 给 wall-page 添加半透明白色层（柔化背景） */
-.wall-page::before {
-  content: "";
-  position: fixed;
-  inset: 0; /* 覆盖整个屏幕 */
-  background-color: rgba(255, 255, 255, 0.5); /* 白色透明度40% */
-  z-index: -1; /* 放在所有内容后面 */
-}
-
-.wall-page header,
-.wall-page main,
-.wall-page footer {
-  background-color: rgba(255,255,255,0.82);
-}
 
 /* ========== 3. GLOBAL VARIABLES ========== */
 :root {
@@ -1044,4 +1021,147 @@ body{
   opacity:.9;
   margin: 0 0 18px;
   font-size: clamp(14px, 1.6vw, 18px);
+}
+
+/* Candice part */
+/* ================================
+   💖 Restore Public Wall Layout
+   ================================ */
+
+/* 确保 wall-page 的主容器是半透明白底 */
+.wall-page main {
+  background-color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* Grid 布局：手机一列、平板两列、桌面三列 */
+.wall_container {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 14px !important;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+@media (min-width: 480px) {
+  .wall_container {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (min-width: 900px) {
+  .wall_container {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* 卡片基础样式 */
+.wall_card > article {
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  padding: 14px;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease;
+}
+.wall_card > article:hover {
+  transform: scale(1.02);
+}
+
+/* mood icon + text 区域 */
+.wall_card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.wall_mood-icon {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.wall_mood-icon:hover {
+  transform: scale(1.08) rotate(-5deg);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.wall_mood-text {
+  font-family: "Gaegu", cursive;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+/* song & diary */
+.wall_song {
+  font-weight: 600;
+  margin: 6px 0;
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 0.95rem;
+}
+.wall_diary {
+  font-family: "Gaegu", cursive;
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+}
+
+/* 按钮区域 */
+.wall_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+.wall_actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* mood 背景色 */
+.wall_card[data-mood="happy"] > article { background: var(--mood-happy); }
+.wall_card[data-mood="calm"] > article { background: var(--mood-calm); }
+.wall_card[data-mood="relaxed"] > article { background: var(--mood-relaxed); }
+.wall_card[data-mood="angry"] > article { background: var(--mood-angry); }
+.wall_card[data-mood="lovely"] > article { background: var(--mood-lovely); }
+.wall_card[data-mood="excited"] > article { background: var(--mood-excited); }
+.wall_card[data-mood="confused"] > article { background: var(--mood-confused); }
+.wall_card[data-mood="sad"] > article { background: var(--mood-sad); }
+.wall_card[data-mood="tired"] > article { background: var(--mood-tired); }
+.wall_card[data-mood="exhausted"] > article { background: var(--mood-exhausted); }
+
+/* 翻页按钮 */
+.wall_pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0 30px;
+}
+.page-btn {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.page-btn:hover {
+  background: #0b63c4;
+  color: #fff;
+}
+.page-status {
+  font-size: 0.9rem;
+  color: #444;
 }
