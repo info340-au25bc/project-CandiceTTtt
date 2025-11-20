@@ -710,7 +710,7 @@ body{
 .btn-primary{
   color: #fff; 
   border-color: transparent;
-  background: linear-gradient(135deg, var(--pink), var(--peach));
+  background: linear-gradient(135deg, #c2185b, #ff6f00);
 }
 .btn-ghost{ background: #fff; }
 
