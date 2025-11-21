@@ -1,102 +1,13 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="Jiahui Chen">
-  <meta name="description" content="Discover Mood Music — log in to explore playlists, mood journals, and personalized song recommendations." />
-  <title>Mood Music · Home</title>
-
-
-  <link rel="icon" href="favicon.ico" />
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Gaegu&family=Lexend+Deca:wght@300;400;600;700&display=swap"
-    rel="stylesheet"
-  />
-
-
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/style-login.css" />
-</head>
-
-<body class="auth-page">
-
-  <header class="site-header">
-    <div class="container header-flex">
-      <h1 class="brand"><a href="index.html">Mood Music</a></h1>
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="index.html" aria-current="page" class="nav-pill">Home</a>
-        <a href="wall.html" class="nav-pill">Public Wall</a>
-        <a href="journal.html" class="nav-pill">My Journal</a>
-        <a href="setting.html" class="nav-pill">Setting</a>
-      </nav>
-    </div>
-  </header>
-
-
-  <main class="auth-wrap">
-    <h2 class="auth-title">Welcome Back</h2>
-    <p class="auth-sub">Login to access your playlists and mood journals</p>
-
-    <section class="auth-card" aria-labelledby="loginTitle">
-      <h3 id="loginTitle" class="visually-hidden">Login Form</h3>
-
-      <form class="auth-form" id="loginForm" aria-label="Login form">
-        <div class="field">
-          <label for="username" class="lbl">Username</label>
-          <input
-            id="username"
-            class="ipt"
-            type="text"
-            placeholder="Enter your username"
-            autocomplete="username"
-          />
-        </div>
-
-        <div class="field">
-          <label for="password" class="lbl">Password</label>
-          <input
-            id="password"
-            class="ipt"
-            type="password"
-            placeholder="Enter your password"
-            autocomplete="current-password"
-          />
-        </div>
-
-        <div class="auth-actions">
-          <button class="auth-btn" type="submit">Login</button>
-        </div>
-        <p class="auth-meta">
-          Don’t have an account?
-          <a href="#" aria-label="Sign up for a new Mood Music account">Sign up</a>
-        </p>
-      </form>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 Mood Music · INFO 340</p>
-      <nav class="site-nav" aria-label="Footer navigation">
-        <a href="index.html" aria-current="page">Home</a>
-        <a href="wall.html">Public Wall</a>
-        <a href="journal.html">My Journal</a>
-        <a href="setting.html">Setting</a>
-      </nav>
-    </div>
-  </footer>
-
-
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      window.location.href = "create-mood.html"; 
-    });
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>project-candicetttt</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
