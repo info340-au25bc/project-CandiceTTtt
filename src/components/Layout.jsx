@@ -1,43 +1,90 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+
+import React from "react";
+import { NavLink, Outlet } from "react-router-dom";
 
 export default function Layout() {
-  const loc = useLocation();
-  const isActive = (to) => (loc.pathname === to ? { "aria-current": "page" } : {});
-
   return (
     <div className="page-root">
-      {/* 头部（沿用你原有 class 名） */}
+      {/* Header */}
       <header className="site-header">
         <div className="container header-flex">
-          <h1 className="brand"><Link to="/">Mood Music</Link></h1>
+          <h1 className="brand">
+            <NavLink to="/" end>
+              Mood Music
+            </NavLink>
+          </h1>
+
           <nav className="site-nav" aria-label="Primary">
-            <Link to="/" className="nav-pill" {...isActive("/")}>Home</Link>
-            <Link to="/settings" className="nav-pill" {...isActive("/settings")}>Setting</Link>
-            <Link to="/playlists" className="nav-pill" {...isActive("/playlists")}>My Playlists</Link>
-            {/* 其它链接（占位） */}
-            <a className="nav-pill" href="#" onClick={(e)=>e.preventDefault()}>Create Mood Card</a>
-            <a className="nav-pill" href="#" onClick={(e)=>e.preventDefault()}>Public Wall</a>
+            <NavLink
+              to="/"
+              end
+              className="nav-pill"
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/settings"
+              className="nav-pill"
+            >
+              Setting
+            </NavLink>
+
+            <NavLink
+              to="/playlists"
+              className="nav-pill"
+            >
+              My Playlists
+            </NavLink>
+
+            
+            <NavLink
+              to="/create-mood"
+              className="nav-pill"
+            >
+              Create Mood Card
+            </NavLink>
+
+            
+            <NavLink
+              to="/wall"
+              className="nav-pill"
+            >
+              Public Wall
+            </NavLink>
           </nav>
         </div>
       </header>
 
-      {/* 核心内容：这个 class 配合 CSS 让 footer 贴底 */}
+     
       <main className="site-main">
         <Outlet />
       </main>
 
-      {/* 页脚（保持你旧版样式类名） */}
+      {/* Footer */}
       <footer className="site-footer">
         <div className="container">
           <p>© 2025 Mood Music · INFO 340</p>
           <nav className="site-nav" aria-label="Footer">
-            <Link to="/" {...isActive("/")}>Home</Link>
-            <a href="#" onClick={(e)=>e.preventDefault()}>Public Wall</a>
-            <a href="#" onClick={(e)=>e.preventDefault()}>My Journal</a>
-            <Link to="/settings" {...isActive("/settings")}>Setting</Link>
+            <NavLink to="/" end>
+              Home
+            </NavLink>
+            <NavLink to="/create-mood">
+              Create Mood Card
+            </NavLink>
+            <NavLink to="/wall">
+              Public Wall
+            </NavLink>
+            <NavLink to="/journal">
+              My Journal
+            </NavLink>
+            <NavLink to="/settings">
+              Setting
+            </NavLink>
           </nav>
         </div>
       </footer>
     </div>
   );
 }
+
