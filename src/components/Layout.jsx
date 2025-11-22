@@ -13,10 +13,10 @@ export default function Layout() {
           <nav className="site-nav" aria-label="Primary">
             <Link to="/" className="nav-pill" {...isActive("/")}>Home</Link>
             <Link to="/settings" className="nav-pill" {...isActive("/settings")}>Setting</Link>
+            <Link to="/playlists" className="nav-pill" {...isActive("/playlists")}>My Playlists</Link>
             {/* 其它链接（占位） */}
             <a className="nav-pill" href="#" onClick={(e)=>e.preventDefault()}>Create Mood Card</a>
             <a className="nav-pill" href="#" onClick={(e)=>e.preventDefault()}>Public Wall</a>
-            <a className="nav-pill" href="#" onClick={(e)=>e.preventDefault()}>My Journal</a>
           </nav>
         </div>
       </header>
