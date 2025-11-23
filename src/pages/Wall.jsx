@@ -1,24 +1,22 @@
-// src/pages/Wall.jsx
 import { useState } from "react";
 import { publicPosts } from "../data/publicPosts.js";
 
 const PAGE_SIZE = 6;
 
 export default function WallPage() {
-  // 表单里正在输入的值
   const [formQuery, setFormQuery] = useState("");
   const [formMood, setFormMood] = useState("");
 
-  // 真正用于筛选 + 分页的值
   const [query, setQuery] = useState("");
   const [moodFilter, setMoodFilter] = useState("");
 
-  // 当前页
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [liked, setLiked] = useState({});
+  const [saved, setSaved] = useState({});
 
   const normalizedQuery = query.toLowerCase().trim();
 
-  // 先做搜索 + mood 筛选
   const filteredPosts = publicPosts.filter((post) => {
     const matchesMood =
       moodFilter === "" || post.moodKey === moodFilter;
@@ -31,8 +29,6 @@ export default function WallPage() {
   });
 
   const totalPages = Math.ceil(filteredPosts.length / PAGE_SIZE) || 1;
-
-  // 防止当前页超过最大页
   const safePage = Math.min(currentPage, totalPages);
   const startIndex = (safePage - 1) * PAGE_SIZE;
   const pagePosts = filteredPosts.slice(
@@ -40,7 +36,6 @@ export default function WallPage() {
     startIndex + PAGE_SIZE
   );
 
-  // 点 Apply 的时候才真正更新筛选条件
   function handleSubmit(event) {
     event.preventDefault();
     setQuery(formQuery);
@@ -48,7 +43,6 @@ export default function WallPage() {
     setCurrentPage(1);
   }
 
-  // 输入框 / 下拉框只更新“表单里的值”
   function handleQueryChange(event) {
     setFormQuery(event.target.value);
   }
@@ -65,10 +59,23 @@ export default function WallPage() {
     setCurrentPage((prev) => Math.min(totalPages, prev + 1));
   }
 
+  function toggleLike(postId) {
+    setLiked((prev) => ({
+      ...prev,
+      [postId]: !prev[postId],
+    }));
+  }
+
+  function toggleSave(postId) {
+    setSaved((prev) => ({
+      ...prev,
+      [postId]: !prev[postId],
+    }));
+  }
+
   return (
     <div className="page wall-page">
       <main className="container">
-        {/* 标题 */}
         <section className="page-head">
           <h2>Public Wall</h2>
           <p className="subtitle">
@@ -76,14 +83,23 @@ export default function WallPage() {
           </p>
         </section>
 
-        {/* 搜索 + mood filter */}
         <section
           className="controls small-controls"
-          aria-label="Filters"
+          aria-labelledby="wall-filters-heading"
         >
-          <h3 className="visually-hidden">Filters</h3>
+          <h3 id="wall-filters-heading" className="visually-hidden">
+            Filter public wall posts
+          </h3>
+
           <form onSubmit={handleSubmit}>
+            <label
+              className="visually-hidden"
+              htmlFor="wall-search-input"
+            >
+              Search by song, artist, or diary text
+            </label>
             <input
+              id="wall-search-input"
               className="q"
               name="q"
               type="search"
@@ -92,7 +108,14 @@ export default function WallPage() {
               onChange={handleQueryChange}
             />
 
+            <label
+              className="visually-hidden"
+              htmlFor="wall-mood-select"
+            >
+              Filter by mood
+            </label>
             <select
+              id="wall-mood-select"
               className="mood"
               name="mood"
               value={formMood}
@@ -111,92 +134,147 @@ export default function WallPage() {
               <option value="exhausted">Exhausted</option>
             </select>
 
-            <button type="submit" className="apply-btn">Apply</button>
-
+            <button type="submit" className="apply-btn">
+              Apply
+            </button>
           </form>
         </section>
 
-        {/* 卡片列表（当前页的数据） */}
         <section
           className="wall-section"
-          aria-label="All posts on public wall"
+          aria-labelledby="wall-posts-heading"
         >
-          <h3 className="visually-hidden">All posts</h3>
+          <h3 id="wall-posts-heading" className="visually-hidden">
+            All public posts
+          </h3>
 
           {pagePosts.length === 0 ? (
-            <p className="wall-empty">No posts match your filter ʕง•ᴥ•ʔง <br />Try a different mood or search term!</p>
-
+            <p className="wall-empty">
+              No posts match your filter ʕง•ᴥ•ʔง <br />
+              Try a different mood or search term!
+            </p>
           ) : (
             <ul className="wall_container">
-              {pagePosts.map((post) => (
-                <li
-                  key={post.id}
-                  className="wall_card"
-                  data-mood={post.moodKey}
-                >
-                  <article>
-                    <div className="wall_card-top">
-                      <img
-                        className="wall_mood-icon"
-                        src={post.iconSrc}
-                        alt={post.iconAlt}
-                      />
-                      <span className="wall_mood-text">
-                        {post.moodLabel}
-                      </span>
-                    </div>
+              {pagePosts.map((post) => {
+                const isLiked = !!liked[post.id];
+                const isSaved = !!saved[post.id];
 
-                    <p className="wall_song">
-                      {post.songTitle}
-                      <span className="artist">
-                        {" "}
-                        — {post.artist}
-                      </span>
-                    </p>
+                return (
+                  <li
+                    key={post.id}
+                    className="wall_card"
+                    data-mood={post.moodKey}
+                  >
+                    <article>
+                      <div className="wall_card-top">
+                        <img
+                          className="wall_mood-icon"
+                          src={post.iconSrc}
+                          alt={post.iconAlt}
+                        />
+                        <span className="wall_mood-text">
+                          {post.moodLabel}
+                        </span>
+                      </div>
 
-                    <p className="wall_diary">{post.diary}</p>
+                      <p className="wall_song">
+                        {post.songTitle}
+                        <span className="artist">
+                          {" "}
+                          — {post.artist}
+                        </span>
+                      </p>
 
-                    <div className="wall_actions">
-                      <button
-                        className="icon-btn like-btn"
-                        type="button"
-                        title="Like"
-                      >
-                        <span className="material-symbols-outlined fav-icon">
-                          favorite
-                        </span>
-                      </button>
-                      <button
-                        className="icon-btn save-btn"
-                        type="button"
-                        title="Save"
-                      >
-                        <span className="material-symbols-outlined">
-                          star
-                        </span>
-                      </button>
-                      <button
-                        className="icon-btn"
-                        type="button"
-                        title="Download"
-                      >
-                        <span className="material-symbols-outlined">
-                          download
-                        </span>
-                      </button>
-                    </div>
-                  </article>
-                </li>
-              ))}
+                      <p className="wall_diary">{post.diary}</p>
+
+                      <div className="wall_actions">
+                        <button
+                          className={
+                            "icon-btn like-btn" +
+                            (isLiked ? " is-active" : "")
+                          }
+                          type="button"
+                          onClick={() => toggleLike(post.id)}
+                          aria-pressed={isLiked}
+                          title={
+                            isLiked
+                              ? "Unlike this post"
+                              : "Like this post"
+                          }
+                          aria-label={
+                            isLiked
+                              ? "Unlike this post"
+                              : "Like this post"
+                          }
+                        >
+                          <span
+                            className={
+                              "material-symbols-outlined fav-icon" +
+                              (isLiked ? " is-on" : " is-off")
+                            }
+                            aria-hidden="true"
+                          >
+                            favorite
+                          </span>
+                        </button>
+
+                        <button
+                          className={
+                            "icon-btn save-btn" +
+                            (isSaved ? " is-active" : "")
+                          }
+                          type="button"
+                          onClick={() => toggleSave(post.id)}
+                          aria-pressed={isSaved}
+                          title={
+                            isSaved
+                              ? "Unsave this post"
+                              : "Save this post"
+                          }
+                          aria-label={
+                            isSaved
+                              ? "Unsave this post"
+                              : "Save this post"
+                          }
+                        >
+                          <span
+                            className={
+                              "material-symbols-outlined star-icon" +
+                              (isSaved ? " is-on" : " is-off")
+                            }
+                            aria-hidden="true"
+                          >
+                            grade
+                          </span>
+                        </button>
+
+                        <button
+                          className="icon-btn"
+                          type="button"
+                          title="Download this post"
+                          aria-label="Download this post"
+                        >
+                          <span
+                            className="material-symbols-outlined"
+                            aria-hidden="true"
+                          >
+                            download
+                          </span>
+                        </button>
+                      </div>
+                    </article>
+                  </li>
+                );
+              })}
             </ul>
           )}
 
-          {/* 自动分页 */}
           <div className="wall_pagination">
             <button
               className="page-btn"
               type="button"
-              title="Previous"
+              title="Previous page"
+              aria-label="Previous page"
               onClick={goPrevPage}
               disabled={safePage === 1}
             >
@@ -208,7 +286,8 @@ export default function WallPage() {
             <button
               className="page-btn"
               type="button"
-              title="Next"
+              title="Next page"
+              aria-label="Next page"
               onClick={goNextPage}
               disabled={safePage === totalPages}
             >
