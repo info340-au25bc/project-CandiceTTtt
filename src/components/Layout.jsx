@@ -1,4 +1,3 @@
-
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
@@ -15,6 +14,8 @@ export default function Layout() {
           </h1>
 
           <nav className="site-nav" aria-label="Primary">
+
+            {/* 1. Home */}
             <NavLink
               to="/"
               end
@@ -23,21 +24,7 @@ export default function Layout() {
               Home
             </NavLink>
 
-            <NavLink
-              to="/settings"
-              className="nav-pill"
-            >
-              Setting
-            </NavLink>
-
-            <NavLink
-              to="/playlists"
-              className="nav-pill"
-            >
-              My Playlists
-            </NavLink>
-
-            
+            {/* 2. Create Mood Card */}
             <NavLink
               to="/create-mood"
               className="nav-pill"
@@ -45,18 +32,35 @@ export default function Layout() {
               Create Mood Card
             </NavLink>
 
-            
+            {/* 3. Public Wall */}
             <NavLink
               to="/wall"
               className="nav-pill"
             >
               Public Wall
             </NavLink>
+
+            {/* 4. My Playlists */}
+            <NavLink
+              to="/playlists"
+              className="nav-pill"
+            >
+              My Playlists
+            </NavLink>
+
+            {/* 5. Setting */}
+            <NavLink
+              to="/settings"
+              className="nav-pill"
+            >
+              Setting
+            </NavLink>
+
           </nav>
         </div>
       </header>
 
-     
+      {/* Main content */}
       <main className="site-main">
         <Outlet />
       </main>
@@ -66,25 +70,31 @@ export default function Layout() {
         <div className="container">
           <p>© 2025 Mood Music · INFO 340</p>
           <nav className="site-nav" aria-label="Footer">
+
+            {/* Footer 顺序与 Header 一致 */}
             <NavLink to="/" end>
               Home
             </NavLink>
+
             <NavLink to="/create-mood">
               Create Mood Card
             </NavLink>
+
             <NavLink to="/wall">
               Public Wall
             </NavLink>
-            <NavLink to="/journal">
-              My Journal
+
+            <NavLink to="/playlists">
+              My Playlists
             </NavLink>
+
             <NavLink to="/settings">
               Setting
             </NavLink>
+
           </nav>
         </div>
       </footer>
     </div>
   );
 }
-
