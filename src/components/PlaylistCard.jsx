@@ -1,36 +1,43 @@
+import { Link } from "react-router-dom";
+
 export function PlaylistCard({ playlist }) {
+  const recentSongs = playlist.songs.slice(0, 2);
+
   return (
     <li className="folder-card" data-mood={playlist.moodId}>
       <article>
         <div className="folder-cover">
           <img
             className="cover-img"
-            src={playlist.coverSrc}
-            alt={playlist.coverAlt}
+            src={playlist.cover}
+            alt={`${playlist.title} playlist cover`}
           />
         </div>
 
         <header className="folder-head">
           <h3 className="folder-title">{playlist.title}</h3>
-          <span className="badge">{playlist.songCount}</span>
+          <span className="badge">{playlist.songsCount} songs</span>
         </header>
 
         <ul className="song-mini">
-          {playlist.songs.map((song, index) => (
+          {recentSongs.map((song, index) => (
             <li key={index}>
-              <strong>{song.title}</strong> — {song.artist}
-              <div className="mini-note">{song.note}</div>
+              <strong>{song.name}</strong> — {song.artist}
+              {song.note && <div className="mini-note">{song.note}</div>}
             </li>
           ))}
         </ul>
 
         <div className="folder-actions">
-          <a className="btn btn-primary" href={playlist.playlistHref}>
+          <Link className="btn btn-primary" to={`/playlists/${playlist.moodId}`}>
             Open playlist
-          </a>
-          <button className="btn btn-ghost" type="button">
+          </Link>
+          <Link
+            className="btn btn-ghost"
+            to={`/playlists/${playlist.moodId}?mode=export`}
+          >
             Export Poster
-          </button>
+          </Link>
         </div>
       </article>
     </li>

@@ -17,6 +17,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 :root {
@@ -811,6 +813,156 @@ body{
 .folder-card > article .folder-title{ color: #111; }
 .folder-card > article .song-mini li{ color: #222; }
 
+/* ===========================
+   PLAYLIST DETAIL PAGE (improved)
+   =========================== */
+
+.playlist-detail-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0 80px;
+}
+
+/* Mood color card */
+.playlist-detail-card {
+  margin-bottom: 30px;
+  width: min(900px, 90%);
+  border-radius: 22px;
+  padding: 34px 36px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+  border: 1.5px solid rgba(0,0,0,0.06);
+
+  /* default fallback 背景 */
+  background: rgba(255,255,255,0.55);
+}
+
+/* 动态 mood 颜色背景 */
+.playlist-detail-card[data-mood="happy"] { background: var(--mood-happy); }
+.playlist-detail-card[data-mood="calm"] { background: var(--mood-calm); }
+.playlist-detail-card[data-mood="lovely"] { background: var(--mood-lovely); }
+.playlist-detail-card[data-mood="excited"] { background: var(--mood-excited); }
+.playlist-detail-card[data-mood="sad"] { background: var(--mood-sad); }
+.playlist-detail-card[data-mood="relaxed"] { background: var(--mood-relaxed); }
+.playlist-detail-card[data-mood="angry"] { background: var(--mood-angry); }
+.playlist-detail-card[data-mood="confused"] { background: var(--mood-confused); }
+.playlist-detail-card[data-mood="tired"] { background: var(--mood-tired); }
+.playlist-detail-card[data-mood="exhausted"] { background: var(--mood-exhausted); }
+
+/* --- Header --- */
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px; /* more breathing room */
+}
+
+.detail-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.detail-title {
+  margin: 0;
+  font-size: 1.8rem;
+  font-family: "Cherry Bomb One", cursive;
+}
+
+.detail-count {
+  margin: 4px 0 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+/* --- Song List Grid --- */
+.detail-song-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+.detail-song {
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.detail-song h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.detail-note {
+  margin: 0;
+  font-family: "Gaegu", cursive;
+  font-size: .95rem;
+  color: #333;
+}
+
+.detail-back {
+  width: min(900px, 90%);
+  margin: 0 auto 20px;
+  text-align: left;
+}
+
+.back-btn {
+  margin-top: 20px;
+  display: inline-block;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  font-weight: 600;
+  color: #444;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* copyright watermark, only visible while exporting */
+.poster-watermark {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.45);
+  font-family: "Lexend Deca", sans-serif;
+  display: none;
+}
+
+.poster-watermark.is-visible {
+  display: block;
+}
+
+/* export button under the card */
+.export-btn {
+  margin-top: 4px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+}
+.export-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
 /* ====== HANNAH'S PART — END ====== */
 
 /* ========== Settings Page Style ========== */
@@ -1144,7 +1296,6 @@ body.auth-page {
   padding: 24px;
 }
 
-
 .wall_container {
   display: grid;
   grid-template-columns: 1fr;
@@ -1314,7 +1465,6 @@ body.auth-page {
   line-height: 1.6;
 }
 
-
 .wall-page .apply-btn {
   cursor: pointer;
   transition: background-color 0.15s ease, transform 0.1s ease;
@@ -1363,7 +1513,6 @@ body.auth-page {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-
 .wall-page .wall_actions .save-btn.is-active .star-icon {
   color: #f4b000;
   font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
@@ -1372,7 +1521,6 @@ body.auth-page {
 .wall-page .wall_actions .icon-btn.is-active .material-symbols-outlined {
   transform: translateY(-1px) scale(1.3);
 }
-
 
 /* Public Wall Detail Page */
 
@@ -1499,7 +1647,72 @@ main.container {
   margin: 40px auto 0;
 }
 
-/* =========  Media queries all at bottom (mobile-first)  ========= */
+/***** ===== FINAL PATCH: stick footer + restore spacing + vivid bg ===== *****/
+
+html, body, #root { height: 100% !important; }
+#root { display: flex !important; flex-direction: column !important; }
+.site-main { flex: 1 1 auto !important; }   
+.site-footer { margin-top: auto !important; flex-shrink: 0 !important; }
+
+.auth-page {
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background:
+    url("/shared_imgs/background.jpg") center/cover no-repeat,
+    radial-gradient(1200px 800px at 80% 30%, rgba(255,212,184,0.95) 0%, rgba(255,212,184,0.35) 40%, rgba(255,255,255,0.0) 70%),
+    radial-gradient(1100px 900px at 20% 70%, rgba(186,232,255,0.95) 0%, rgba(186,232,255,0.38) 45%, rgba(255,255,255,0.0) 75%) !important;
+}
+
+.auth-wrap{
+  flex: 1 0 auto !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 880px !important;
+  margin: 24px auto 24px !important;     
+  padding: 0 20px !important;
+}
+
+.auth-card{
+  background: rgba(255,255,255,0.94) !important; 
+  border-radius: 22px !important;
+  padding: clamp(16px, 3.0vh, 32px) !important;  
+}
+
+.page-head { margin: 24px 0 8px !important; }
+.settings-card{
+  padding: 18px !important;
+  margin: 18px 0 !important;
+  min-height: auto !important;
+  height: auto !important;
+  background: rgba(255,255,255,0.92) !important;
+  border: 1.5px solid rgba(0,0,0,0.06) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 16px rgba(111,140,163,0.12) !important;
+}
+
+.panel{ display: none !important; }
+.tabset:has(.tabs label:nth-child(1) .pill-radio:checked) .panel--match{ display:block !important; }
+.tabset:has(.tabs label:nth-child(2) .pill-radio:checked) .panel--shift{ display:block !important; }
+
+.mood-grid{ gap: 14px !important; }
+.tabs{ margin: 8px 0 10px !important; }
+.panels{ margin-top: 6px !important; }
+.pref{ margin: 12px 0 !important; }
+.logout{ margin-top: 8px !important; }
+
+.site-header{
+  background: linear-gradient(90deg, #eec1d3, #cfe8ef) !important;
+  box-shadow: 0 2px 10px rgba(111,140,163,0.15) !important;
+  backdrop-filter: saturate(1.05) blur(0px) !important;
+}
+
+.container, main, .page-body, .site-main{
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* =========  所有 @media 统一放在最底部  ========= */
 
 @media (min-width: 900px){
   :root{
@@ -1605,7 +1818,6 @@ main.container {
     z-index: 1100;
   }
 
-
   .nav-menu.is-open{
     display: flex;
   }
@@ -1630,7 +1842,6 @@ main.container {
     background: rgba(11,99,196,0.08);
   }
 }
-
 
 @media (max-width: 400px){
   .page .grid{
@@ -1683,49 +1894,7 @@ main.container {
   }
 }
 
-
-
-
-
-
-
-
-
-
-/***** ===== FINAL PATCH: stick footer + restore spacing + vivid bg ===== *****/
-
-html, body, #root { height: 100% !important; }
-#root { display: flex !important; flex-direction: column !important; }
-.site-main { flex: 1 1 auto !important; }   
-.site-footer { margin-top: auto !important; flex-shrink: 0 !important; }
-
-.auth-page {
-  min-height: 100vh !important;
-  display: flex !important;
-  flex-direction: column !important;
-  background:
-    url("/shared_imgs/background.jpg") center/cover no-repeat,
-    radial-gradient(1200px 800px at 80% 30%, rgba(255,212,184,0.95) 0%, rgba(255,212,184,0.35) 40%, rgba(255,255,255,0.0) 70%),
-    radial-gradient(1100px 900px at 20% 70%, rgba(186,232,255,0.95) 0%, rgba(186,232,255,0.38) 45%, rgba(255,255,255,0.0) 75%) !important;
-}
-
-.auth-wrap{
-
-  flex: 1 0 auto !important;
-  display: block !important;
-  width: 100% !important;
-  max-width: 880px !important;
-  margin: 24px auto 24px !important;     
-  padding: 0 20px !important;
-}
-
-.auth-card{
-  background: rgba(255,255,255,0.94) !important; 
-  border-radius: 22px !important;
-  padding: clamp(16px, 3.0vh, 32px) !important;  
-}
-
-
+/* auth-page height-based tweaks */
 @media (max-height: 860px) {
   .auth-wrap{ margin: 16px auto 16px !important; }
   .auth-card{ padding: clamp(12px, 2.4vh, 24px) !important; }
@@ -1738,35 +1907,28 @@ html, body, #root { height: 100% !important; }
   .auth-card{ transform: scale(0.92); }
 }
 
-.page-head { margin: 24px 0 8px !important; }
-.settings-card{
-  padding: 18px !important;
-  margin: 18px 0 !important;
-  min-height: auto !important;
-  height: auto !important;
-  background: rgba(255,255,255,0.92) !important;
-  border: 1.5px solid rgba(0,0,0,0.06) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 6px 16px rgba(111,140,163,0.12) !important;
+/* playlist detail : 2-column songs on larger screens */
+@media (min-width: 768px) {
+  .detail-song-list {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.panel{ display: none !important; }
-.tabset:has(.tabs label:nth-child(1) .pill-radio:checked) .panel--match{ display:block !important; }
-.tabset:has(.tabs label:nth-child(2) .pill-radio:checked) .panel--shift{ display:block !important; }
+/* === Mobile widen layout (playlist page, detail page, etc.) === */
+@media (max-width: 500px) {
+  .container {
+    width: 95%;
+    padding: 0 6px;
+  }
 
-.mood-grid{ gap: 14px !important; }
-.tabs{ margin: 8px 0 10px !important; }
-.panels{ margin-top: 6px !important; }
-.pref{ margin: 12px 0 !important; }
-.logout{ margin-top: 8px !important; }
+  .folder-card {
+    flex: 1 1 100%;
+    max-width: 100% !important;
+    min-width: 0;
+  }
 
-.site-header{
-  background: linear-gradient(90deg, #eec1d3, #cfe8ef) !important;
-  box-shadow: 0 2px 10px rgba(111,140,163,0.15) !important;
-  backdrop-filter: saturate(1.05) blur(0px) !important;
-}
-
-.container, main, .page-body, .site-main{
-  min-height: auto !important;
-  height: auto !important;
+  .playlist-detail-card {
+    width: 100% !important; 
+    padding: 24px 20px;
+  }
 }
