@@ -1,27 +1,114 @@
-import { useState } from "react";
-import { publicPosts } from "../data/publicPosts.js";
+import { useEffect, useRef, useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  remove,
+} from "firebase/database";
+import html2canvas from "html2canvas";
 
 const PAGE_SIZE = 6;
 
 export default function WallPage() {
+  const { currentUser } = useOutletContext();
+
+  
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
+  
   const [formQuery, setFormQuery] = useState("");
   const [formMood, setFormMood] = useState("");
 
+  
   const [query, setQuery] = useState("");
   const [moodFilter, setMoodFilter] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [liked, setLiked] = useState({});
-  const [saved, setSaved] = useState({});
+  
+  const [savedMap, setSavedMap] = useState({});
+
+  
+  const cardRefs = useRef({});
+
+  useEffect(() => {
+    const db = getDatabase();
+    const moodsRef = ref(db, "moods");
+
+    const unsubscribe = onValue(
+      moodsRef,
+      (snapshot) => {
+        const val = snapshot.val() || {};
+        const list = Object.entries(val)
+          .map(([id, card]) => ({
+            id,
+            ...card,
+          }))
+          .filter((card) => card.isPublic); 
+
+        list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+        setPosts(list);
+        setIsLoading(false);
+        setLoadError(null);
+      },
+      (error) => {
+        console.error("Error loading moods:", error);
+        setLoadError("Failed to load posts. Please try again.");
+        setIsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+
+  useEffect(() => {
+    if (!currentUser || !currentUser.username) return;
+
+    const db = getDatabase();
+    const userRef = ref(db, `users/${currentUser.username}`);
+
+    const unsubscribe = onValue(userRef, (snapshot) => {
+      const val = snapshot.val() || {};
+      const map = {};
+
+      Object.entries(val).forEach(([key, value]) => {
+        if (
+          key === "password" ||
+          key === "createdAt" ||
+          typeof value !== "object"
+        ) {
+          return;
+        }
+
+        Object.keys(value).forEach((cardId) => {
+          map[cardId] = true;
+        });
+      });
+
+      setSavedMap(map);
+    });
+
+    return () => unsubscribe();
+  }, [currentUser]);
 
   const normalizedQuery = query.toLowerCase().trim();
 
-  const filteredPosts = publicPosts.filter((post) => {
-    const matchesMood =
-      moodFilter === "" || post.moodKey === moodFilter;
+  const filteredPosts = posts.filter((post) => {
+    const moodKey = (post.moodEmojiAlt || "").toLowerCase(); // "Happy" -> "happy"
 
-    const haystack = `${post.songTitle} ${post.artist} ${post.diary}`.toLowerCase();
+    const matchesMood =
+      moodFilter === "" || moodKey === moodFilter;
+
+    const haystack = `${post.songName || ""} ${
+      post.artist || ""
+    } ${post.diary || ""}`.toLowerCase();
+
     const matchesQuery =
       normalizedQuery === "" || haystack.includes(normalizedQuery);
 
@@ -59,18 +146,63 @@ export default function WallPage() {
     setCurrentPage((prev) => Math.min(totalPages, prev + 1));
   }
 
-  function toggleLike(postId) {
-    setLiked((prev) => ({
-      ...prev,
-      [postId]: !prev[postId],
-    }));
+  async function handleToggleSave(post) {
+    if (!currentUser || !currentUser.username) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const db = getDatabase();
+    const moodCategory = post.moodEmojiAlt || "Other";
+    const cardId = post.id;
+    const userCardRef = ref(
+      db,
+      `users/${currentUser.username}/${moodCategory}/${cardId}`
+    );
+
+    if (savedMap[cardId]) {
+      try {
+        await remove(userCardRef);
+      } catch (err) {
+        console.error("Failed to unsave:", err);
+        alert("Failed to unsave this post.");
+      }
+      return;
+    }
+
+    try {
+      const { id, ...rest } = post;
+      const cardToSave = {
+        ...rest,
+        isPublic: false,
+      };
+      await set(userCardRef, cardToSave);
+    } catch (err) {
+      console.error("Failed to save:", err);
+      alert("Failed to save this post.");
+    }
   }
 
-  function toggleSave(postId) {
-    setSaved((prev) => ({
-      ...prev,
-      [postId]: !prev[postId],
-    }));
+  async function handleDownload(cardId, moodLabel) {
+    const el = cardRefs.current[cardId];
+    if (!el) return;
+
+    try {
+      const canvas = await html2canvas(el, {
+        useCORS: true,
+        backgroundColor: null,
+        scale: 2,
+      });
+
+      const dataUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `${moodLabel || "mood"}-card.png`;
+      link.click();
+    } catch (err) {
+      console.error("Failed to download card:", err);
+      alert("Failed to download this card.");
+    }
   }
 
   return (
@@ -83,6 +215,7 @@ export default function WallPage() {
           </p>
         </section>
 
+        {/* Filter controls */}
         <section
           className="controls small-controls"
           aria-labelledby="wall-filters-heading"
@@ -140,6 +273,7 @@ export default function WallPage() {
           </form>
         </section>
 
+        {/* Posts list */}
         <section
           className="wall-section"
           aria-labelledby="wall-posts-heading"
@@ -148,7 +282,11 @@ export default function WallPage() {
             All public posts
           </h3>
 
-          {pagePosts.length === 0 ? (
+          {isLoading ? (
+            <p className="wall-empty">Loading posts...</p>
+          ) : loadError ? (
+            <p className="wall-empty">{loadError}</p>
+          ) : pagePosts.length === 0 ? (
             <p className="wall-empty">
               No posts match your filter ʕง•ᴥ•ʔง <br />
               Try a different mood or search term!
@@ -156,75 +294,57 @@ export default function WallPage() {
           ) : (
             <ul className="wall_container">
               {pagePosts.map((post) => {
-                const isLiked = !!liked[post.id];
-                const isSaved = !!saved[post.id];
+                const moodKey = (post.moodEmojiAlt || "").toLowerCase();
+                const isSaved = !!savedMap[post.id];
 
                 return (
                   <li
                     key={post.id}
                     className="wall_card"
-                    data-mood={post.moodKey}
+                    data-mood={moodKey}
                   >
-                    <article>
+                    <article
+                      ref={(el) => {
+                        if (el) {
+                          cardRefs.current[post.id] = el;
+                        }
+                      }}
+                    >
                       <div className="wall_card-top">
                         <img
                           className="wall_mood-icon"
-                          src={post.iconSrc}
-                          alt={post.iconAlt}
+                          src={post.moodEmojiSrc}
+                          alt={post.moodEmojiAlt}
                         />
                         <span className="wall_mood-text">
-                          {post.moodLabel}
+                          {post.moodEmojiAlt}
                         </span>
                       </div>
 
                       <p className="wall_song">
-                        {post.songTitle}
-                        <span className="artist">
-                          {" "}
-                          — {post.artist}
-                        </span>
+                        {post.songName}
+                        {post.artist && (
+                          <span className="artist">
+                            {" "}
+                            — {post.artist}
+                          </span>
+                        )}
                       </p>
 
                       <p className="wall_diary">{post.diary}</p>
 
-                      <div className="wall_actions">
-                        <button
-                          className={
-                            "icon-btn like-btn" +
-                            (isLiked ? " is-active" : "")
-                          }
-                          type="button"
-                          onClick={() => toggleLike(post.id)}
-                          aria-pressed={isLiked}
-                          title={
-                            isLiked
-                              ? "Unlike this post"
-                              : "Like this post"
-                          }
-                          aria-label={
-                            isLiked
-                              ? "Unlike this post"
-                              : "Like this post"
-                          }
-                        >
-                          <span
-                            className={
-                              "material-symbols-outlined fav-icon" +
-                              (isLiked ? " is-on" : " is-off")
-                            }
-                            aria-hidden="true"
-                          >
-                            favorite
-                          </span>
-                        </button>
+                      {post.owner && (
+                        <p className="wall_owner">-- From {post.owner}</p>
+                      )}
 
+                      <div className="wall_actions">
                         <button
                           className={
                             "icon-btn save-btn" +
                             (isSaved ? " is-active" : "")
                           }
                           type="button"
-                          onClick={() => toggleSave(post.id)}
+                          onClick={() => handleToggleSave(post)}
                           aria-pressed={isSaved}
                           title={
                             isSaved
@@ -253,6 +373,9 @@ export default function WallPage() {
                           type="button"
                           title="Download this post"
                           aria-label="Download this post"
+                          onClick={() =>
+                            handleDownload(post.id, post.moodEmojiAlt)
+                          }
                         >
                           <span
                             className="material-symbols-outlined"
