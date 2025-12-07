@@ -14,26 +14,24 @@ const PAGE_SIZE = 6;
 export default function WallPage() {
   const { currentUser } = useOutletContext();
 
-  
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
 
-  
   const [formQuery, setFormQuery] = useState("");
   const [formMood, setFormMood] = useState("");
 
-  
   const [query, setQuery] = useState("");
   const [moodFilter, setMoodFilter] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  
   const [savedMap, setSavedMap] = useState({});
 
-  
   const cardRefs = useRef({});
+
+  const [wallModalOpen, setWallModalOpen] = useState(false);
+  const [wallModalMessage, setWallModalMessage] = useState("");
 
   useEffect(() => {
     const db = getDatabase();
@@ -48,7 +46,7 @@ export default function WallPage() {
             id,
             ...card,
           }))
-          .filter((card) => card.isPublic); 
+          .filter((card) => card.isPublic);
 
         list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
@@ -65,7 +63,6 @@ export default function WallPage() {
 
     return () => unsubscribe();
   }, []);
-
 
   useEffect(() => {
     if (!currentUser || !currentUser.username) return;
@@ -100,7 +97,7 @@ export default function WallPage() {
   const normalizedQuery = query.toLowerCase().trim();
 
   const filteredPosts = posts.filter((post) => {
-    const moodKey = (post.moodEmojiAlt || "").toLowerCase(); // "Happy" -> "happy"
+    const moodKey = (post.moodEmojiAlt || "").toLowerCase();
 
     const matchesMood =
       moodFilter === "" || moodKey === moodFilter;
@@ -152,17 +149,32 @@ export default function WallPage() {
       return;
     }
 
+    const username = currentUser.username;
+    const isOwn =
+      post.owner &&
+      post.owner.toLowerCase() === username.toLowerCase();
+
+    if (isOwn) {
+      setWallModalMessage(
+        "This is your own post and it is already in your playlist!"
+      );
+      setWallModalOpen(true);
+      return;
+    }
+
     const db = getDatabase();
     const moodCategory = post.moodEmojiAlt || "Other";
     const cardId = post.id;
     const userCardRef = ref(
       db,
-      `users/${currentUser.username}/${moodCategory}/${cardId}`
+      `users/${username}/${moodCategory}/${cardId}`
     );
 
     if (savedMap[cardId]) {
       try {
         await remove(userCardRef);
+        setWallModalMessage("Removed from your playlist.");
+        setWallModalOpen(true);
       } catch (err) {
         console.error("Failed to unsave:", err);
         alert("Failed to unsave this post.");
@@ -177,6 +189,8 @@ export default function WallPage() {
         isPublic: false,
       };
       await set(userCardRef, cardToSave);
+      setWallModalMessage("Yay! Successfully added to your playlist!");
+      setWallModalOpen(true);
     } catch (err) {
       console.error("Failed to save:", err);
       alert("Failed to save this post.");
@@ -207,6 +221,25 @@ export default function WallPage() {
 
   return (
     <div className="page wall-page">
+      {wallModalOpen && (
+        <div
+          className="wall-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="wall-modal">
+            <p className="wall-modal-message">{wallModalMessage}</p>
+            <button
+              type="button"
+              className="wall-modal-close-btn"
+              onClick={() => setWallModalOpen(false)}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
       <main className="container">
         <section className="page-head">
           <h2>Public Wall</h2>
@@ -215,7 +248,6 @@ export default function WallPage() {
           </p>
         </section>
 
-        {/* Filter controls */}
         <section
           className="controls small-controls"
           aria-labelledby="wall-filters-heading"
@@ -273,7 +305,6 @@ export default function WallPage() {
           </form>
         </section>
 
-        {/* Posts list */}
         <section
           className="wall-section"
           aria-labelledby="wall-posts-heading"
@@ -295,7 +326,14 @@ export default function WallPage() {
             <ul className="wall_container">
               {pagePosts.map((post) => {
                 const moodKey = (post.moodEmojiAlt || "").toLowerCase();
-                const isSaved = !!savedMap[post.id];
+
+                const isOwn =
+                  currentUser &&
+                  post.owner &&
+                  post.owner.toLowerCase() ===
+                    currentUser.username.toLowerCase();
+
+                const isSaved = isOwn || !!savedMap[post.id];
 
                 return (
                   <li
@@ -334,33 +372,39 @@ export default function WallPage() {
                       <p className="wall_diary">{post.diary}</p>
 
                       {post.owner && (
-                        <p className="wall_owner">-- From {post.owner}</p>
+                        <p className="wall_owner">
+                          — From {post.owner}
+                        </p>
                       )}
 
                       <div className="wall_actions">
                         <button
                           className={
-                            "icon-btn save-btn" +
-                            (isSaved ? " is-active" : "")
+                            "icon-btn wall-save-btn" +
+                            (isSaved ? " wall-save-btn--active" : "")
                           }
                           type="button"
                           onClick={() => handleToggleSave(post)}
                           aria-pressed={isSaved}
                           title={
-                            isSaved
+                            isOwn
+                              ? "This is your own post."
+                              : isSaved
                               ? "Unsave this post"
                               : "Save this post"
                           }
                           aria-label={
-                            isSaved
+                            isOwn
+                              ? "This is your own post."
+                              : isSaved
                               ? "Unsave this post"
                               : "Save this post"
                           }
                         >
                           <span
                             className={
-                              "material-symbols-outlined star-icon" +
-                              (isSaved ? " is-on" : " is-off")
+                              "material-symbols-outlined wall-star-icon" +
+                              (isSaved ? " wall-star-icon--on" : "")
                             }
                             aria-hidden="true"
                           >
@@ -369,7 +413,7 @@ export default function WallPage() {
                         </button>
 
                         <button
-                          className="icon-btn"
+                          className="icon-btn wall-download-btn"
                           type="button"
                           title="Download this post"
                           aria-label="Download this post"
