@@ -1611,13 +1611,21 @@ main.container {
   text-align: right;
   font-size: 0.9rem;
   font-style: italic;
-  color: #b47c8c;
-  opacity: 0.9;
   padding-right: 0.4rem;
-
-  word-break: break-word;
-  overflow-wrap: anywhere;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  color: #b26780;
+  opacity: 0.9;
 }
+
+.wall_card[data-mood="tired"] .wall_owner,
+.wall_card[data-mood="angry"] .wall_owner,
+.wall_card[data-mood="confused"] .wall_owner,
+.wall_card[data-mood="sad"] .wall_owner {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+
 
 /* Candice part ends */
 
