@@ -1,35 +1,168 @@
-export default function Login() {
-    return (
-      <div className="auth-page">
-        <div className="auth-wrap">
-          <h2 className="auth-title">Welcome Back</h2>
-          <p className="auth-sub">Login to access your playlists and mood journals</p>
-  
-          <section className="auth-card" aria-labelledby="loginTitle">
-            <h3 id="loginTitle" className="visually-hidden">Login Form</h3>
-  
-            <form className="auth-form" onSubmit={(e)=>e.preventDefault()}>
-              <div className="field">
-                <label htmlFor="username" className="lbl">Username</label>
-                <input id="username" className="ipt" type="text" placeholder="Enter your username" autoComplete="username" />
-              </div>
-  
-              <div className="field">
-                <label htmlFor="password" className="lbl">Password</label>
-                <input id="password" className="ipt" type="password" placeholder="Enter your password" autoComplete="current-password" />
-              </div>
-  
-              <div className="auth-actions">
-                <button className="auth-btn" type="submit">Login</button>
-              </div>
-  
-              <p className="auth-meta">
-                Don’t have an account? <a href="#" onClick={(e)=>e.preventDefault()}>Sign up</a>
+import { useState } from "react";
+import { getDatabase, ref, get, set as firebaseSet } from "firebase/database";
+import { useNavigate } from "react-router-dom";  
+
+export default function Login({ onLogin }) {
+  const [mode, setMode] = useState("login");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();              
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    const trimmedUser = username.trim().toLowerCase();
+    const trimmedPass = password.trim();
+
+    if (!trimmedUser || !trimmedPass) {
+      setError("Please enter both username and password.");
+      return;
+    }
+
+    setLoading(true);
+
+    const db = getDatabase();
+    const userRef = ref(db, "users/" + trimmedUser);
+
+    try {
+      const snapshot = await get(userRef);
+
+      if (mode === "login") {
+
+        if (!snapshot.exists()) {
+          setError("User does not exist.");
+          return;
+        }
+
+        const userData = snapshot.val();
+        if (userData.password !== trimmedPass) {
+          setError("Incorrect password.");
+          return;
+        }
+
+        const userInfo = { username: trimmedUser };
+        localStorage.setItem("currentUser", JSON.stringify(userInfo));
+        if (typeof onLogin === "function") onLogin(userInfo);
+
+        navigate("/create-mood");            
+
+      } else {
+
+        if (snapshot.exists()) {
+          setError("Username is already taken.");
+          return;
+        }
+
+        await firebaseSet(userRef, {
+          password: trimmedPass,
+          createdAt: Date.now()
+        });
+
+        const userInfo = { username: trimmedUser };
+        localStorage.setItem("currentUser", JSON.stringify(userInfo));
+        if (typeof onLogin === "function") onLogin(userInfo);
+
+        navigate("/create-mood");             
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleMode = () => {
+    setError("");
+    setPassword("");
+    setMode((prev) => (prev === "login" ? "signup" : "login"));
+  };
+
+  const isLogin = mode === "login";
+
+  return (
+    <div className="auth-page">
+      <div className="auth-wrap">
+        <h2 className="auth-title">
+          {isLogin ? "Welcome Back" : "Create an Account"}
+        </h2>
+        <p className="auth-sub">
+          {isLogin
+            ? "Login to access your playlists and mood journals"
+            : "Sign up to save your moods and playlists"}
+        </p>
+
+        <section className="auth-card" aria-labelledby="loginTitle">
+          <h3 id="loginTitle" className="visually-hidden">
+            {isLogin ? "Login Form" : "Signup Form"}
+          </h3>
+
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <div className="field">
+              <label htmlFor="username" className="lbl">
+                Username
+              </label>
+              <input
+                id="username"
+                className="ipt"
+                type="text"
+                placeholder="Enter your username"
+                autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="password" className="lbl">
+                Password
+              </label>
+              <input
+                id="password"
+                className="ipt"
+                type="password"
+                placeholder="Enter your password"
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            {error && (
+              <p className="auth-error" style={{ color: "red" }}>
+                {error}
               </p>
-            </form>
-          </section>
-        </div>
+            )}
+
+            <div className="auth-actions">
+              <button className="auth-btn" type="submit" disabled={loading}>
+                {loading
+                  ? isLogin
+                    ? "Logging in..."
+                    : "Signing up..."
+                  : isLogin
+                  ? "Login"
+                  : "Sign Up"}
+              </button>
+            </div>
+
+            <p className="auth-meta">
+              {isLogin ? "Don’t have an account?" : "Already have an account?"}{" "}
+              <button
+                type="button"
+                className="link-button"
+                onClick={toggleMode}
+              >
+                {isLogin ? "Sign up" : "Back to login"}
+              </button>
+            </p>
+          </form>
+        </section>
       </div>
-    );
-  }
-  
+    </div>
+  );
+}
