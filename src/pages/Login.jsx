@@ -31,6 +31,9 @@ export default function Login({ onLogin }) {
     try {
       const snapshot = await get(userRef);
 
+      /* ============================
+         LOGIN
+      ============================ */
       if (mode === "login") {
         if (!snapshot.exists()) {
           setError("User does not exist.");
@@ -44,26 +47,36 @@ export default function Login({ onLogin }) {
         }
 
         const userInfo = { username: trimmedUser };
-        console.log("Login success:", userInfo);
-        onLogin?.(userInfo);        
 
+        // ⭐ MOST IMPORTANT: Save to localStorage
+        localStorage.setItem("currentUser", JSON.stringify(userInfo));
+
+        onLogin?.(userInfo);
         navigate("/create-mood");
-      } else {
-        // signup
+      }
+
+      /* ============================
+         SIGNUP
+      ============================ */
+      else {
         if (snapshot.exists()) {
           setError("Username is already taken.");
           return;
         }
 
+        // Create new user in Firebase
         await firebaseSet(userRef, {
           password: trimmedPass,
-          createdAt: Date.now()
+          createdAt: Date.now(),
+          moods: {} // ⭐ include moods folder (optional but clean)
         });
 
         const userInfo = { username: trimmedUser };
-        console.log("Signup success:", userInfo);
-        onLogin?.(userInfo);        
 
+        // ⭐ NEW FIX: Save new user immediately to localStorage
+        localStorage.setItem("currentUser", JSON.stringify(userInfo));
+
+        onLogin?.(userInfo);
         navigate("/create-mood");
       }
     } catch (err) {
@@ -101,9 +114,7 @@ export default function Login({ onLogin }) {
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="field">
-              <label htmlFor="username" className="lbl">
-                Username
-              </label>
+              <label htmlFor="username" className="lbl">Username</label>
               <input
                 id="username"
                 className="ipt"
@@ -116,9 +127,7 @@ export default function Login({ onLogin }) {
             </div>
 
             <div className="field">
-              <label htmlFor="password" className="lbl">
-                Password
-              </label>
+              <label htmlFor="password" className="lbl">Password</label>
               <input
                 id="password"
                 className="ipt"
@@ -130,11 +139,7 @@ export default function Login({ onLogin }) {
               />
             </div>
 
-            {error && (
-              <p className="auth-error" style={{ color: "red" }}>
-                {error}
-              </p>
-            )}
+            {error && <p className="auth-error" style={{ color: "red" }}>{error}</p>}
 
             <div className="auth-actions">
               <button className="auth-btn" type="submit" disabled={loading}>
@@ -150,11 +155,7 @@ export default function Login({ onLogin }) {
 
             <p className="auth-meta">
               {isLogin ? "Don’t have an account?" : "Already have an account?"}{" "}
-              <button
-                type="button"
-                className="link-button"
-                onClick={toggleMode}
-              >
+              <button type="button" className="link-button" onClick={toggleMode}>
                 {isLogin ? "Sign up" : "Back to login"}
               </button>
             </p>
@@ -164,3 +165,4 @@ export default function Login({ onLogin }) {
     </div>
   );
 }
+
