@@ -6,7 +6,6 @@ export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-
   useEffect(() => {
     const saved = localStorage.getItem("currentUser");
     if (saved) {
@@ -24,12 +23,10 @@ export default function Layout() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const closeMenu = () => setIsOpen(false);
 
-
   const handleLogout = () => {
     localStorage.removeItem("currentUser");
     setCurrentUser(null);
   };
-
 
   const handleLogin = (userInfo) => {
     const normalized =
@@ -38,7 +35,6 @@ export default function Layout() {
     setCurrentUser(normalized);
     localStorage.setItem("currentUser", JSON.stringify(normalized));
   };
-
 
   if (!currentUser) {
     return <Login onLogin={handleLogin} />;
@@ -84,14 +80,12 @@ export default function Layout() {
                 Setting
               </NavLink>
 
+              
               <span className="nav-user">
-               
-                <span className="nav-username">
-                  {currentUser.username}
-                </span>
+                <span className="nav-username">{currentUser.username}</span>
                 <button
                   type="button"
-                  className="nav-logout"
+                  className="nav-pill nav-logout"
                   onClick={handleLogout}
                 >
                   Log out
@@ -103,7 +97,6 @@ export default function Layout() {
       </header>
 
       <main className="site-main">
-      
         <Outlet context={{ currentUser, handleLogout }} />
       </main>
 
@@ -130,4 +123,5 @@ export default function Layout() {
     </div>
   );
 }
+
 

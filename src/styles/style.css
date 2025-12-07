@@ -1842,6 +1842,25 @@ html, body, #root { height: 100% !important; }
     background: rgba(11,99,196,0.08);
   }
 }
+  .nav-pill{
+  color: #9a5588 !important; 
+  font-weight: 700;
+}
+.link-button {
+  background: none;
+  border: none;
+  color: #9a5588;        
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.link-button:hover {
+  background: rgba(122, 63, 124, 0.12);
+}
 
 @media (max-width: 400px){
   .page .grid{
