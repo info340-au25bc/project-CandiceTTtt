@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, push, set } from "firebase/database";
 import { useOutletContext } from "react-router-dom";
 
 export default function CreateMoodPage() {
-
   const { currentUser } = useOutletContext();
-
 
   const [selectedMood, setSelectedMood] = useState({
     src: "/shared_imgs/happy.PNG",
     alt: "Happy",
   });
-
 
   const [songName, setSongName] = useState("");
   const [artist, setArtist] = useState("");
@@ -20,7 +17,6 @@ export default function CreateMoodPage() {
   const [isPublic, setIsPublic] = useState(true);
   const [tag, setTag] = useState("");
 
-  
   async function handleSave() {
     if (!songName.trim()) {
       alert("Please enter a song name.");
@@ -28,13 +24,12 @@ export default function CreateMoodPage() {
     }
 
     if (!currentUser || !currentUser.username) {
-      alert("No user found — please login again.");
+      alert("No user — please log in again.");
       return;
     }
 
     try {
       const db = getDatabase();
-      const moodsRef = ref(db, "moods");
 
       const newCard = {
         moodEmojiSrc: selectedMood.src,
@@ -46,19 +41,31 @@ export default function CreateMoodPage() {
         isPublic,
         tag,
         createdAt: Date.now(),
-        owner: currentUser.username, 
+        owner: currentUser.username,
       };
 
-      await push(moodsRef, newCard);
-      alert("Mood card saved! 🎉");
+      // 1️⃣ 写入 /moods
+      const moodRef = ref(db, "moods");
+      const newMoodPush = await push(moodRef, newCard);
+      const cardId = newMoodPush.key;
+
+      // 2️⃣ 写入 /users/{username}/{MoodType}/{cardId}
+      const moodCategory = selectedMood.alt; // 如 "Happy" or "Sad"
+      const userCardRef = ref(
+        db,
+        `users/${currentUser.username}/${moodCategory}/${cardId}`
+      );
+
+      await set(userCardRef, newCard); // 整张卡复制过去
+
+      alert("Mood card saved!");
 
       handleClear();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to save — check console.");
+    } catch (error) {
+      console.error(error);
+      alert("Save Failed. Check Console.");
     }
   }
-
 
   function handleClear() {
     setSongName("");
@@ -72,7 +79,6 @@ export default function CreateMoodPage() {
       alt: "Happy",
     });
   }
-
 
   const moodIcons = [
     { src: "/shared_imgs/happy.PNG", alt: "Happy" },
@@ -91,24 +97,22 @@ export default function CreateMoodPage() {
     <div className="page">
       <main className="grid">
 
-    
-        <section className="card" aria-label="MoodForm">
+        {/* LEFT FORM */}
+        <section className="card">
           <div className="card-head">
             <h2>
               Input <span className="badge">MoodForm</span>
             </h2>
           </div>
 
-          
           <div className="field">
-            <span className="lbl">Mood Icon (click to select)</span>
+            <span className="lbl">Mood Icon</span>
             <div className="emoji-grid">
               {moodIcons.map((m) => (
-                <label className="emoji" key={m.alt}>
+                <label key={m.alt} className="emoji">
                   <input
                     type="radio"
                     name="mood"
-                    className="emoji-radio"
                     checked={selectedMood.src === m.src}
                     onChange={() => setSelectedMood(m)}
                   />
@@ -118,14 +122,11 @@ export default function CreateMoodPage() {
             </div>
           </div>
 
-        
           <div className="row">
             <label className="field">
               <span className="lbl">Song Name</span>
               <input
-                type="text"
                 className="ipt"
-                placeholder="Song name"
                 value={songName}
                 onChange={(e) => setSongName(e.target.value)}
               />
@@ -134,64 +135,48 @@ export default function CreateMoodPage() {
             <label className="field">
               <span className="lbl">Artist</span>
               <input
-                type="text"
                 className="ipt"
-                placeholder="Artist"
                 value={artist}
                 onChange={(e) => setArtist(e.target.value)}
               />
             </label>
           </div>
 
-       
           <label className="field">
-            <span className="lbl">Optional Link (YouTube / Spotify)</span>
+            <span className="lbl">Optional Link</span>
             <input
-              type="url"
               className="ipt"
-              placeholder="https://..."
               value={link}
               onChange={(e) => setLink(e.target.value)}
             />
           </label>
 
-    
           <label className="field">
-            <span className="lbl">Short Diary (optional)</span>
+            <span className="lbl">Diary</span>
             <textarea
               className="ipt textarea"
-              placeholder="Write a little note…"
               value={diary}
               onChange={(e) => setDiary(e.target.value)}
             />
           </label>
 
-   
           <div className="row">
-            <div className="field">
+            <label className="field">
               <span className="lbl">Public / Private</span>
-
               <label className="toggle">
                 <input
                   type="checkbox"
-                  className="toggle-ck"
                   checked={isPublic}
                   onChange={(e) => setIsPublic(e.target.checked)}
                 />
                 <span className="switch" />
-                <span className="toggle-text">
-                  {isPublic ? "Public" : "Private"}
-                </span>
+                <span>{isPublic ? "Public" : "Private"}</span>
               </label>
-            </div>
+            </label>
 
             <label className="field">
-              <span className="lbl">Tag (optional)</span>
-              <select
-                className="ipt select"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-              >
+              <span className="lbl">Tag</span>
+              <select className="ipt" value={tag} onChange={(e) => setTag(e.target.value)}>
                 <option value="">None</option>
                 <option>Study</option>
                 <option>Commute</option>
@@ -202,19 +187,14 @@ export default function CreateMoodPage() {
             </label>
           </div>
 
-       
           <div className="actions">
-            <button className="btn btn-primary" onClick={handleSave}>
-              Save
-            </button>
-            <button className="btn btn-ghost" onClick={handleClear}>
-              Clear
-            </button>
+            <button className="btn btn-primary" onClick={handleSave}>Save</button>
+            <button className="btn btn-ghost" onClick={handleClear}>Clear</button>
           </div>
         </section>
 
-    
-        <section className="card" aria-label="MoodCardPreview">
+        {/* RIGHT PREVIEW */}
+        <section className="card">
           <div className="card-head">
             <h2>
               Preview <span className="badge">MoodCardPreview</span>
@@ -230,26 +210,19 @@ export default function CreateMoodPage() {
             </div>
 
             <p className="song">
-              {songName || "No song yet"}{" "}
-              <small className="by">by {artist || "Artist"}</small>
+              {songName || "No song"}{" "}
+              <small>by {artist || "Artist"}</small>
             </p>
 
-            <p className="meta">
-              🔗 {link || "Link"} · 🏷️ {tag || "Tag"}
-            </p>
+            <p className="meta">🔗 {link || "Link"} · 🏷️ {tag || "Tag"}</p>
 
             <div className="diary">
-              {diary || "Write a little diary. It will show here."}
+              {diary || "Write a little diary…"}
             </div>
           </div>
         </section>
+
       </main>
     </div>
   );
 }
-
-
-
-
-
-
