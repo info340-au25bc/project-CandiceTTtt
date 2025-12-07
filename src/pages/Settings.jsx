@@ -1,38 +1,19 @@
 import { useOutletContext } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 export default function Settings() {
-  const outletContext = useOutletContext();
-  const [username, setUsername] = useState("Guest");
+  const { currentUser, handleLogout } = useOutletContext() || {};
 
-  useEffect(() => {
-    if (outletContext && outletContext.currentUser && outletContext.currentUser.username) {
-      setUsername(outletContext.currentUser.username);
-      return;
-    }
-
-    const saved = localStorage.getItem("currentUser");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.username) {
-          setUsername(parsed.username);
-        }
-      } catch (err) {
-        console.error("Failed to parse currentUser from localStorage", err);
-      }
-    }
-  }, [outletContext]);
+  const username = currentUser?.username || "Guest";
 
   const moods = [
-    { key:"Happy",     img:"happy.PNG",     alt:"Happy" },
-    { key:"Sad",       img:"sad.PNG",       alt:"Sad" },
-    { key:"Relaxed",   img:"relaxed.PNG",   alt:"Relaxed" },
-    { key:"Excited",   img:"excited.PNG",   alt:"Excited" },
-    { key:"Confused",  img:"confused.PNG",  alt:"Confused" },
-    { key:"Lovely",    img:"lovely.PNG",    alt:"Lovely" },
-    { key:"Angry",     img:"angry.PNG",     alt:"Angry" },
-    { key:"Tired",     img:"exhausted.PNG", alt:"Tired" },
+    { key: "Happy",    img: "happy.PNG",     alt: "Happy" },
+    { key: "Sad",      img: "sad.PNG",       alt: "Sad" },
+    { key: "Relaxed",  img: "relaxed.PNG",   alt: "Relaxed" },
+    { key: "Excited",  img: "excited.PNG",   alt: "Excited" },
+    { key: "Confused", img: "confused.PNG",  alt: "Confused" },
+    { key: "Lovely",   img: "lovely.PNG",    alt: "Lovely" },
+    { key: "Angry",    img: "angry.PNG",     alt: "Angry" },
+    { key: "Tired",    img: "exhausted.PNG", alt: "Tired" },
   ];
 
   return (
@@ -48,13 +29,13 @@ export default function Settings() {
         <h3 id="mood-title" className="settings-title">Mood Selector</h3>
 
         <div className="mood-grid">
-          {moods.map((m, i)=>(
+          {moods.map((m, i) => (
             <label className="mood-tile" key={m.key}>
               <input
                 type="radio"
                 name="mood"
                 className="tile-radio"
-                defaultChecked={i===0}
+                defaultChecked={i === 0}
               />
               <span className="tile-visual">
                 <img src={`/shared_imgs/${m.img}`} alt={m.alt} />
@@ -137,7 +118,13 @@ export default function Settings() {
           <span className="toggle-text">Public mode · Visible to everyone</span>
         </label>
 
-        <a className="btn btn-primary logout" href="/">Logout</a>
+        <button
+          className="btn btn-primary logout"
+          type="button"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </section>
     </div>
   );

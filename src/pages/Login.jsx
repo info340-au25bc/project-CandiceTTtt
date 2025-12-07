@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getDatabase, ref, get, set as firebaseSet } from "firebase/database";
-import { useNavigate } from "react-router-dom";  
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ onLogin }) {
   const [mode, setMode] = useState("login");
@@ -9,7 +9,7 @@ export default function Login({ onLogin }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();              
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +32,6 @@ export default function Login({ onLogin }) {
       const snapshot = await get(userRef);
 
       if (mode === "login") {
-
         if (!snapshot.exists()) {
           setError("User does not exist.");
           return;
@@ -45,13 +44,12 @@ export default function Login({ onLogin }) {
         }
 
         const userInfo = { username: trimmedUser };
-        localStorage.setItem("currentUser", JSON.stringify(userInfo));
-        if (typeof onLogin === "function") onLogin(userInfo);
+        console.log("Login success:", userInfo);
+        onLogin?.(userInfo);        
 
-        navigate("/create-mood");            
-
+        navigate("/create-mood");
       } else {
-
+        // signup
         if (snapshot.exists()) {
           setError("Username is already taken.");
           return;
@@ -63,10 +61,10 @@ export default function Login({ onLogin }) {
         });
 
         const userInfo = { username: trimmedUser };
-        localStorage.setItem("currentUser", JSON.stringify(userInfo));
-        if (typeof onLogin === "function") onLogin(userInfo);
+        console.log("Signup success:", userInfo);
+        onLogin?.(userInfo);        
 
-        navigate("/create-mood");             
+        navigate("/create-mood");
       }
     } catch (err) {
       console.error(err);
