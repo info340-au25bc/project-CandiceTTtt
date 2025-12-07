@@ -813,6 +813,17 @@ body{
 .folder-card > article .folder-title{ color: #111; }
 .folder-card > article .song-mini li{ color: #222; }
 
+/* 让长字符串自动换行，不会把卡片撑出去 */
+
+/* 卡片里的迷你歌曲预览 */
+.song-mini li,
+.detail-song h3,
+.detail-note {
+  /* 优先在需要的地方换行 */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 /* ===========================
    PLAYLIST DETAIL PAGE (improved)
    =========================== */
@@ -886,13 +897,7 @@ body{
   grid-template-columns: 1fr;
 }
 
-.detail-song {
-  background: rgba(255, 255, 255, 0.65);
-  border-radius: 14px;
-  padding: 14px 16px;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
+
 
 .detail-song h3 {
   margin: 0 0 4px;
@@ -901,10 +906,75 @@ body{
 }
 
 .detail-note {
-  margin: 0;
-  font-family: "Gaegu", cursive;
-  font-size: .95rem;
-  color: #333;
+  margin: 0 0 4px;
+}
+
+.detail-song {
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+  /* 关键：让子元素可以上下排、底部对齐 */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 140px;
+}
+
+.detail-note {
+  margin: 0 0 4px;
+}
+
+/* 底部一行：左垃圾桶，右 from xxx */
+.detail-bottom-row {
+  margin-top: auto;              /* 把这行“推到”卡片最底部 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-delete-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0.65;
+  transition: opacity 0.15s ease;
+}
+
+.detail-delete-btn:hover {
+  opacity: 1;
+}
+
+/* icon 本身大小 */
+.detail-delete-btn .material-symbols-outlined {
+  font-size: 22px;   /* 你可以调成 20px 或 24px */
+  line-height: 1;
+}
+
+/* from xxx 文案（不用再 margin-top:auto 了，因为在 bottom-row 里） */
+.detail-from {
+  margin: 0;                     /* 不要额外上下 margin，才能跟 icon 齐平 */
+  text-align: right;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #b47c8c;
+  opacity: 0.9;
+  padding-right: 0.4rem;
+}
+
+
+
+.detail-from-name {
+  font-weight: 600;
 }
 
 .detail-back {
@@ -912,6 +982,66 @@ body{
   margin: 0 auto 20px;
   text-align: left;
 }
+
+/* ===== 删除确认弹窗 ===== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px 24px;
+  max-width: 320px;
+  width: 80%;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+  text-align: center;
+}
+
+.modal-title {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.modal-text {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modal-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.modal-btn-cancel {
+  background: #fff;
+  border-color: rgba(0,0,0,0.12);
+}
+
+.modal-btn-danger {
+  color: #fff;
+  background: linear-gradient(135deg, #ff7b7b, #ff4081);
+}
+
 
 .back-btn {
   margin-top: 20px;

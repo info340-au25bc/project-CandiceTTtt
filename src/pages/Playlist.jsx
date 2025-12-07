@@ -1,5 +1,3 @@
-// src/pages/MoodPlaylistsPage.jsx
-
 import { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useOutletContext } from "react-router-dom";
@@ -11,7 +9,6 @@ export default function MoodPlaylistsPage() {
   const [sortOption, setSortOption] = useState("Recently updated");
   const [viewOption, setViewOption] = useState("Grid");
 
-  // users/{username} 下面的所有数据（按分类）
   const [userMoodsByCategory, setUserMoodsByCategory] = useState({});
 
   useEffect(() => {
@@ -40,11 +37,9 @@ export default function MoodPlaylistsPage() {
     event.preventDefault();
   };
 
-  // 🔥 不依赖 key 名字，遍历所有分类，根据 moodEmojiAlt 匹配 playlist
   const enrichedPlaylists = basePlaylists.map((pl) => {
     const songsForThisPlaylist = [];
 
-    // userMoodsByCategory = { Happy: {cardId: card}, Angry: {...}, ... }
     Object.entries(userMoodsByCategory).forEach(
       ([categoryKey, cardsObj]) => {
         if (!cardsObj || typeof cardsObj !== "object") return;
@@ -66,7 +61,7 @@ export default function MoodPlaylistsPage() {
       }
     );
 
-    // 新歌在前
+
     songsForThisPlaylist.sort(
       (a, b) => (b.createdAt || 0) - (a.createdAt || 0)
     );
@@ -92,7 +87,6 @@ export default function MoodPlaylistsPage() {
     if (sortOption === "Z → A") {
       return b.title.localeCompare(a.title);
     }
-    // 默认：Recently updated
     return (b.latestCreatedAt || 0) - (a.latestCreatedAt || 0);
   });
 

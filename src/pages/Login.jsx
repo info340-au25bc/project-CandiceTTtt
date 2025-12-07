@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getDatabase, ref, get, set as firebaseSet } from "firebase/database";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 export default function Login({ onLogin }) {
   const [mode, setMode] = useState("login");
@@ -10,7 +10,11 @@ export default function Login({ onLogin }) {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
+  const storedUser = localStorage.getItem("currentUser");
+  if (storedUser) {
+    return <Navigate to="/create-mood" replace />;
+  }
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");

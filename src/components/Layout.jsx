@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import {
+  NavLink,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Login from "../pages/Login.jsx";
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const saved = localStorage.getItem("currentUser");
@@ -20,12 +28,19 @@ export default function Layout() {
     }
   }, []);
 
+  useEffect(() => {
+    if (currentUser && location.pathname === "/") {
+      navigate("/create-mood", { replace: true });
+    }
+  }, [currentUser, location.pathname, navigate]);
+
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const closeMenu = () => setIsOpen(false);
 
   const handleLogout = () => {
     localStorage.removeItem("currentUser");
     setCurrentUser(null);
+    navigate("/", { replace: true });
   };
 
   const handleLogin = (userInfo) => {
@@ -34,6 +49,7 @@ export default function Layout() {
 
     setCurrentUser(normalized);
     localStorage.setItem("currentUser", JSON.stringify(normalized));
+    navigate("/create-mood", { replace: true }); // 登录后去 Create Mood
   };
 
   if (!currentUser) {
@@ -45,7 +61,7 @@ export default function Layout() {
       <header className="site-header">
         <div className="container header-flex">
           <h1 className="brand">
-            <NavLink to="/" end onClick={closeMenu}>
+            <NavLink to="/create-mood" end onClick={closeMenu}>
               Mood Music
             </NavLink>
           </h1>
@@ -64,9 +80,6 @@ export default function Layout() {
             </button>
 
             <div className={`nav-menu ${isOpen ? "is-open" : ""}`}>
-              <NavLink to="/" end onClick={closeMenu}>
-                Home
-              </NavLink>
               <NavLink to="/create-mood" onClick={closeMenu}>
                 Create Mood Card
               </NavLink>
@@ -80,7 +93,6 @@ export default function Layout() {
                 Setting
               </NavLink>
 
-              
               <span className="nav-user">
                 <span className="nav-username">{currentUser.username}</span>
                 <button
@@ -106,9 +118,6 @@ export default function Layout() {
 
           <nav className="site-nav" aria-label="Footer">
             <div className="site-nav-row">
-              <NavLink to="/" end>
-                Home
-              </NavLink>
               <NavLink to="/create-mood">Create Mood Card</NavLink>
               <NavLink to="/wall">Public Wall</NavLink>
             </div>
@@ -123,5 +132,3 @@ export default function Layout() {
     </div>
   );
 }
-
-

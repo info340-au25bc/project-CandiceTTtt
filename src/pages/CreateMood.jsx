@@ -1,3 +1,5 @@
+// src/pages/CreateMoodPage.jsx
+
 import React, { useState } from "react";
 import { getDatabase, ref, push, set } from "firebase/database";
 import { useOutletContext } from "react-router-dom";
@@ -16,6 +18,10 @@ export default function CreateMoodPage() {
   const [diary, setDiary] = useState("");
   const [isPublic, setIsPublic] = useState(true);
   const [tag, setTag] = useState("");
+
+  // ⭐ 新增：保存成功弹窗 & 这次保存的可见性
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
+  const [lastSavedIsPublic, setLastSavedIsPublic] = useState(true);
 
   async function handleSave() {
     if (!songName.trim()) {
@@ -44,22 +50,24 @@ export default function CreateMoodPage() {
         owner: currentUser.username,
       };
 
-     
+      // 1️⃣ 写入 public wall（/moods）
       const moodRef = ref(db, "moods");
       const newMoodPush = await push(moodRef, newCard);
       const cardId = newMoodPush.key;
 
- 
-      const moodCategory = selectedMood.alt; 
+      // 2️⃣ 写入用户自己的 playlist（/users/{username}/{mood}/{cardId}）
+      const moodCategory = selectedMood.alt;
       const userCardRef = ref(
         db,
         `users/${currentUser.username}/${moodCategory}/${cardId}`
       );
+      await set(userCardRef, newCard);
 
-      await set(userCardRef, newCard); 
+      // 3️⃣ 打开“保存成功”弹窗（记住这次的 public / private 状态）
+      setLastSavedIsPublic(isPublic);
+      setSaveModalOpen(true);
 
-      alert("Mood card saved!");
-
+      // 4️⃣ 清空表单
       handleClear();
     } catch (error) {
       console.error(error);
@@ -96,7 +104,6 @@ export default function CreateMoodPage() {
   return (
     <div className="page">
       <main className="grid">
-
         {/* LEFT FORM */}
         <section className="card">
           <div className="card-head">
@@ -161,26 +168,31 @@ export default function CreateMoodPage() {
             />
           </label>
 
-      <div className="row">
-        <label className="field">
-           <span className="lbl">Public / Private</span>
-           <label className="toggle">
-            <input
-            type="checkbox"
-            className="toggle-ck"
-            checked={isPublic}
-            onChange={(e) => setIsPublic(e.target.checked)}
-            />
-            <span className="switch" />
-            <span className="toggle-text">{isPublic ? "Public" : "Private"}</span>
-          </label>
-        </label>
-     </div>
-
+          <div className="row">
+            <label className="field">
+              <span className="lbl">Public / Private</span>
+              <label className="toggle">
+                <input
+                  type="checkbox"
+                  className="toggle-ck"
+                  checked={isPublic}
+                  onChange={(e) => setIsPublic(e.target.checked)}
+                />
+                <span className="switch" />
+                <span className="toggle-text">
+                  {isPublic ? "Public" : "Private"}
+                </span>
+              </label>
+            </label>
+          </div>
 
           <div className="actions">
-            <button className="btn btn-primary" onClick={handleSave}>Save</button>
-            <button className="btn btn-ghost" onClick={handleClear}>Clear</button>
+            <button className="btn btn-primary" onClick={handleSave}>
+              Save
+            </button>
+            <button className="btn btn-ghost" onClick={handleClear}>
+              Clear
+            </button>
           </div>
         </section>
 
@@ -197,7 +209,9 @@ export default function CreateMoodPage() {
               <div className="mood-emoji">
                 <img src={selectedMood.src} alt={selectedMood.alt} />
               </div>
-              <span className="pill">{isPublic ? "Public" : "Private"}</span>
+              <span className="pill">
+                {isPublic ? "Public" : "Private"}
+              </span>
             </div>
 
             <p className="song">
@@ -212,8 +226,32 @@ export default function CreateMoodPage() {
             </div>
           </div>
         </section>
-
       </main>
+
+      {/* ⭐ 保存成功弹窗（样式沿用你 delete 用的 modal-xxx 类） */}
+      {saveModalOpen && (
+        <div className="modal-backdrop" role="dialog" aria-modal="true">
+          <div className="modal-card">
+            <h3 className="modal-title">Mood saved! ✨</h3>
+            <p className="modal-text">
+              Your mood card has been saved to your playlist
+              {lastSavedIsPublic
+                ? " and shared on the Public Wall."
+                : " as a private card just for you."}
+            </p>
+
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-btn modal-btn-danger"
+                onClick={() => setSaveModalOpen(false)}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

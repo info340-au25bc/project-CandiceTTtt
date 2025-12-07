@@ -1,25 +1,24 @@
-// src/pages/PlaylistDetail.jsx
-
 import { useEffect, useRef, useState } from "react";
 import {
   useParams,
   useSearchParams,
   useOutletContext,
+  Link, 
 } from "react-router-dom";
 import html2canvas from "html2canvas";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, remove } from "firebase/database";
 import { playlists as basePlaylists } from "../data/playlists";
 
 export default function PlaylistDetail() {
-  const { moodId } = useParams(); // e.g. "Happy", "Angry"
+  const { moodId } = useParams(); 
   const [searchParams] = useSearchParams();
   const [isExporting, setIsExporting] = useState(false);
   const cardRef = useRef(null);
   const { currentUser } = useOutletContext();
 
   const [songs, setSongs] = useState([]);
+  const [pendingDelete, setPendingDelete] = useState(null); 
 
-  // UI meta 信息（封面、标题）
   const playlistMeta = basePlaylists.find(
     (p) => p.moodId.toLowerCase() === moodId.toLowerCase()
   );
@@ -34,13 +33,11 @@ export default function PlaylistDetail() {
       const val = snapshot.val() || {};
       const list = [];
 
-      // 遍历所有分类，挑出 moodEmojiAlt === moodId 的歌
       Object.entries(val).forEach(([categoryKey, cardsObj]) => {
         if (!cardsObj || typeof cardsObj !== "object") return;
 
         Object.entries(cardsObj).forEach(([cardId, card]) => {
-          const moodName =
-            card.moodEmojiAlt || categoryKey || "";
+          const moodName = card.moodEmojiAlt || categoryKey || "";
           if (
             moodName &&
             moodName.toLowerCase() === moodId.toLowerCase()
@@ -53,9 +50,7 @@ export default function PlaylistDetail() {
         });
       });
 
-      list.sort(
-        (a, b) => (b.createdAt || 0) - (a.createdAt || 0)
-      );
+      list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
       setSongs(list);
     });
@@ -67,6 +62,7 @@ export default function PlaylistDetail() {
     return <p style={{ padding: "20px" }}>Playlist not found!</p>;
   }
 
+  // 导出海报
   async function handleExportPoster() {
     if (!cardRef.current) return;
 
@@ -98,15 +94,49 @@ export default function PlaylistDetail() {
     if (mode === "export") {
       handleExportPoster();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function onClickDelete(song) {
+    setPendingDelete(song);
+  }
+
+  async function confirmDelete() {
+    if (!pendingDelete || !currentUser) return;
+
+    try {
+      const db = getDatabase();
+      const username = currentUser.username;
+      const moodCategory = pendingDelete.moodEmojiAlt || moodId;
+
+      const userSongRef = ref(
+        db,
+        `users/${username}/${moodCategory}/${pendingDelete.id}`
+      );
+      await remove(userSongRef);
+
+      if (pendingDelete.owner === username) {
+        const wallRef = ref(db, `moods/${pendingDelete.id}`);
+        await remove(wallRef);
+      }
+
+      setPendingDelete(null);
+      // onValue 监听会自动刷新 songs，不用手动 setSongs
+    } catch (err) {
+      console.error("Failed to delete card:", err);
+      alert("Failed to delete. Please try again.");
+    }
+  }
+
+  function cancelDelete() {
+    setPendingDelete(null);
+  }
 
   return (
     <main className="container playlist-detail-page">
       <div className="detail-back">
-        <a href="/playlists" className="back-btn">
+        <Link to="/playlists" className="back-btn">
           ← Back to playlists
-        </a>
+        </Link>
       </div>
 
       <div
@@ -114,7 +144,6 @@ export default function PlaylistDetail() {
         data-mood={playlistMeta.moodId}
         ref={cardRef}
       >
-        {/* header: icon + title + count */}
         <div className="detail-header">
           <img
             className="detail-icon"
@@ -129,7 +158,6 @@ export default function PlaylistDetail() {
           </div>
         </div>
 
-        {/* song list */}
         <ul className="detail-song-list">
           {songs.map((song) => (
             <li key={song.id} className="detail-song">
@@ -141,18 +169,71 @@ export default function PlaylistDetail() {
                 <p className="detail-note">{song.diary}</p>
               )}
 
-              {/* 右下角小字 from xxx（收藏来的歌就会显示原作者） */}
-              {song.owner && (
-                <p className="detail-from">from {song.owner}</p>
-              )}
+              <div className="detail-bottom-row">
+                <button
+                  type="button"
+                  className="detail-delete-btn"
+                  onClick={() => onClickDelete(song)} 
+                  aria-label="Delete this mood card"
+                  title="Delete this mood card"
+                >
+                  <span
+                    className="material-symbols-outlined"
+                    aria-hidden="true"
+                  >
+                    delete
+                  </span>
+                </button>
+
+                {song.owner && (
+                  <p className="detail-from">
+                    from <span className="detail-from-name">{song.owner}</span>
+                  </p>
+                )}
+              </div>
             </li>
           ))}
         </ul>
 
-        <div className={`poster-watermark ${isExporting ? "is-visible" : ""}`}>
+        <div
+          className={`poster-watermark ${
+            isExporting ? "is-visible" : ""
+          }`}
+        >
           © Mood Music · 2025
         </div>
       </div>
+
+      {pendingDelete && (
+        <div className="modal-backdrop">
+          <div className="modal-card">
+            <h3 className="modal-title">Ready to delete?</h3>
+            <p className="modal-text">
+              This will remove this song from your playlist
+              {pendingDelete.owner === currentUser.username
+                ? " and the public wall."
+                : "."}
+            </p>
+
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-btn modal-btn-cancel"
+                onClick={cancelDelete}
+              >
+                No, keep it
+              </button>
+              <button
+                type="button"
+                className="modal-btn modal-btn-danger"
+                onClick={confirmDelete}
+              >
+                Yes, delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
