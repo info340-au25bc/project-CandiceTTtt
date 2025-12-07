@@ -1846,10 +1846,10 @@ html, body, #root { height: 100% !important; }
   color: #9a5588 !important; 
   font-weight: 700;
 }
-.link-button {
+.auth-switch-btn {
   background: none;
   border: none;
-  color: #9a5588;        
+  color: #7a3f7c;
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
@@ -1858,9 +1858,10 @@ html, body, #root { height: 100% !important; }
   transition: 0.2s;
 }
 
-.link-button:hover {
+.auth-switch-btn:hover {
   background: rgba(122, 63, 124, 0.12);
 }
+
 
 @media (max-width: 400px){
   .page .grid{

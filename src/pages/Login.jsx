@@ -155,7 +155,7 @@ export default function Login({ onLogin }) {
 
             <p className="auth-meta">
               {isLogin ? "Don’t have an account?" : "Already have an account?"}{" "}
-              <button type="button" className="link-button" onClick={toggleMode}>
+              <button type="button" className="auth-switch-btn" onClick={toggleMode}>
                 {isLogin ? "Sign up" : "Back to login"}
               </button>
             </p>
