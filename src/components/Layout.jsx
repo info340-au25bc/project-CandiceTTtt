@@ -6,11 +6,15 @@ export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
+
   useEffect(() => {
     const saved = localStorage.getItem("currentUser");
     if (saved) {
       try {
-        setCurrentUser(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.username) {
+          setCurrentUser(parsed);
+        }
       } catch (e) {
         console.error("Failed to parse currentUser", e);
       }
@@ -20,15 +24,21 @@ export default function Layout() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const closeMenu = () => setIsOpen(false);
 
+
   const handleLogout = () => {
     localStorage.removeItem("currentUser");
     setCurrentUser(null);
   };
 
+
   const handleLogin = (userInfo) => {
-    setCurrentUser(userInfo);
-    localStorage.setItem("currentUser", JSON.stringify(userInfo));
+    const normalized =
+      typeof userInfo === "string" ? { username: userInfo } : userInfo;
+
+    setCurrentUser(normalized);
+    localStorage.setItem("currentUser", JSON.stringify(normalized));
   };
+
 
   if (!currentUser) {
     return <Login onLogin={handleLogin} />;
@@ -75,7 +85,17 @@ export default function Layout() {
               </NavLink>
 
               <span className="nav-user">
-                {currentUser.username}
+               
+                <span className="nav-username">
+                  {currentUser.username}
+                </span>
+                <button
+                  type="button"
+                  className="nav-logout"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </button>
               </span>
             </div>
           </nav>
@@ -83,18 +103,23 @@ export default function Layout() {
       </header>
 
       <main className="site-main">
+      
         <Outlet context={{ currentUser, handleLogout }} />
       </main>
 
       <footer className="site-footer">
         <div className="container">
           <p>© 2025 Mood Music · INFO 340</p>
+
           <nav className="site-nav" aria-label="Footer">
             <div className="site-nav-row">
-              <NavLink to="/" end>Home</NavLink>
+              <NavLink to="/" end>
+                Home
+              </NavLink>
               <NavLink to="/create-mood">Create Mood Card</NavLink>
               <NavLink to="/wall">Public Wall</NavLink>
             </div>
+
             <div className="site-nav-row">
               <NavLink to="/playlists">My Playlists</NavLink>
               <NavLink to="/settings">Setting</NavLink>
@@ -105,3 +130,4 @@ export default function Layout() {
     </div>
   );
 }
+
