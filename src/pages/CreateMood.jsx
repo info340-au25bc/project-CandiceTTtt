@@ -44,19 +44,19 @@ export default function CreateMoodPage() {
         owner: currentUser.username,
       };
 
-      // 1️⃣ 写入 /moods
+     
       const moodRef = ref(db, "moods");
       const newMoodPush = await push(moodRef, newCard);
       const cardId = newMoodPush.key;
 
-      // 2️⃣ 写入 /users/{username}/{MoodType}/{cardId}
-      const moodCategory = selectedMood.alt; // 如 "Happy" or "Sad"
+ 
+      const moodCategory = selectedMood.alt; 
       const userCardRef = ref(
         db,
         `users/${currentUser.username}/${moodCategory}/${cardId}`
       );
 
-      await set(userCardRef, newCard); // 整张卡复制过去
+      await set(userCardRef, newCard); 
 
       alert("Mood card saved!");
 
@@ -113,6 +113,7 @@ export default function CreateMoodPage() {
                   <input
                     type="radio"
                     name="mood"
+                    className="tile-radio"
                     checked={selectedMood.src === m.src}
                     onChange={() => setSelectedMood(m)}
                   />
@@ -160,32 +161,22 @@ export default function CreateMoodPage() {
             />
           </label>
 
-          <div className="row">
-            <label className="field">
-              <span className="lbl">Public / Private</span>
-              <label className="toggle">
-                <input
-                  type="checkbox"
-                  checked={isPublic}
-                  onChange={(e) => setIsPublic(e.target.checked)}
-                />
-                <span className="switch" />
-                <span>{isPublic ? "Public" : "Private"}</span>
-              </label>
-            </label>
+      <div className="row">
+        <label className="field">
+           <span className="lbl">Public / Private</span>
+           <label className="toggle">
+            <input
+            type="checkbox"
+            className="toggle-ck"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+            />
+            <span className="switch" />
+            <span className="toggle-text">{isPublic ? "Public" : "Private"}</span>
+          </label>
+        </label>
+     </div>
 
-            <label className="field">
-              <span className="lbl">Tag</span>
-              <select className="ipt" value={tag} onChange={(e) => setTag(e.target.value)}>
-                <option value="">None</option>
-                <option>Study</option>
-                <option>Commute</option>
-                <option>Bedtime</option>
-                <option>Running</option>
-                <option>Chill</option>
-              </select>
-            </label>
-          </div>
 
           <div className="actions">
             <button className="btn btn-primary" onClick={handleSave}>Save</button>
@@ -214,7 +205,7 @@ export default function CreateMoodPage() {
               <small>by {artist || "Artist"}</small>
             </p>
 
-            <p className="meta">🔗 {link || "Link"} · 🏷️ {tag || "Tag"}</p>
+            <p className="meta">🔗 {link || "Link"}</p>
 
             <div className="diary">
               {diary || "Write a little diary…"}
