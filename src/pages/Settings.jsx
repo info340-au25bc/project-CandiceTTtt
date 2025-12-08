@@ -36,14 +36,16 @@ export default function Settings() {
   const [loadingStats, setLoadingStats] = useState(false);
 
   const moods = [
-    { key: "Happy",    img: "happy.PNG",     alt: "Happy" },
-    { key: "Sad",      img: "sad.PNG",       alt: "Sad" },
-    { key: "Relaxed",  img: "relaxed.PNG",   alt: "Relaxed" },
-    { key: "Excited",  img: "excited.PNG",   alt: "Excited" },
-    { key: "Confused", img: "confused.PNG",  alt: "Confused" },
-    { key: "Lovely",   img: "lovely.PNG",    alt: "Lovely" },
-    { key: "Angry",    img: "angry.PNG",     alt: "Angry" },
-    { key: "Tired",    img: "exhausted.PNG", alt: "Tired" },
+    { key: "Happy",     img: "happy.PNG",      alt: "Happy" },
+  { key: "Calm",      img: "calm.PNG",       alt: "Calm" },
+  { key: "Relaxed",   img: "relaxed.PNG",    alt: "Relaxed" },
+  { key: "Excited",   img: "excited.PNG",    alt: "Excited" },
+  { key: "Confused",  img: "confused.PNG",   alt: "Confused" },
+  { key: "Lovely",    img: "lovely.PNG",     alt: "Lovely" },
+  { key: "Sad",       img: "sad.PNG",        alt: "Sad" },
+  { key: "Angry",     img: "angry.PNG",      alt: "Angry" },
+  { key: "Tired",     img: "tired.PNG",      alt: "Tired" },       
+  { key: "Exhausted", img: "exhausted.PNG",  alt: "Exhausted" },
   ];
 
   const greetingName = (displayName || "").trim() || username;
