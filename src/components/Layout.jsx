@@ -11,6 +11,16 @@ export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [storageMode, setStorageMode] = useState(() => {
+    return localStorage.getItem("mm_storageMode") || "local";
+  });
+
+  const [publicMode, setPublicMode] = useState(() => {
+    const saved = localStorage.getItem("mm_publicMode");
+    if (saved === null) return true; 
+    return saved === "true";
+  });
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -34,6 +44,14 @@ export default function Layout() {
     }
   }, [currentUser, location.pathname, navigate]);
 
+  useEffect(() => {
+    localStorage.setItem("mm_storageMode", storageMode);
+  }, [storageMode]);
+
+  useEffect(() => {
+    localStorage.setItem("mm_publicMode", publicMode ? "true" : "false");
+  }, [publicMode]);
+
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const closeMenu = () => setIsOpen(false);
 
@@ -49,7 +67,7 @@ export default function Layout() {
 
     setCurrentUser(normalized);
     localStorage.setItem("currentUser", JSON.stringify(normalized));
-    navigate("/create-mood", { replace: true }); // 登录后去 Create Mood
+    navigate("/create-mood", { replace: true }); 
   };
 
   if (!currentUser) {
@@ -95,13 +113,6 @@ export default function Layout() {
 
               <span className="nav-user">
                 <span className="nav-username">{currentUser.username}</span>
-                <button
-                  type="button"
-                  className="nav-pill nav-logout"
-                  onClick={handleLogout}
-                >
-                  Log out
-                </button>
               </span>
             </div>
           </nav>
@@ -109,7 +120,16 @@ export default function Layout() {
       </header>
 
       <main className="site-main">
-        <Outlet context={{ currentUser, handleLogout }} />
+        <Outlet
+          context={{
+            currentUser,
+            handleLogout,
+            storageMode,
+            setStorageMode,
+            publicMode,
+            setPublicMode,
+          }}
+        />
       </main>
 
       <footer className="site-footer">
