@@ -1,21 +1,27 @@
 import { useState } from "react";
-import { getDatabase, ref, get, set as firebaseSet } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  get,
+  set as firebaseSet,
+} from "firebase/database";
 import { useNavigate, Navigate } from "react-router-dom";
 
 export default function Login({ onLogin }) {
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState("login"); 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
   const storedUser = localStorage.getItem("currentUser");
   if (storedUser) {
     return <Navigate to="/create-mood" replace />;
   }
-  
-  const handleSubmit = async (e) => {
+
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
@@ -35,9 +41,6 @@ export default function Login({ onLogin }) {
     try {
       const snapshot = await get(userRef);
 
-      /* ============================
-         LOGIN
-      ============================ */
       if (mode === "login") {
         if (!snapshot.exists()) {
           setError("User does not exist.");
@@ -52,50 +55,45 @@ export default function Login({ onLogin }) {
 
         const userInfo = { username: trimmedUser };
 
-        // ⭐ MOST IMPORTANT: Save to localStorage
-        localStorage.setItem("currentUser", JSON.stringify(userInfo));
-
-        onLogin?.(userInfo);
-        navigate("/create-mood");
-      }
-
-      /* ============================
-         SIGNUP
-      ============================ */
-      else {
+        if (onLogin) {
+          onLogin(userInfo);
+        } else {
+          localStorage.setItem("currentUser", JSON.stringify(userInfo));
+          navigate("/create-mood", { replace: true });
+        }
+      } else {
         if (snapshot.exists()) {
           setError("Username is already taken.");
           return;
         }
 
-        // Create new user in Firebase
         await firebaseSet(userRef, {
           password: trimmedPass,
           createdAt: Date.now(),
-          moods: {} // ⭐ include moods folder (optional but clean)
         });
 
         const userInfo = { username: trimmedUser };
 
-        // ⭐ NEW FIX: Save new user immediately to localStorage
-        localStorage.setItem("currentUser", JSON.stringify(userInfo));
-
-        onLogin?.(userInfo);
-        navigate("/create-mood");
+        if (onLogin) {
+          onLogin(userInfo);
+        } else {
+          localStorage.setItem("currentUser", JSON.stringify(userInfo));
+          navigate("/create-mood", { replace: true });
+        }
       }
     } catch (err) {
-      console.error(err);
+      console.error("Login/Signup error:", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const toggleMode = () => {
+  function toggleMode() {
     setError("");
     setPassword("");
     setMode((prev) => (prev === "login" ? "signup" : "login"));
-  };
+  }
 
   const isLogin = mode === "login";
 
@@ -107,8 +105,8 @@ export default function Login({ onLogin }) {
         </h2>
         <p className="auth-sub">
           {isLogin
-            ? "Login to access your playlists and mood journals"
-            : "Sign up to save your moods and playlists"}
+            ? "Login to access your playlists and mood journals."
+            : "Sign up to save your moods and playlists."}
         </p>
 
         <section className="auth-card" aria-labelledby="loginTitle">
@@ -118,7 +116,9 @@ export default function Login({ onLogin }) {
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="field">
-              <label htmlFor="username" className="lbl">Username</label>
+              <label htmlFor="username" className="lbl">
+                Username
+              </label>
               <input
                 id="username"
                 className="ipt"
@@ -131,7 +131,9 @@ export default function Login({ onLogin }) {
             </div>
 
             <div className="field">
-              <label htmlFor="password" className="lbl">Password</label>
+              <label htmlFor="password" className="lbl">
+                Password
+              </label>
               <input
                 id="password"
                 className="ipt"
@@ -143,10 +145,23 @@ export default function Login({ onLogin }) {
               />
             </div>
 
-            {error && <p className="auth-error" style={{ color: "red" }}>{error}</p>}
+            <div
+              aria-live="polite"
+              className="auth-error-region"
+            >
+              {error && (
+                <p className="auth-error" role="alert">
+                  {error}
+                </p>
+              )}
+            </div>
 
             <div className="auth-actions">
-              <button className="auth-btn" type="submit" disabled={loading}>
+              <button
+                className="auth-btn"
+                type="submit"
+                disabled={loading}
+              >
                 {loading
                   ? isLogin
                     ? "Logging in..."
@@ -158,8 +173,14 @@ export default function Login({ onLogin }) {
             </div>
 
             <p className="auth-meta">
-              {isLogin ? "Don’t have an account?" : "Already have an account?"}{" "}
-              <button type="button" className="auth-switch-btn" onClick={toggleMode}>
+              {isLogin
+                ? "Don’t have an account?"
+                : "Already have an account?"}{" "}
+              <button
+                type="button"
+                className="auth-switch-btn"
+                onClick={toggleMode}
+              >
                 {isLogin ? "Sign up" : "Back to login"}
               </button>
             </p>
@@ -169,4 +190,3 @@ export default function Login({ onLogin }) {
     </div>
   );
 }
-
