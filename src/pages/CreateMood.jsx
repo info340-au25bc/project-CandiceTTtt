@@ -152,7 +152,7 @@ export default function CreateMoodPage() {
             <label className="field">
               <span className="lbl">Song Name</span>
               <input
-                className="ipt"
+                className="ipt"  
                 value={songName}
                 onChange={(e) => setSongName(e.target.value)}
               />
