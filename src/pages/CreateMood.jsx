@@ -1,8 +1,7 @@
-// src/pages/CreateMoodPage.jsx
-
 import React, { useState } from "react";
 import { getDatabase, ref, push, set } from "firebase/database";
 import { useOutletContext } from "react-router-dom";
+import { ClipLoader } from "react-spinners";  
 
 export default function CreateMoodPage() {
   const { currentUser } = useOutletContext();
@@ -19,20 +18,25 @@ export default function CreateMoodPage() {
   const [isPublic, setIsPublic] = useState(true);
   const [tag, setTag] = useState("");
 
-  // ⭐ 新增：保存成功弹窗 & 这次保存的可见性
+  const [isSaving, setIsSaving] = useState(false);  
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [lastSavedIsPublic, setLastSavedIsPublic] = useState(true);
+  const [error, setError] = useState(null);  
 
   async function handleSave() {
+    
     if (!songName.trim()) {
-      alert("Please enter a song name.");
+      setError("Please enter a song name.");
       return;
     }
 
     if (!currentUser || !currentUser.username) {
-      alert("No user — please log in again.");
+      setError("No user — please log in again.");
       return;
     }
+
+    setIsSaving(true);
+    setError(null);  
 
     try {
       const db = getDatabase();
@@ -50,28 +54,22 @@ export default function CreateMoodPage() {
         owner: currentUser.username,
       };
 
-      // 1️⃣ 写入 public wall（/moods）
       const moodRef = ref(db, "moods");
       const newMoodPush = await push(moodRef, newCard);
       const cardId = newMoodPush.key;
 
-      // 2️⃣ 写入用户自己的 playlist（/users/{username}/{mood}/{cardId}）
       const moodCategory = selectedMood.alt;
-      const userCardRef = ref(
-        db,
-        `users/${currentUser.username}/${moodCategory}/${cardId}`
-      );
+      const userCardRef = ref(db, `users/${currentUser.username}/${moodCategory}/${cardId}`);
       await set(userCardRef, newCard);
 
-      // 3️⃣ 打开“保存成功”弹窗（记住这次的 public / private 状态）
       setLastSavedIsPublic(isPublic);
       setSaveModalOpen(true);
-
-      // 4️⃣ 清空表单
-      handleClear();
+      handleClear();  
     } catch (error) {
       console.error(error);
-      alert("Save Failed. Check Console.");
+      setError("Save Failed. Please try again.");
+    } finally {
+      setIsSaving(false);  
     }
   }
 
@@ -112,6 +110,25 @@ export default function CreateMoodPage() {
             </h2>
           </div>
 
+          {/* Error message */}
+          {error && (
+            <div className="modal-backdrop" role="dialog" aria-modal="true">
+              <div className="modal-card error-modal">
+                <h3 className="modal-title">Error!</h3>
+                <p className="modal-text">{error}</p>
+                <div className="modal-actions">
+                  <button
+                    type="button"
+                    className="modal-btn modal-btn-danger"
+                    onClick={() => setError(null)}  
+                  >
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="field">
             <span className="lbl">Mood Icon</span>
             <div className="emoji-grid">
@@ -125,6 +142,7 @@ export default function CreateMoodPage() {
                     onChange={() => setSelectedMood(m)}
                   />
                   <img src={m.src} alt={m.alt} />
+                  <span>{m.alt}</span> 
                 </label>
               ))}
             </div>
@@ -187,8 +205,12 @@ export default function CreateMoodPage() {
           </div>
 
           <div className="actions">
-            <button className="btn btn-primary" onClick={handleSave}>
-              Save
+            <button className="btn btn-primary" onClick={handleSave} disabled={isSaving}>
+              {isSaving ? (
+                <ClipLoader color="#ffffff" loading={true} size={20} />  
+              ) : (
+                "Save"
+              )}
             </button>
             <button className="btn btn-ghost" onClick={handleClear}>
               Clear
@@ -228,7 +250,7 @@ export default function CreateMoodPage() {
         </section>
       </main>
 
-      {/* ⭐ 保存成功弹窗（样式沿用你 delete 用的 modal-xxx 类） */}
+      
       {saveModalOpen && (
         <div className="modal-backdrop" role="dialog" aria-modal="true">
           <div className="modal-card">

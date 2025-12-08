@@ -536,6 +536,14 @@ body{
   transform-origin: center;
 }
 
+.page .emoji span {
+  display: block; 
+  font-family: "Gaegu", cursive;
+  font-size: 0.9rem;
+  color: var(--ink); 
+  margin-top: 8px; 
+}
+
 /* ========== 9)  ========== */
 .page .mood-card{
   background:#fff;
@@ -665,6 +673,7 @@ body{
 
 .page .card{ overflow: visible; }
 .page .diary, .page .song{ word-break: break-word; }
+
 
 /* rita part done */
 
@@ -813,13 +822,13 @@ body{
 .folder-card > article .folder-title{ color: #111; }
 .folder-card > article .song-mini li{ color: #222; }
 
-/* 让长字符串自动换行，不会把卡片撑出去 */
 
-/* 卡片里的迷你歌曲预览 */
+
+
 .song-mini li,
 .detail-song h3,
 .detail-note {
-  /* 优先在需要的地方换行 */
+  
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -844,11 +853,11 @@ body{
   box-shadow: 0 10px 26px rgba(0,0,0,0.08);
   border: 1.5px solid rgba(0,0,0,0.06);
 
-  /* default fallback 背景 */
+  
   background: rgba(255,255,255,0.55);
 }
 
-/* 动态 mood 颜色背景 */
+
 .playlist-detail-card[data-mood="happy"] { background: var(--mood-happy); }
 .playlist-detail-card[data-mood="calm"] { background: var(--mood-calm); }
 .playlist-detail-card[data-mood="lovely"] { background: var(--mood-lovely); }
@@ -916,7 +925,7 @@ body{
   border: 1px solid rgba(0,0,0,0.06);
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 
-  /* 关键：让子元素可以上下排、底部对齐 */
+ 
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -927,9 +936,9 @@ body{
   margin: 0 0 4px;
 }
 
-/* 底部一行：左垃圾桶，右 from xxx */
+
 .detail-bottom-row {
-  margin-top: auto;              /* 把这行“推到”卡片最底部 */
+  margin-top: auto;              
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -954,15 +963,15 @@ body{
   opacity: 1;
 }
 
-/* icon 本身大小 */
+
 .detail-delete-btn .material-symbols-outlined {
-  font-size: 22px;   /* 你可以调成 20px 或 24px */
+  font-size: 22px;   
   line-height: 1;
 }
 
-/* from xxx 文案（不用再 margin-top:auto 了，因为在 bottom-row 里） */
+
 .detail-from {
-  margin: 0;                     /* 不要额外上下 margin，才能跟 icon 齐平 */
+  margin: 0;                     
   text-align: right;
   font-size: 0.9rem;
   font-style: italic;
@@ -983,7 +992,7 @@ body{
   text-align: left;
 }
 
-/* ===== 删除确认弹窗 ===== */
+
 
 .modal-backdrop {
   position: fixed;
@@ -1221,7 +1230,7 @@ body{
   box-shadow: 0 0 0 6px rgba(207,207,230,0.25);
 }
 
-/* ★ 新增：统一 Profile 中 input + textarea 的样式 */
+
 .pref-input{
   flex: 1 1 auto;
   width: 100%;
@@ -1242,13 +1251,13 @@ body{
   background: #fff;
 }
 
-/* 只控制 textarea 的高度/缩放，不再单独改边框 */
+
 .pref-input.textarea{
   min-height: 8rem;
   resize: vertical;
 }
 
-/* ---- 下面是按钮、toggle 等共用样式 ---- */
+
 
 .toggle{
   display:flex;
