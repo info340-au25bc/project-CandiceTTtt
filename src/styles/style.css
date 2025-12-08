@@ -1772,7 +1772,9 @@ html, body, #root { height: 100% !important; }
 
 
 /* -------------------Candice part---------------------- */
-/* Public Wall */.wall-page main {
+/* Public Wall */
+
+.wall-page main {
   background: rgba(255,255,255,0.45);
   backdrop-filter: blur(6px);
   border-radius: 20px;
