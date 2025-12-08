@@ -6,6 +6,7 @@ import {
   onValue,
   set,
   remove,
+  get,
 } from "firebase/database";
 import html2canvas from "html2canvas";
 
@@ -32,6 +33,11 @@ export default function WallPage() {
 
   const [wallModalOpen, setWallModalOpen] = useState(false);
   const [wallModalMessage, setWallModalMessage] = useState("");
+
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileError, setProfileError] = useState("");
+  const [profileUser, setProfileUser] = useState(null);
 
   useEffect(() => {
     const db = getDatabase();
@@ -150,13 +156,14 @@ export default function WallPage() {
     }
 
     const username = currentUser.username;
+
     const isOwn =
       post.owner &&
       post.owner.toLowerCase() === username.toLowerCase();
 
     if (isOwn) {
       setWallModalMessage(
-        "This is your own post and it is already in your playlist!"
+        "This is your own post and it is already in your playlist."
       );
       setWallModalOpen(true);
       return;
@@ -219,6 +226,85 @@ export default function WallPage() {
     }
   }
 
+  async function handleShowProfile(ownerNameRaw) {
+    const ownerName = (ownerNameRaw || "").trim();
+    if (!ownerName) return;
+
+    setProfileModalOpen(true);
+    setProfileLoading(true);
+    setProfileError("");
+    setProfileUser(null);
+
+    try {
+      const db = getDatabase();
+      const userRef = ref(db, `users/${ownerName}`);
+      const snap = await get(userRef);
+
+      if (!snap.exists()) {
+        setProfileError("Profile not found.");
+        return;
+      }
+
+      const val = snap.val() || {};
+      const settings = val.settings || {};
+
+      if (settings.publicMode === false) {
+        setProfileError("This user keeps their profile private.");
+        return;
+      }
+
+      const profile = val.profile || {};
+      const prefs = val.preferences || {};
+
+      const favoriteGenres = prefs.favoriteGenres || [];
+      const favoriteLanguages = prefs.favoriteLanguages || [];
+
+      const lowerOwner = ownerName.toLowerCase();
+      const totalPublicPosts = posts.filter(
+        (p) =>
+          p.owner &&
+          p.owner.toLowerCase() === lowerOwner &&
+          p.isPublic
+      ).length;
+
+      const favoriteMood = profile.favoriteMood || "";
+      const favoriteMoodKey = favoriteMood.toLowerCase();
+      let moodEmojiSrc = "";
+      let moodEmojiAlt = favoriteMood;
+
+      if (favoriteMoodKey) {
+        const sourcePost =
+          posts.find(
+            (p) =>
+              (p.moodEmojiAlt || "").toLowerCase() === favoriteMoodKey &&
+              p.moodEmojiSrc
+          ) || null;
+        if (sourcePost) {
+          moodEmojiSrc = sourcePost.moodEmojiSrc;
+          moodEmojiAlt = sourcePost.moodEmojiAlt || favoriteMood;
+        }
+      }
+
+      setProfileUser({
+        username: ownerName,
+        displayName: (profile.displayName || "").trim() || ownerName,
+        bio: profile.bio || "",
+        favoriteMood,
+        favoriteMoodKey,
+        moodEmojiSrc,
+        moodEmojiAlt,
+        favoriteGenres,
+        favoriteLanguages,
+        totalPublicPosts,
+      });
+    } catch (err) {
+      console.error("Failed to load profile:", err);
+      setProfileError("Failed to load this profile.");
+    } finally {
+      setProfileLoading(false);
+    }
+  }
+
   return (
     <div className="page wall-page">
       {wallModalOpen && (
@@ -236,6 +322,107 @@ export default function WallPage() {
             >
               OK
             </button>
+          </div>
+        </div>
+      )}
+
+      {profileModalOpen && (
+        <div
+          className="modal-backdrop wall-profile-backdrop"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="modal-card wall-profile-card"
+            data-mood={
+              profileUser && profileUser.favoriteMoodKey
+                ? profileUser.favoriteMoodKey
+                : ""
+            }
+          >
+            {profileLoading ? (
+              <p className="modal-text">Loading profile…</p>
+            ) : profileError ? (
+              <>
+                <h3 className="modal-title">Profile</h3>
+                <p className="modal-text">{profileError}</p>
+              </>
+            ) : profileUser ? (
+              <>
+                <div className="wall-profile-header">
+                  {profileUser.moodEmojiSrc && (
+                    <div className="wall-profile-emoji-wrap">
+                      <img
+                        src={profileUser.moodEmojiSrc}
+                        alt={profileUser.moodEmojiAlt || "Recent mood"}
+                        className="wall-profile-emoji"
+                      />
+                    </div>
+                  )}
+                  <div className="wall-profile-title">
+                    <h3 className="modal-title">
+                      {profileUser.displayName || profileUser.username}
+                    </h3>
+                    <p className="wall-profile-username">
+                      @{profileUser.username}
+                    </p>
+                    {profileUser.bio && (
+                      <p className="wall-profile-bio">
+                        {profileUser.bio}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="wall-profile-body">
+                  {profileUser.favoriteMood && (
+                    <p className="wall-profile-line">
+                      Recent mood:{" "}
+                      <span className="wall-profile-value">
+                        {profileUser.favoriteMood}
+                      </span>
+                    </p>
+                  )}
+
+                  {profileUser.favoriteGenres &&
+                    profileUser.favoriteGenres.length > 0 && (
+                      <p className="wall-profile-line">
+                        Favorite genres:{" "}
+                        <span className="wall-profile-value">
+                          {profileUser.favoriteGenres.join(", ")}
+                        </span>
+                      </p>
+                    )}
+
+                  {profileUser.favoriteLanguages &&
+                    profileUser.favoriteLanguages.length > 0 && (
+                      <p className="wall-profile-line">
+                        Favorite languages:{" "}
+                        <span className="wall-profile-value">
+                          {profileUser.favoriteLanguages.join(", ")}
+                        </span>
+                      </p>
+                    )}
+
+                  <p className="wall-profile-line">
+                    Public posts on wall:{" "}
+                    <span className="wall-profile-value">
+                      {profileUser.totalPublicPosts}
+                    </span>
+                  </p>
+                </div>
+              </>
+            ) : null}
+
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-btn modal-btn-cancel"
+                onClick={() => setProfileModalOpen(false)}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -373,7 +560,14 @@ export default function WallPage() {
 
                       {post.owner && (
                         <p className="wall_owner">
-                          — From {post.owner}
+                          — From{" "}
+                          <button
+                            type="button"
+                            className="wall-owner-btn"
+                            onClick={() => handleShowProfile(post.owner)}
+                          >
+                            {post.owner}
+                          </button>
                         </p>
                       )}
 
@@ -384,7 +578,9 @@ export default function WallPage() {
                             (isSaved ? " wall-save-btn--active" : "")
                           }
                           type="button"
-                          onClick={() => handleToggleSave(post)}
+                          onClick={
+                            isOwn ? undefined : () => handleToggleSave(post)
+                          }
                           aria-pressed={isSaved}
                           title={
                             isOwn
@@ -400,6 +596,7 @@ export default function WallPage() {
                               ? "Unsave this post"
                               : "Save this post"
                           }
+                          disabled={isOwn}
                         >
                           <span
                             className={

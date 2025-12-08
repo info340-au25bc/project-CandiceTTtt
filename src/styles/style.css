@@ -1417,14 +1417,20 @@ body.auth-page {
 }
 
 
-/* Candice part */
-/* Public Wall */
 
-.wall-page main {
+
+
+/* Candice part */
+/* Public Wall */.wall-page main {
   background: rgba(255,255,255,0.45);
   backdrop-filter: blur(6px);
   border-radius: 20px;
   padding: 24px;
+}
+
+.wall-page {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .wall_container {
@@ -1434,8 +1440,12 @@ body.auth-page {
   list-style: none;
   padding: 0;
   margin: 20px 0;
+  width: 100%;
 }
 
+.wall_card {
+  max-width: 100%;
+}
 
 .wall_card > article {
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -1448,6 +1458,8 @@ body.auth-page {
   min-height: 160px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   transition: transform 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .wall_card > article:hover {
@@ -1491,6 +1503,8 @@ body.auth-page {
   padding: 8px 10px;
   margin: 8px 0;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .wall_song {
@@ -1520,9 +1534,19 @@ body.auth-page {
   text-align: right;
   font-size: 0.9rem;
   font-style: italic;
-  color: #b47c8c;
-  opacity: 0.9;
   padding-right: 0.4rem;
+  color: #b26780;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.wall_card[data-mood="tired"] .wall_owner,
+.wall_card[data-mood="angry"] .wall_owner,
+.wall_card[data-mood="confused"] .wall_owner,
+.wall_card[data-mood="sad"] .wall_owner,
+.wall_card[data-mood="exhausted"] .wall_owner {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
 }
 
 .wall_actions {
@@ -1654,7 +1678,8 @@ body.auth-page {
   transform: scale(0.97);
 }
 
-html, body {
+html,
+body {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -1667,7 +1692,7 @@ main.container {
 .wall-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1675,86 +1700,184 @@ main.container {
 }
 
 .wall-modal {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 16px 20px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px 24px;
   max-width: 320px;
   width: 80%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
   text-align: center;
 }
 
 .wall-modal-message {
   margin: 0 0 12px;
-  font-size: 0.96rem;
-  color: #333;
+  font-size: 0.95rem;
+  color: #444;
 }
 
 .wall-modal-close-btn {
-  padding: 6px 14px;
+  padding: 8px 14px;
   border-radius: 999px;
   border: none;
-  background: #0b63c4;
-  color: #fff;
-  font-size: 0.9rem;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  background: linear-gradient(135deg, #ff7b7b, #ff4081);
 }
 
 .wall-modal-close-btn:hover {
-  background: #084c96;
+  filter: brightness(1.05);
 }
 
-.wall-page {
-  max-width: 100vw;
-  overflow-x: hidden;
+.wall-owner-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.wall_container {
-  width: 100%;
+.wall-owner-btn:hover {
+  opacity: 1;
 }
 
-.wall_card {
-  max-width: 100%;
+.wall-profile-backdrop {
+  z-index: 1001;
 }
 
-.wall_card > article {
-  width: 100%;
-  box-sizing: border-box;
+.wall-profile-card {
+  max-width: 420px;
+  width: 95%;
+  border-radius: 26px;
+  border: 1.5px solid rgba(0,0,0,0.06);
+  padding: 22px 26px 18px;
 }
 
-.wall_song,
-.wall_diary {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 10px;
-  padding: 8px 10px;
-  margin: 8px 0;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-
-  word-break: break-word;
-  overflow-wrap: anywhere;
+.wall-profile-card[data-mood="happy"] {
+  background: var(--mood-happy);
+}
+.wall-profile-card[data-mood="calm"] {
+  background: var(--mood-calm);
+}
+.wall-profile-card[data-mood="lovely"] {
+  background: var(--mood-lovely);
+}
+.wall-profile-card[data-mood="excited"] {
+  background: var(--mood-excited);
+}
+.wall-profile-card[data-mood="sad"] {
+  background: var(--mood-sad);
+}
+.wall-profile-card[data-mood="relaxed"] {
+  background: var(--mood-relaxed);
+}
+.wall-profile-card[data-mood="angry"] {
+  background: var(--mood-angry);
+}
+.wall-profile-card[data-mood="confused"] {
+  background: var(--mood-confused);
+}
+.wall-profile-card[data-mood="tired"] {
+  background: var(--mood-tired);
+}
+.wall-profile-card[data-mood="exhausted"] {
+  background: var(--mood-exhausted);
 }
 
-.wall_owner {
-  margin-top: 0.4rem;
-  margin-bottom: 0.2rem;
-  text-align: right;
+.wall-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.wall-profile-emoji-wrap {
+  width: 78px;
+  height: 78px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.wall-profile-emoji {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.wall-profile-title {
+  flex: 1;
+}
+
+.wall-profile-bio {
+  margin: 2px 0 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.wall-profile-body {
+  margin-top: 8px;
+}
+
+.wall-profile-mood-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 8px;
+}
+
+.wall-profile-label {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.wall-profile-mood-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.wall-profile-mood-emoji {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.9);
+}
+
+.wall-profile-mood-text {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.wall-profile-meta {
+  margin-top: 6px;
+  text-align: left;
+}
+
+.wall-profile-line {
+  margin: 2px 0;
   font-size: 0.9rem;
-  font-style: italic;
-  padding-right: 0.4rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-  color: #b26780;
-  opacity: 0.9;
+  color: #444;
 }
 
-.wall_card[data-mood="tired"] .wall_owner,
-.wall_card[data-mood="angry"] .wall_owner,
-.wall_card[data-mood="confused"] .wall_owner,
-.wall_card[data-mood="sad"] .wall_owner {
-  color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+.wall-profile-value {
+  font-weight: 600;
 }
-
 
 
 /* Candice part ends */
