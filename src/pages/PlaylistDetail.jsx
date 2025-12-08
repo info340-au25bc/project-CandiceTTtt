@@ -3,71 +3,97 @@ import {
   useParams,
   useSearchParams,
   useOutletContext,
-  Link, 
+  Link,
 } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { getDatabase, ref, onValue, remove } from "firebase/database";
 import { playlists as basePlaylists } from "../data/playlists";
 
 export default function PlaylistDetail() {
-  const { moodId } = useParams(); 
+  const { moodId } = useParams();
   const [searchParams] = useSearchParams();
-  const [isExporting, setIsExporting] = useState(false);
-  const cardRef = useRef(null);
   const { currentUser } = useOutletContext();
 
+  const cardRef = useRef(null);
+
   const [songs, setSongs] = useState([]);
-  const [pendingDelete, setPendingDelete] = useState(null); 
+  const [pendingDelete, setPendingDelete] = useState(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState(null);
 
   const playlistMeta = basePlaylists.find(
     (p) => p.moodId.toLowerCase() === moodId.toLowerCase()
   );
 
   useEffect(() => {
-    if (!currentUser || !currentUser.username) return;
+    if (!playlistMeta) {
+      setIsLoading(false);
+      setError("Playlist not found.");
+      return;
+    }
+
+    if (!currentUser || !currentUser.username) {
+      setSongs([]);
+      setIsLoading(false);
+      setError("Please log in to see this playlist.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
 
     const db = getDatabase();
     const userRef = ref(db, `users/${currentUser.username}`);
 
-    const unsubscribe = onValue(userRef, (snapshot) => {
-      const val = snapshot.val() || {};
-      const list = [];
+    const unsubscribe = onValue(
+      userRef,
+      (snapshot) => {
+        const val = snapshot.val() || {};
+        const list = [];
 
-      Object.entries(val).forEach(([categoryKey, cardsObj]) => {
-        if (!cardsObj || typeof cardsObj !== "object") return;
+        Object.entries(val).forEach(([categoryKey, cardsObj]) => {
+          if (!cardsObj || typeof cardsObj !== "object") return;
 
-        Object.entries(cardsObj).forEach(([cardId, card]) => {
-          const moodName = card.moodEmojiAlt || categoryKey || "";
-          if (
-            moodName &&
-            moodName.toLowerCase() === moodId.toLowerCase()
-          ) {
-            list.push({
-              id: cardId,
-              ...card,
-            });
-          }
+          Object.entries(cardsObj).forEach(([cardId, card]) => {
+            const moodName = card.moodEmojiAlt || categoryKey || "";
+            if (
+              moodName &&
+              moodName.toLowerCase() === moodId.toLowerCase()
+            ) {
+              list.push({
+                id: cardId,
+                ...card,
+              });
+            }
+          });
         });
-      });
 
-      list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-      setSongs(list);
-    });
+        setSongs(list);
+        setIsLoading(false);
+        setError(null);
+      },
+      (err) => {
+        console.error("Failed to load playlist songs:", err);
+        setIsLoading(false);
+        setError("Failed to load songs. Please try again.");
+      }
+    );
 
     return () => unsubscribe();
-  }, [currentUser, moodId]);
-
-  if (!playlistMeta) {
-    return <p style={{ padding: "20px" }}>Playlist not found!</p>;
-  }
+  }, [currentUser, moodId, playlistMeta]);
 
   // 导出海报
   async function handleExportPoster() {
-    if (!cardRef.current) return;
+    if (!cardRef.current || !playlistMeta) return;
 
     try {
       setIsExporting(true);
+      setError(null);
+
       await new Promise((resolve) => setTimeout(resolve, 80));
 
       const canvas = await html2canvas(cardRef.current, {
@@ -83,20 +109,23 @@ export default function PlaylistDetail() {
       link.click();
     } catch (err) {
       console.error("Failed to export poster:", err);
-      alert("Oops, something went wrong while exporting the poster.");
+      setError("Something went wrong while exporting the poster. Please try again.");
     } finally {
       setIsExporting(false);
     }
   }
 
+  // 支持 ?mode=export 自动导出
   useEffect(() => {
     const mode = searchParams.get("mode");
     if (mode === "export") {
       handleExportPoster();
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   function onClickDelete(song) {
+    setError(null);
     setPendingDelete(song);
   }
 
@@ -104,6 +133,9 @@ export default function PlaylistDetail() {
     if (!pendingDelete || !currentUser) return;
 
     try {
+      setIsDeleting(true);
+      setError(null);
+
       const db = getDatabase();
       const username = currentUser.username;
       const moodCategory = pendingDelete.moodEmojiAlt || moodId;
@@ -120,16 +152,72 @@ export default function PlaylistDetail() {
       }
 
       setPendingDelete(null);
-      // onValue 监听会自动刷新 songs，不用手动 setSongs
+      setIsDeleting(false);
+      // onValue 监听会自动刷新 songs
     } catch (err) {
       console.error("Failed to delete card:", err);
-      alert("Failed to delete. Please try again.");
+      setIsDeleting(false);
+      setError("Failed to delete this card. Please try again.");
     }
   }
 
   function cancelDelete() {
     setPendingDelete(null);
+    setIsDeleting(false);
   }
+
+  if (!playlistMeta) {
+    return (
+      <main className="container playlist-detail-page">
+        <div className="detail-back">
+          <Link to="/playlists" className="back-btn">
+            ← Back to playlists
+          </Link>
+        </div>
+        <p className="status-message error-message">
+          Playlist not found.
+        </p>
+      </main>
+    );
+  }
+
+  const songItems = songs.map((song) => (
+    <li key={song.id} className="detail-song">
+      <h3>
+        {song.songName} — {song.artist || "Unknown artist"}
+      </h3>
+
+      {song.diary && (
+        <p className="detail-note">{song.diary}</p>
+      )}
+
+      <div className="detail-bottom-row">
+        <button
+          type="button"
+          className="detail-delete-btn"
+          onClick={() => onClickDelete(song)}
+          aria-label="Delete this mood card"
+          title="Delete this mood card"
+        >
+          <span
+            className="material-symbols-outlined"
+            aria-hidden="true"
+          >
+            delete
+          </span>
+        </button>
+
+        {song.owner && (
+          <p className="detail-from">
+            from{" "}
+            <span className="detail-from-name">
+              {song.owner}
+            </span>
+          </p>
+        )}
+      </div>
+    </li>
+  ));
 
   return (
     <main className="container playlist-detail-page">
@@ -138,6 +226,16 @@ export default function PlaylistDetail() {
           ← Back to playlists
         </Link>
       </div>
+
+      {error && (
+        <p className="status-message error-message">
+          {error}
+        </p>
+      )}
+
+      {isLoading && !error && (
+        <p className="status-message">Loading your songs…</p>
+      )}
 
       <div
         className="playlist-detail-card"
@@ -159,40 +257,7 @@ export default function PlaylistDetail() {
         </div>
 
         <ul className="detail-song-list">
-          {songs.map((song) => (
-            <li key={song.id} className="detail-song">
-              <h3>
-                {song.songName} — {song.artist || "Unknown artist"}
-              </h3>
-
-              {song.diary && (
-                <p className="detail-note">{song.diary}</p>
-              )}
-
-              <div className="detail-bottom-row">
-                <button
-                  type="button"
-                  className="detail-delete-btn"
-                  onClick={() => onClickDelete(song)} 
-                  aria-label="Delete this mood card"
-                  title="Delete this mood card"
-                >
-                  <span
-                    className="material-symbols-outlined"
-                    aria-hidden="true"
-                  >
-                    delete
-                  </span>
-                </button>
-
-                {song.owner && (
-                  <p className="detail-from">
-                    from <span className="detail-from-name">{song.owner}</span>
-                  </p>
-                )}
-              </div>
-            </li>
-          ))}
+          {songItems}
         </ul>
 
         <div
@@ -204,6 +269,7 @@ export default function PlaylistDetail() {
         </div>
       </div>
 
+      {/* 删除确认弹窗 */}
       {pendingDelete && (
         <div className="modal-backdrop">
           <div className="modal-card">
@@ -220,6 +286,7 @@ export default function PlaylistDetail() {
                 type="button"
                 className="modal-btn modal-btn-cancel"
                 onClick={cancelDelete}
+                disabled={isDeleting}
               >
                 No, keep it
               </button>
@@ -227,8 +294,9 @@ export default function PlaylistDetail() {
                 type="button"
                 className="modal-btn modal-btn-danger"
                 onClick={confirmDelete}
+                disabled={isDeleting}
               >
-                Yes, delete
+                {isDeleting ? "Deleting…" : "Yes, delete"}
               </button>
             </div>
           </div>
