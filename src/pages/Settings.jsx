@@ -10,8 +10,6 @@ export default function Settings() {
     handleLogout,
     storageMode = "local",
     setStorageMode,
-    publicMode = true,
-    setPublicMode,
   } = ctx;
 
   const username = currentUser?.username || "Guest";
@@ -24,8 +22,23 @@ export default function Settings() {
   const [savingProfile, setSavingProfile] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
 
-  const GENRE_OPTIONS = ["Pop", "Rock", "R&B", "Hip-hop", "Jazz", "Indie", "Classical"];
-  const LANG_OPTIONS = ["English", "Chinese", "Korean", "Japanese", "Spanish", "Other"];
+  const GENRE_OPTIONS = [
+    "Pop",
+    "Rock",
+    "R&B",
+    "Hip-hop",
+    "Jazz",
+    "Indie",
+    "Classical",
+  ];
+  const LANG_OPTIONS = [
+    "English",
+    "Chinese",
+    "Korean",
+    "Japanese",
+    "Spanish",
+    "Other",
+  ];
 
   const [favoriteGenres, setFavoriteGenres] = useState([]);
   const [favoriteLanguages, setFavoriteLanguages] = useState([]);
@@ -36,16 +49,16 @@ export default function Settings() {
   const [loadingStats, setLoadingStats] = useState(false);
 
   const moods = [
-    { key: "Happy",     img: "happy.PNG",      alt: "Happy" },
-  { key: "Calm",      img: "calm.PNG",       alt: "Calm" },
-  { key: "Relaxed",   img: "relaxed.PNG",    alt: "Relaxed" },
-  { key: "Excited",   img: "excited.PNG",    alt: "Excited" },
-  { key: "Confused",  img: "confused.PNG",   alt: "Confused" },
-  { key: "Lovely",    img: "lovely.PNG",     alt: "Lovely" },
-  { key: "Sad",       img: "sad.PNG",        alt: "Sad" },
-  { key: "Angry",     img: "angry.PNG",      alt: "Angry" },
-  { key: "Tired",     img: "tired.PNG",      alt: "Tired" },       
-  { key: "Exhausted", img: "exhausted.PNG",  alt: "Exhausted" },
+    { key: "Happy", img: "happy.PNG", alt: "Happy" },
+    { key: "Calm", img: "calm.PNG", alt: "Calm" },
+    { key: "Relaxed", img: "relaxed.PNG", alt: "Relaxed" },
+    { key: "Excited", img: "excited.PNG", alt: "Excited" },
+    { key: "Confused", img: "confused.PNG", alt: "Confused" },
+    { key: "Lovely", img: "lovely.PNG", alt: "Lovely" },
+    { key: "Sad", img: "sad.PNG", alt: "Sad" },
+    { key: "Angry", img: "angry.PNG", alt: "Angry" },
+    { key: "Tired", img: "tired.PNG", alt: "Tired" },
+    { key: "Exhausted", img: "exhausted.PNG", alt: "Exhausted" },
   ];
 
   const greetingName = (displayName || "").trim() || username;
@@ -60,8 +73,14 @@ export default function Settings() {
 
       try {
         const db = getDatabase();
-        const profileRef = ref(db, `users/${currentUser.username}/profile`);
-        const prefsRef = ref(db, `users/${currentUser.username}/preferences`);
+        const profileRef = ref(
+          db,
+          `users/${currentUser.username}/profile`
+        );
+        const prefsRef = ref(
+          db,
+          `users/${currentUser.username}/preferences`
+        );
 
         const [profileSnap, prefsSnap] = await Promise.all([
           get(profileRef),
@@ -111,7 +130,6 @@ export default function Settings() {
         let total = 0;
 
         Object.entries(val).forEach(([key, value]) => {
-          
           if (
             key === "password" ||
             key === "createdAt" ||
@@ -141,33 +159,50 @@ export default function Settings() {
     loadStats();
   }, [currentUser]);
 
-  async function handleSaveProfile() {
+  async function saveProfileToDb(moodOverride) {
     if (!currentUser || !currentUser.username) {
       alert("No user — please log in again.");
       return;
     }
 
     setSavingProfile(true);
-    setProfileMessage("");
 
     try {
       const db = getDatabase();
-      const profileRef = ref(db, `users/${currentUser.username}/profile`);
+      const profileRef = ref(
+        db,
+        `users/${currentUser.username}/profile`
+      );
 
       const payload = {
         displayName: displayName.trim() || currentUser.username,
         bio: bio.trim(),
-        favoriteMood: selectedMood,
+        favoriteMood: moodOverride || selectedMood,
       };
 
       await set(profileRef, payload);
-      setProfileMessage("Profile saved ✔");
+      return true;
     } catch (err) {
       console.error("Failed to save profile:", err);
-      setProfileMessage("Failed to save profile.");
+      return false;
     } finally {
       setSavingProfile(false);
     }
+  }
+
+  async function handleSaveProfile() {
+    setProfileMessage("");
+    const ok = await saveProfileToDb();
+    setProfileMessage(ok ? "Profile saved ✔" : "Failed to save profile.");
+  }
+
+  async function handleMoodClick(moodKey) {
+    setSelectedMood(moodKey);
+    setProfileMessage("");
+    const ok = await saveProfileToDb(moodKey);
+    setProfileMessage(
+      ok ? "Recent mood updated ✔" : "Failed to update recent mood."
+    );
   }
 
   function toggleInArray(value, arrSetter) {
@@ -189,7 +224,10 @@ export default function Settings() {
 
     try {
       const db = getDatabase();
-      const prefsRef = ref(db, `users/${currentUser.username}/preferences`);
+      const prefsRef = ref(
+        db,
+        `users/${currentUser.username}/preferences`
+      );
 
       const payload = {
         favoriteGenres,
@@ -211,12 +249,18 @@ export default function Settings() {
       <section className="page-head">
         <h2>Hi, {greetingName} 🎧</h2>
         <p className="subtitle">
-          Find your vibe today and tune your mood with personalized settings.
+          Find your vibe today and tune your mood with personalized
+          settings.
         </p>
       </section>
 
-      <section className="settings-card" aria-labelledby="mood-title">
-        <h3 id="mood-title" className="settings-title">Mood Selector</h3>
+      <section
+        className="settings-card"
+        aria-labelledby="mood-title"
+      >
+        <h3 id="mood-title" className="settings-title">
+          Mood Selector
+        </h3>
 
         <div className="mood-grid">
           {moods.map((m) => (
@@ -226,7 +270,7 @@ export default function Settings() {
                 name="mood"
                 className="tile-radio"
                 checked={selectedMood === m.key}
-                onChange={() => setSelectedMood(m.key)}
+                onChange={() => handleMoodClick(m.key)}
               />
               <span className="tile-visual">
                 <img src={`/shared_imgs/${m.img}`} alt={m.alt} />
@@ -237,17 +281,23 @@ export default function Settings() {
         </div>
 
         <p className="desc">
-          Favorite mood: <strong>{selectedMood}</strong>
+          Recent mood: <strong>{selectedMood}</strong>
         </p>
       </section>
 
-      <section className="settings-card" aria-labelledby="profile-title">
+      <section
+        className="settings-card"
+        aria-labelledby="profile-title"
+      >
         <h3 id="profile-title" className="settings-title">
           Profile
         </h3>
 
         <div className="pref">
-          <label className="pref-label" htmlFor="display-name-input">
+          <label
+            className="pref-label"
+            htmlFor="display-name-input"
+          >
             Display name
           </label>
           <input
@@ -290,7 +340,10 @@ export default function Settings() {
         )}
       </section>
 
-      <section className="settings-card" aria-labelledby="prefs-music-title">
+      <section
+        className="settings-card"
+        aria-labelledby="prefs-music-title"
+      >
         <h3 id="prefs-music-title" className="settings-title">
           Music Preferences
         </h3>
@@ -319,7 +372,9 @@ export default function Settings() {
                 <input
                   type="checkbox"
                   checked={favoriteLanguages.includes(lang)}
-                  onChange={() => toggleInArray(lang, setFavoriteLanguages)}
+                  onChange={() =>
+                    toggleInArray(lang, setFavoriteLanguages)
+                  }
                 />
                 <span>{lang}</span>
               </label>
@@ -341,7 +396,10 @@ export default function Settings() {
         )}
       </section>
 
-      <section className="settings-card" aria-labelledby="stats-title">
+      <section
+        className="settings-card"
+        aria-labelledby="stats-title"
+      >
         <h3 id="stats-title" className="settings-title">
           Your Mood Stats
         </h3>
@@ -350,52 +408,50 @@ export default function Settings() {
           <p className="desc">Loading your stats…</p>
         ) : !moodStats || moodStats.total === 0 ? (
           <p className="desc">
-            You haven&apos;t created any mood cards yet. Try making one in
-            &nbsp;<strong>Create Mood Card</strong>!
+            You haven&apos;t created any mood cards yet. Try making
+            one in <strong>Create Mood Card</strong>!
           </p>
         ) : (
           <>
             <p className="desc">
-              You have created <strong>{moodStats.total}</strong> mood cards.
+              You have created <strong>{moodStats.total}</strong> mood
+              cards.
             </p>
             <ul className="stats-list">
-              {Object.entries(moodStats.perMood).map(([mood, count]) => (
-                <li key={mood}>
-                  <strong>{mood}</strong>: {count} card{count > 1 ? "s" : ""}
-                </li>
-              ))}
+              {Object.entries(moodStats.perMood).map(
+                ([mood, count]) => (
+                  <li key={mood}>
+                    <strong>{mood}</strong>: {count} card
+                    {count > 1 ? "s" : ""}
+                  </li>
+                )
+              )}
             </ul>
           </>
         )}
       </section>
 
-      <section className="settings-card" aria-labelledby="prefs-title">
-        <h3 id="prefs-title" className="settings-title">Preferences</h3>
+      <section
+        className="settings-card"
+        aria-labelledby="prefs-title"
+      >
+        <h3 id="prefs-title" className="settings-title">
+          Preferences
+        </h3>
 
         <div className="pref">
           <label className="pref-label">Data Storage</label>
           <select
             className="pref-select"
             value={storageMode}
-            onChange={(e) => setStorageMode && setStorageMode(e.target.value)}
+            onChange={(e) =>
+              setStorageMode && setStorageMode(e.target.value)
+            }
           >
             <option value="local">Local (Browser)</option>
             <option value="cloud">Cloud (Synced)</option>
           </select>
         </div>
-
-        <label className="toggle">
-          <input
-            type="checkbox"
-            className="toggle-ck"
-            checked={publicMode}
-            onChange={(e) => setPublicMode && setPublicMode(e.target.checked)}
-          />
-          <span className="switch" aria-hidden="true"></span>
-          <span className="toggle-text">
-            Public mode · Visible to everyone
-          </span>
-        </label>
 
         <button
           className="btn btn-primary logout"

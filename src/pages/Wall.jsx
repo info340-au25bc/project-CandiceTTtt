@@ -246,12 +246,6 @@ export default function WallPage() {
       }
 
       const val = snap.val() || {};
-      const settings = val.settings || {};
-
-      if (settings.publicMode === false) {
-        setProfileError("This user keeps their profile private.");
-        return;
-      }
 
       const profile = val.profile || {};
       const prefs = val.preferences || {};
@@ -578,25 +572,22 @@ export default function WallPage() {
                             (isSaved ? " wall-save-btn--active" : "")
                           }
                           type="button"
-                          onClick={
-                            isOwn ? undefined : () => handleToggleSave(post)
-                          }
+                          onClick={() => handleToggleSave(post)}
                           aria-pressed={isSaved}
                           title={
                             isOwn
-                              ? "This is your own post."
+                              ? "This is your own post and it is already in your playlist."
                               : isSaved
                               ? "Unsave this post"
                               : "Save this post"
                           }
                           aria-label={
                             isOwn
-                              ? "This is your own post."
+                              ? "This is your own post and it is already in your playlist."
                               : isSaved
                               ? "Unsave this post"
                               : "Save this post"
                           }
-                          disabled={isOwn}
                         >
                           <span
                             className={
