@@ -878,6 +878,15 @@ a:hover {
 }
 
 /* =============== PLAYLIST DETAIL PAGE (HANNAH) =============== */
+.empty-playlist {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  font-style: italic;
+  text-align: center;
+  color: #555;
+  opacity: 0.9;
+}
+
 .playlist-detail-page {
   display: flex;
   flex-direction: column;
@@ -952,6 +961,43 @@ a:hover {
 }
 
 /* Song list */
+.detail-song-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.detail-song-title {
+  margin: 0;
+}
+
+.detail-song-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-song-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+
+.detail-song-link .material-symbols-outlined {
+  font-size: 25px;
+  transition: color 0.2s ease;
+}
+
+.detail-song-link:hover .material-symbols-outlined {
+  color: #1a73e8; 
+}
+
 .detail-song-list {
   list-style: none;
   margin: 0;
@@ -1694,15 +1740,45 @@ main,
 }
 
 .wall_song {
+  display: flex; 
+  align-items: center;
+  justify-content: space-between; 
+  gap: 12px;
+
   font-family: "Lexend Deca", sans-serif;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.35;
   margin: 6px 0;
 }
+
+.wall_song-text {
+  flex: 1;
+}
+
 .wall_song .artist {
   font-weight: 700;
   color: #444;
+}
+
+.wall-song-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.wall-link-icon {
+  font-size: 22px;
+  transition: color 0.2s ease;
+}
+
+.wall-song-link:hover .wall-link-icon {
+  color: #1a73e8;
 }
 
 .wall_diary {

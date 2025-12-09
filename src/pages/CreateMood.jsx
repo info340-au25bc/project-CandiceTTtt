@@ -16,7 +16,6 @@ export default function CreateMoodPage() {
   const [link, setLink] = useState("");
   const [diary, setDiary] = useState("");
   const [isPublic, setIsPublic] = useState(true);
-  const [tag, setTag] = useState("");
 
   const [isSaving, setIsSaving] = useState(false);  
   const [saveModalOpen, setSaveModalOpen] = useState(false);
@@ -49,7 +48,6 @@ export default function CreateMoodPage() {
         link: link.trim(),
         diary: diary.trim(),
         isPublic,
-        tag,
         createdAt: Date.now(),
         owner: currentUser.username,
       };
@@ -78,7 +76,6 @@ export default function CreateMoodPage() {
     setArtist("");
     setLink("");
     setDiary("");
-    setTag("");
     setIsPublic(true);
     setSelectedMood({
       src: "/shared_imgs/happy.PNG",
@@ -102,7 +99,6 @@ export default function CreateMoodPage() {
   return (
     <div className="page">
       <main className="grid">
-        {/* LEFT FORM */}
         <section className="card">
           <div className="card-head">
             <h2>
@@ -110,7 +106,6 @@ export default function CreateMoodPage() {
             </h2>
           </div>
 
-          {/* Error message */}
           {error && (
             <div className="modal-backdrop" role="dialog" aria-modal="true">
               <div className="modal-card error-modal">
@@ -218,7 +213,6 @@ export default function CreateMoodPage() {
           </div>
         </section>
 
-        {/* RIGHT PREVIEW */}
         <section className="card">
           <div className="card-head">
             <h2>

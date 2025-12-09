@@ -19,8 +19,9 @@ function NotFoundPage() {
           The page you're looking for doesn't exist. Use the navigation above to explore Mood Music 🎧
         </p>
         <button
+          type="button"
           className="btn btn-primary"
-          onClick={() => navigate("/create-mood")} 
+          onClick={() => navigate("/create-mood")}
         >
           Go to Create Mood Page
         </button>

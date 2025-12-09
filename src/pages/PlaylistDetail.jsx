@@ -27,6 +27,16 @@ export default function PlaylistDetail() {
     (p) => p.moodId.toLowerCase() === moodId.toLowerCase()
   );
 
+  function getSongLinkUrl(rawLink) {
+    if (!rawLink) return "";
+    const trimmed = rawLink.trim();
+    if (!trimmed) return "";
+    if (/^https?:\/\//i.test(trimmed)) {
+      return trimmed;
+    }
+    return "https://" + trimmed;
+  }
+
   useEffect(() => {
     if (!playlistMeta) {
       setIsLoading(false);
@@ -86,7 +96,6 @@ export default function PlaylistDetail() {
     return () => unsubscribe();
   }, [currentUser, moodId, playlistMeta]);
 
-  // 导出海报
   async function handleExportPoster() {
     if (!cardRef.current || !playlistMeta) return;
 
@@ -109,19 +118,19 @@ export default function PlaylistDetail() {
       link.click();
     } catch (err) {
       console.error("Failed to export poster:", err);
-      setError("Something went wrong while exporting the poster. Please try again.");
+      setError(
+        "Something went wrong while exporting the poster. Please try again."
+      );
     } finally {
       setIsExporting(false);
     }
   }
 
-  // 支持 ?mode=export 自动导出
   useEffect(() => {
     const mode = searchParams.get("mode");
     if (mode === "export") {
       handleExportPoster();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   function onClickDelete(song) {
@@ -153,7 +162,6 @@ export default function PlaylistDetail() {
 
       setPendingDelete(null);
       setIsDeleting(false);
-      // onValue 监听会自动刷新 songs
     } catch (err) {
       console.error("Failed to delete card:", err);
       setIsDeleting(false);
@@ -181,43 +189,61 @@ export default function PlaylistDetail() {
     );
   }
 
-  const songItems = songs.map((song) => (
-    <li key={song.id} className="detail-song">
-      <h3>
-        {song.songName} — {song.artist || "Unknown artist"}
-      </h3>
+  const songItems = songs.map((song) => {
+    const songUrl = getSongLinkUrl(song.link);
 
-      {song.diary && (
-        <p className="detail-note">{song.diary}</p>
-      )}
-
-      <div className="detail-bottom-row">
-        <button
-          type="button"
-          className="detail-delete-btn"
-          onClick={() => onClickDelete(song)}
-          aria-label="Delete this mood card"
-          title="Delete this mood card"
-        >
-          <span
-            className="material-symbols-outlined"
-            aria-hidden="true"
-          >
-            delete
+    return (
+      <li key={song.id} className="detail-song">
+        <h3 className="detail-song-top">
+          <span>
+            {song.songName} — {song.artist || "Unknown artist"}
           </span>
-        </button>
 
-        {song.owner && (
-          <p className="detail-from">
-            from{" "}
-            <span className="detail-from-name">
-              {song.owner}
-            </span>
-          </p>
+          {songUrl && (
+            <a
+              href={songUrl}
+              className="detail-song-link icon-btn"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open song link"
+            >
+              <span className="material-symbols-outlined">link</span>
+            </a>
+          )}
+        </h3>
+
+        {song.diary && (
+          <p className="detail-note">{song.diary}</p>
         )}
-      </div>
-    </li>
-  ));
+
+        <div className="detail-bottom-row">
+          <button
+            type="button"
+            className="detail-delete-btn"
+            onClick={() => onClickDelete(song)}
+            aria-label="Delete this mood card"
+            title="Delete this mood card"
+          >
+            <span
+              className="material-symbols-outlined"
+              aria-hidden="true"
+            >
+              delete
+            </span>
+          </button>
+
+          {song.owner && (
+            <p className="detail-from">
+              from{" "}
+              <span className="detail-from-name">
+                {song.owner}
+              </span>
+            </p>
+          )}
+        </div>
+      </li>
+    );
+  });
 
   return (
     <main className="container playlist-detail-page">
@@ -260,6 +286,12 @@ export default function PlaylistDetail() {
           {songItems}
         </ul>
 
+        {!isLoading && !error && songs.length === 0 && (
+          <p className="status-message empty-playlist">
+            No songs in this mood yet. Try creating new mood cards ✨
+          </p>
+        )}
+
         <div
           className={`poster-watermark ${
             isExporting ? "is-visible" : ""
@@ -269,7 +301,6 @@ export default function PlaylistDetail() {
         </div>
       </div>
 
-      {/* 删除确认弹窗 */}
       {pendingDelete && (
         <div className="modal-backdrop">
           <div className="modal-card">

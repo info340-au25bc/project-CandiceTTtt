@@ -7,8 +7,8 @@ import { PlaylistCard } from "../components/PlaylistCard";
 export default function MoodPlaylistsPage() {
   const { currentUser } = useOutletContext();
 
-  const [sortOption, setSortOption] = useState("Recently updated");
-  const [viewOption, setViewOption] = useState("Grid");
+  const [sortOption] = useState("Recently updated");
+  const [viewOption] = useState("Grid");
   const [userMoodsByCategory, setUserMoodsByCategory] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -92,7 +92,6 @@ export default function MoodPlaylistsPage() {
     if (sortOption === "Z → A") {
       return b.title.localeCompare(a.title);
     }
-    // 默认：Recently updated
     return (b.latestCreatedAt || 0) - (a.latestCreatedAt || 0);
   });
 

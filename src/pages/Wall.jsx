@@ -84,11 +84,14 @@ export default function WallPage() {
         if (
           key === "password" ||
           key === "createdAt" ||
+          key === "profile" ||
+          key === "preferences" ||
+          !value ||
           typeof value !== "object"
         ) {
           return;
         }
-
+      
         Object.keys(value).forEach((cardId) => {
           map[cardId] = true;
         });
@@ -541,12 +544,20 @@ export default function WallPage() {
                       </div>
 
                       <p className="wall_song">
-                        {post.songName}
-                        {post.artist && (
-                          <span className="artist">
-                            {" "}
-                            — {post.artist}
-                          </span>
+                        <span className="wall_song-text">
+                          {post.songName}
+                          {post.artist && <span className="artist"> — {post.artist}</span>}
+                        </span>
+
+                        {post.link && (
+                          <a
+                            href={post.link.startsWith("http") ? post.link : "https://" + post.link}
+                            className="wall-song-link icon-btn"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <span className="material-symbols-outlined wall-link-icon">link</span>
+                          </a>
                         )}
                       </p>
 

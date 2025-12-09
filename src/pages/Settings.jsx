@@ -138,7 +138,6 @@ export default function Settings() {
     loadStats();
   }, [currentUser]);
 
-  // 🔹 公共的保存函数，既给按钮用，也给点 icon 自动保存用
   async function saveProfileToDb(moodOverride) {
     if (!currentUser || !currentUser.username) {
       setProfileMessage("No user — please log in again.");
@@ -173,7 +172,6 @@ export default function Settings() {
     setProfileMessage(ok ? "Profile saved ✔" : "Failed to save profile.");
   }
 
-  // 🔹 点 mood icon 会自动选中 + 自动保存到 Firebase
   async function handleMoodClick(moodKey) {
     setSelectedMood(moodKey);
     const ok = await saveProfileToDb(moodKey);
