@@ -246,7 +246,7 @@ export default function CreateMoodPage() {
         </section>
       </main>
 
-      {/* 保存成功提示 modal */}
+      
       {saveModalOpen && (
         <div className="modal-backdrop" role="dialog" aria-modal="true">
           <div className="modal-card">
