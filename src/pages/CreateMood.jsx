@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import { getDatabase, ref, push, set } from "firebase/database";
 import { useOutletContext } from "react-router-dom";
-import { ClipLoader } from "react-spinners";  
+
+const MOOD_ICONS = [
+  { src: "/shared_imgs/happy.PNG", alt: "Happy" },
+  { src: "/shared_imgs/angry.PNG", alt: "Angry" },
+  { src: "/shared_imgs/calm.PNG", alt: "Calm" },
+  { src: "/shared_imgs/confused.PNG", alt: "Confused" },
+  { src: "/shared_imgs/excited.PNG", alt: "Excited" },
+  { src: "/shared_imgs/exhausted.PNG", alt: "Exhausted" },
+  { src: "/shared_imgs/lovely.PNG", alt: "Lovely" },
+  { src: "/shared_imgs/relaxed.PNG", alt: "Relaxed" },
+  { src: "/shared_imgs/sad.PNG", alt: "Sad" },
+  { src: "/shared_imgs/tired.PNG", alt: "Tired" },
+];
 
 export default function CreateMoodPage() {
-  const { currentUser } = useOutletContext();
+  const ctx = useOutletContext() || {};
+  const { currentUser } = ctx;
 
-  const [selectedMood, setSelectedMood] = useState({
-    src: "/shared_imgs/happy.PNG",
-    alt: "Happy",
-  });
+  const [selectedMood, setSelectedMood] = useState(MOOD_ICONS[0]);
 
   const [songName, setSongName] = useState("");
   const [artist, setArtist] = useState("");
@@ -17,13 +27,23 @@ export default function CreateMoodPage() {
   const [diary, setDiary] = useState("");
   const [isPublic, setIsPublic] = useState(true);
 
-  const [isSaving, setIsSaving] = useState(false);  
+  const [isSaving, setIsSaving] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [lastSavedIsPublic, setLastSavedIsPublic] = useState(true);
-  const [error, setError] = useState(null);  
+  const [error, setError] = useState(null);
+
+  function handleClear() {
+    setSongName("");
+    setArtist("");
+    setLink("");
+    setDiary("");
+    setIsPublic(true);
+    setSelectedMood(MOOD_ICONS[0]);
+  }
 
   async function handleSave() {
-    
+    setError(null);
+
     if (!songName.trim()) {
       setError("Please enter a song name.");
       return;
@@ -35,7 +55,6 @@ export default function CreateMoodPage() {
     }
 
     setIsSaving(true);
-    setError(null);  
 
     try {
       const db = getDatabase();
@@ -57,44 +76,36 @@ export default function CreateMoodPage() {
       const cardId = newMoodPush.key;
 
       const moodCategory = selectedMood.alt;
-      const userCardRef = ref(db, `users/${currentUser.username}/${moodCategory}/${cardId}`);
+      const userCardRef = ref(
+        db,
+        `users/${currentUser.username}/${moodCategory}/${cardId}`
+      );
       await set(userCardRef, newCard);
 
       setLastSavedIsPublic(isPublic);
       setSaveModalOpen(true);
-      handleClear();  
-    } catch (error) {
-      console.error(error);
-      setError("Save Failed. Please try again.");
+      handleClear();
+    } catch (err) {
+      console.error(err);
+      setError("Save failed. Please try again.");
     } finally {
-      setIsSaving(false);  
+      setIsSaving(false);
     }
   }
 
-  function handleClear() {
-    setSongName("");
-    setArtist("");
-    setLink("");
-    setDiary("");
-    setIsPublic(true);
-    setSelectedMood({
-      src: "/shared_imgs/happy.PNG",
-      alt: "Happy",
-    });
-  }
-
-  const moodIcons = [
-    { src: "/shared_imgs/happy.PNG", alt: "Happy" },
-    { src: "/shared_imgs/angry.PNG", alt: "Angry" },
-    { src: "/shared_imgs/calm.PNG", alt: "Calm" },
-    { src: "/shared_imgs/confused.PNG", alt: "Confused" },
-    { src: "/shared_imgs/excited.PNG", alt: "Excited" },
-    { src: "/shared_imgs/exhausted.PNG", alt: "Exhausted" },
-    { src: "/shared_imgs/lovely.PNG", alt: "Lovely" },
-    { src: "/shared_imgs/relaxed.PNG", alt: "Relaxed" },
-    { src: "/shared_imgs/sad.PNG", alt: "Sad" },
-    { src: "/shared_imgs/tired.PNG", alt: "Tired" },
-  ];
+  const moodEmojiGrid = MOOD_ICONS.map((m) => (
+    <label key={m.alt} className="emoji">
+      <input
+        type="radio"
+        name="mood"
+        className="tile-radio"
+        checked={selectedMood.src === m.src}
+        onChange={() => setSelectedMood(m)}
+      />
+      <img src={m.src} alt={m.alt} />
+      <span>{m.alt}</span>
+    </label>
+  ));
 
   return (
     <div className="page">
@@ -109,13 +120,13 @@ export default function CreateMoodPage() {
           {error && (
             <div className="modal-backdrop" role="dialog" aria-modal="true">
               <div className="modal-card error-modal">
-                <h3 className="modal-title">Error!</h3>
+                <h3 className="modal-title">Error</h3>
                 <p className="modal-text">{error}</p>
                 <div className="modal-actions">
                   <button
                     type="button"
                     className="modal-btn modal-btn-danger"
-                    onClick={() => setError(null)}  
+                    onClick={() => setError(null)}
                   >
                     OK
                   </button>
@@ -126,28 +137,14 @@ export default function CreateMoodPage() {
 
           <div className="field">
             <span className="lbl">Mood Icon</span>
-            <div className="emoji-grid">
-              {moodIcons.map((m) => (
-                <label key={m.alt} className="emoji">
-                  <input
-                    type="radio"
-                    name="mood"
-                    className="tile-radio"
-                    checked={selectedMood.src === m.src}
-                    onChange={() => setSelectedMood(m)}
-                  />
-                  <img src={m.src} alt={m.alt} />
-                  <span>{m.alt}</span> 
-                </label>
-              ))}
-            </div>
+            <div className="emoji-grid">{moodEmojiGrid}</div>
           </div>
 
           <div className="row">
             <label className="field">
               <span className="lbl">Song Name</span>
               <input
-                className="ipt"  
+                className="ipt"
                 value={songName}
                 onChange={(e) => setSongName(e.target.value)}
               />
@@ -200,14 +197,19 @@ export default function CreateMoodPage() {
           </div>
 
           <div className="actions">
-            <button className="btn btn-primary" onClick={handleSave} disabled={isSaving}>
-              {isSaving ? (
-                <ClipLoader color="#ffffff" loading={true} size={20} />  
-              ) : (
-                "Save"
-              )}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSave}
+              disabled={isSaving}
+            >
+              {isSaving ? "Saving…" : "Save"}
             </button>
-            <button className="btn btn-ghost" onClick={handleClear}>
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={handleClear}
+            >
               Clear
             </button>
           </div>
@@ -244,7 +246,7 @@ export default function CreateMoodPage() {
         </section>
       </main>
 
-      
+      {/* 保存成功提示 modal */}
       {saveModalOpen && (
         <div className="modal-backdrop" role="dialog" aria-modal="true">
           <div className="modal-card">

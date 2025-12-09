@@ -13,7 +13,9 @@ import html2canvas from "html2canvas";
 const PAGE_SIZE = 6;
 
 export default function WallPage() {
-  const { currentUser } = useOutletContext();
+  // 给 outlet context 一个兜底，防止某些情况下报错
+  const ctx = useOutletContext() || {};
+  const { currentUser } = ctx;
 
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -91,7 +93,7 @@ export default function WallPage() {
         ) {
           return;
         }
-      
+
         Object.keys(value).forEach((cardId) => {
           map[cardId] = true;
         });
@@ -107,9 +109,7 @@ export default function WallPage() {
 
   const filteredPosts = posts.filter((post) => {
     const moodKey = (post.moodEmojiAlt || "").toLowerCase();
-
-    const matchesMood =
-      moodFilter === "" || moodKey === moodFilter;
+    const matchesMood = moodFilter === "" || moodKey === moodFilter;
 
     const haystack = `${post.songName || ""} ${
       post.artist || ""
@@ -152,9 +152,14 @@ export default function WallPage() {
     setCurrentPage((prev) => Math.min(totalPages, prev + 1));
   }
 
+  function openWallModal(message) {
+    setWallModalMessage(message);
+    setWallModalOpen(true);
+  }
+
   async function handleToggleSave(post) {
     if (!currentUser || !currentUser.username) {
-      alert("Please log in first.");
+      openWallModal("Please log in first to save cards.");
       return;
     }
 
@@ -165,10 +170,9 @@ export default function WallPage() {
       post.owner.toLowerCase() === username.toLowerCase();
 
     if (isOwn) {
-      setWallModalMessage(
+      openWallModal(
         "This is your own post and it is already in your playlist."
       );
-      setWallModalOpen(true);
       return;
     }
 
@@ -183,11 +187,10 @@ export default function WallPage() {
     if (savedMap[cardId]) {
       try {
         await remove(userCardRef);
-        setWallModalMessage("Removed from your playlist.");
-        setWallModalOpen(true);
+        openWallModal("Removed from your playlist.");
       } catch (err) {
         console.error("Failed to unsave:", err);
-        alert("Failed to unsave this post.");
+        openWallModal("Failed to unsave this post. Please try again.");
       }
       return;
     }
@@ -199,11 +202,10 @@ export default function WallPage() {
         isPublic: false,
       };
       await set(userCardRef, cardToSave);
-      setWallModalMessage("Yay! Successfully added to your playlist!");
-      setWallModalOpen(true);
+      openWallModal("Yay! Successfully added to your playlist!");
     } catch (err) {
       console.error("Failed to save:", err);
-      alert("Failed to save this post.");
+      openWallModal("Failed to save this post. Please try again.");
     }
   }
 
@@ -225,7 +227,7 @@ export default function WallPage() {
       link.click();
     } catch (err) {
       console.error("Failed to download card:", err);
-      alert("Failed to download this card.");
+      openWallModal("Failed to download this card. Please try again.");
     }
   }
 
@@ -249,7 +251,6 @@ export default function WallPage() {
       }
 
       const val = snap.val() || {};
-
       const profile = val.profile || {};
       const prefs = val.preferences || {};
 
@@ -266,6 +267,7 @@ export default function WallPage() {
 
       const favoriteMood = profile.favoriteMood || "";
       const favoriteMoodKey = favoriteMood.toLowerCase();
+
       let moodEmojiSrc = "";
       let moodEmojiAlt = favoriteMood;
 
@@ -301,6 +303,145 @@ export default function WallPage() {
       setProfileLoading(false);
     }
   }
+
+  const wallCards =
+    pagePosts.length === 0
+      ? null
+      : pagePosts.map((post) => {
+          const moodKey = (post.moodEmojiAlt || "").toLowerCase();
+
+          const isOwn =
+            currentUser &&
+            post.owner &&
+            post.owner.toLowerCase() ===
+              currentUser.username.toLowerCase();
+
+          const isSaved = isOwn || !!savedMap[post.id];
+
+          return (
+            <li
+              key={post.id}
+              className="wall_card"
+              data-mood={moodKey}
+            >
+              <article
+                ref={(el) => {
+                  if (el) {
+                    cardRefs.current[post.id] = el;
+                  }
+                }}
+              >
+                <div className="wall_card-top">
+                  <img
+                    className="wall_mood-icon"
+                    src={post.moodEmojiSrc}
+                    alt={post.moodEmojiAlt}
+                  />
+                  <span className="wall_mood-text">
+                    {post.moodEmojiAlt}
+                  </span>
+                </div>
+
+                <p className="wall_song">
+                  <span className="wall_song-text">
+                    {post.songName}
+                    {post.artist && (
+                      <span className="artist"> — {post.artist}</span>
+                    )}
+                  </span>
+
+                  {post.link && (
+                    <a
+                      href={
+                        post.link.startsWith("http")
+                          ? post.link
+                          : "https://" + post.link
+                      }
+                      className="wall-song-link icon-btn"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span
+                        className="material-symbols-outlined wall-link-icon"
+                        aria-hidden="true"
+                      >
+                        link
+                      </span>
+                    </a>
+                  )}
+                </p>
+
+                <p className="wall_diary">{post.diary}</p>
+
+                {post.owner && (
+                  <p className="wall_owner">
+                    — From{" "}
+                    <button
+                      type="button"
+                      className="wall-owner-btn"
+                      onClick={() => handleShowProfile(post.owner)}
+                    >
+                      {post.owner}
+                    </button>
+                  </p>
+                )}
+
+                <div className="wall_actions">
+                  <button
+                    className={
+                      "icon-btn wall-save-btn" +
+                      (isSaved ? " wall-save-btn--active" : "")
+                    }
+                    type="button"
+                    onClick={() => handleToggleSave(post)}
+                    aria-pressed={isSaved}
+                    title={
+                      isOwn
+                        ? "This is your own post and it is already in your playlist."
+                        : isSaved
+                        ? "Unsave this post"
+                        : "Save this post"
+                    }
+                    aria-label={
+                      isOwn
+                        ? "This is your own post and it is already in your playlist."
+                        : isSaved
+                        ? "Unsave this post"
+                        : "Save this post"
+                    }
+                  >
+                    <span
+                      className={
+                        "material-symbols-outlined wall-star-icon" +
+                        (isSaved ? " wall-star-icon--on" : "")
+                      }
+                      aria-hidden="true"
+                    >
+                      grade
+                    </span>
+                  </button>
+
+                  <button
+                    className="icon-btn wall-download-btn"
+                    type="button"
+                    title="Download this post"
+                    aria-label="Download this post"
+                    onClick={() =>
+                      handleDownload(post.id, post.moodEmojiAlt)
+                    }
+                  >
+                    <span
+                      className="material-symbols-outlined"
+                      aria-hidden="true"
+                    >
+                      download
+                    </span>
+                  </button>
+                </div>
+              </article>
+            </li>
+          );
+        });
 
   return (
     <div className="page wall-page">
@@ -424,7 +565,7 @@ export default function WallPage() {
         </div>
       )}
 
-      <main className="container">
+      <div className="container">
         <section className="page-head">
           <h2>Public Wall</h2>
           <p className="subtitle">
@@ -507,132 +648,7 @@ export default function WallPage() {
               Try a different mood or search term!
             </p>
           ) : (
-            <ul className="wall_container">
-              {pagePosts.map((post) => {
-                const moodKey = (post.moodEmojiAlt || "").toLowerCase();
-
-                const isOwn =
-                  currentUser &&
-                  post.owner &&
-                  post.owner.toLowerCase() ===
-                    currentUser.username.toLowerCase();
-
-                const isSaved = isOwn || !!savedMap[post.id];
-
-                return (
-                  <li
-                    key={post.id}
-                    className="wall_card"
-                    data-mood={moodKey}
-                  >
-                    <article
-                      ref={(el) => {
-                        if (el) {
-                          cardRefs.current[post.id] = el;
-                        }
-                      }}
-                    >
-                      <div className="wall_card-top">
-                        <img
-                          className="wall_mood-icon"
-                          src={post.moodEmojiSrc}
-                          alt={post.moodEmojiAlt}
-                        />
-                        <span className="wall_mood-text">
-                          {post.moodEmojiAlt}
-                        </span>
-                      </div>
-
-                      <p className="wall_song">
-                        <span className="wall_song-text">
-                          {post.songName}
-                          {post.artist && <span className="artist"> — {post.artist}</span>}
-                        </span>
-
-                        {post.link && (
-                          <a
-                            href={post.link.startsWith("http") ? post.link : "https://" + post.link}
-                            className="wall-song-link icon-btn"
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <span className="material-symbols-outlined wall-link-icon">link</span>
-                          </a>
-                        )}
-                      </p>
-
-                      <p className="wall_diary">{post.diary}</p>
-
-                      {post.owner && (
-                        <p className="wall_owner">
-                          — From{" "}
-                          <button
-                            type="button"
-                            className="wall-owner-btn"
-                            onClick={() => handleShowProfile(post.owner)}
-                          >
-                            {post.owner}
-                          </button>
-                        </p>
-                      )}
-
-                      <div className="wall_actions">
-                        <button
-                          className={
-                            "icon-btn wall-save-btn" +
-                            (isSaved ? " wall-save-btn--active" : "")
-                          }
-                          type="button"
-                          onClick={() => handleToggleSave(post)}
-                          aria-pressed={isSaved}
-                          title={
-                            isOwn
-                              ? "This is your own post and it is already in your playlist."
-                              : isSaved
-                              ? "Unsave this post"
-                              : "Save this post"
-                          }
-                          aria-label={
-                            isOwn
-                              ? "This is your own post and it is already in your playlist."
-                              : isSaved
-                              ? "Unsave this post"
-                              : "Save this post"
-                          }
-                        >
-                          <span
-                            className={
-                              "material-symbols-outlined wall-star-icon" +
-                              (isSaved ? " wall-star-icon--on" : "")
-                            }
-                            aria-hidden="true"
-                          >
-                            grade
-                          </span>
-                        </button>
-
-                        <button
-                          className="icon-btn wall-download-btn"
-                          type="button"
-                          title="Download this post"
-                          aria-label="Download this post"
-                          onClick={() =>
-                            handleDownload(post.id, post.moodEmojiAlt)
-                          }
-                        >
-                          <span
-                            className="material-symbols-outlined"
-                            aria-hidden="true"
-                          >
-                            download
-                          </span>
-                        </button>
-                      </div>
-                    </article>
-                  </li>
-                );
-              })}
-            </ul>
+            <ul className="wall_container">{wallCards}</ul>
           )}
 
           <div className="wall_pagination">
@@ -661,7 +677,7 @@ export default function WallPage() {
             </button>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }
