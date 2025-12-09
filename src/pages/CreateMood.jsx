@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getDatabase, ref, push, set } from "firebase/database";
 import { useOutletContext } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const MOOD_ICONS = [
   { src: "/shared_imgs/happy.PNG", alt: "Happy" },
