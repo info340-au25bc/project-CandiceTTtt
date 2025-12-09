@@ -10,8 +10,6 @@ export default function Settings() {
     handleLogout,
     storageMode = "local",
     setStorageMode,
-    publicMode = true,
-    setPublicMode,
   } = ctx;
 
   const username = currentUser?.username || "Guest";
@@ -140,10 +138,11 @@ export default function Settings() {
     loadStats();
   }, [currentUser]);
 
-  async function handleSaveProfile() {
+  // 🔹 公共的保存函数，既给按钮用，也给点 icon 自动保存用
+  async function saveProfileToDb(moodOverride) {
     if (!currentUser || !currentUser.username) {
       setProfileMessage("No user — please log in again.");
-      return;
+      return false;
     }
 
     setSavingProfile(true);
@@ -154,19 +153,31 @@ export default function Settings() {
       const profileRef = ref(db, `users/${currentUser.username}/profile`);
 
       const payload = {
-        displayName: displayName.trim() || currentUser.username,
-        bio: bio.trim(),
-        favoriteMood: selectedMood,
+        displayName: (displayName || "").trim() || currentUser.username,
+        bio: (bio || "").trim(),
+        favoriteMood: moodOverride || selectedMood,
       };
 
       await set(profileRef, payload);
-      setProfileMessage("Profile saved ✔");
+      return true;
     } catch (err) {
       console.error("Failed to save profile:", err);
-      setProfileMessage("Failed to save profile.");
+      return false;
     } finally {
       setSavingProfile(false);
     }
+  }
+
+  async function handleSaveProfile() {
+    const ok = await saveProfileToDb();
+    setProfileMessage(ok ? "Profile saved ✔" : "Failed to save profile.");
+  }
+
+  // 🔹 点 mood icon 会自动选中 + 自动保存到 Firebase
+  async function handleMoodClick(moodKey) {
+    setSelectedMood(moodKey);
+    const ok = await saveProfileToDb(moodKey);
+    setProfileMessage(ok ? "Recent mood updated ✔" : "Failed to update recent mood.");
   }
 
   function toggleInArray(value, arrSetter) {
@@ -198,13 +209,12 @@ export default function Settings() {
       await set(prefsRef, payload);
       setPrefsMessage("Music preferences saved ✔");
     } catch (err) {
-      console.error("Failed to save preferences:", err);
+      console.error("Failed to save music preferences:", err);
       setPrefsMessage("Failed to save music preferences.");
     } finally {
       setSavingPrefs(false);
     }
   }
-
 
   const moodTiles = moods.map((m) => (
     <label className="mood-tile" key={m.key}>
@@ -213,7 +223,7 @@ export default function Settings() {
         name="mood"
         className="tile-radio"
         checked={selectedMood === m.key}
-        onChange={() => setSelectedMood(m.key)}
+        onChange={() => handleMoodClick(m.key)}
       />
       <span className="tile-visual">
         <img src={`/shared_imgs/${m.img}`} alt={m.alt} />
@@ -272,7 +282,7 @@ export default function Settings() {
         </div>
 
         <p className="desc">
-          Favorite mood: <strong>{selectedMood}</strong>
+          Recent mood: <strong>{selectedMood}</strong>
         </p>
       </section>
 
@@ -402,19 +412,6 @@ export default function Settings() {
             <option value="cloud">Cloud (Synced)</option>
           </select>
         </div>
-
-        <label className="toggle">
-          <input
-            type="checkbox"
-            className="toggle-ck"
-            checked={publicMode}
-            onChange={(e) => setPublicMode && setPublicMode(e.target.checked)}
-          />
-          <span className="switch" aria-hidden="true"></span>
-          <span className="toggle-text">
-            Public mode · Visible to everyone
-          </span>
-        </label>
 
         <button
           className="btn btn-primary logout"
